@@ -68,13 +68,9 @@ export default {
     };
   },
   created() {
-    this.$q.loading.show({
-      delay: 400
-    });
   },
   mounted() {
     this.loading = false;
-    this.$q.loading.hide();
   }
 };
 </script>

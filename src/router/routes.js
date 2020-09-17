@@ -10,6 +10,11 @@ const routes = [
       { path: "settings", component: () => import("pages/Index.vue") }
     ]
   },
+  {
+    path: "/anime/",
+    component: () => import("layouts/Secondary.vue"),
+    children: [{ path: ":id", component: () => import("pages/Anime.vue") }]
+  },
 
   // Always leave this as last one,
   // but you can also remove it

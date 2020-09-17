@@ -6,10 +6,8 @@
   "author": "João Lucas de Oliveira Lopes <jlucaso@hotmail.com>",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .js,.vue ./",
-    "test": "echo \"No test specified\" && exit 0",
-    "build": "quasar build -m ssr",
-    "start": "node dist/ssr/index.js"
+    "start": "node index.js",
+    "build": "yarn"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",

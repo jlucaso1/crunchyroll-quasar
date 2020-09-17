@@ -1,5 +1,5 @@
 <template>
-  <q-layout class="bg-dark" view="hHh lpR fFf">
+  <q-layout class="bg-dark" view="hHh lpR fFf" v-if="!loading">
     <q-header class="bg-dark">
       <q-toolbar class="items-center justify-between q-px-sm">
         <q-btn dense>
@@ -17,7 +17,7 @@
         active-color="warning"
         no-caps
         dense
-        :align="$q.platform.is.mobile?'justify':'center'"
+        :align="$q.platform.is.mobile ? 'justify' : 'center'"
       >
         <q-route-tab
           icon="o_home"
@@ -63,7 +63,18 @@
 export default {
   name: "MainLayout",
   data() {
-    return {};
+    return {
+      loading: true
+    };
+  },
+  created() {
+    this.$q.loading.show({
+      delay: 400
+    });
+  },
+  mounted() {
+    this.loading = false;
+    this.$q.loading.hide();
   }
 };
 </script>

@@ -13,7 +13,7 @@ module.exports = function(/* ctx */) {
     supportTS: false,
 
     // https://quasar.dev/quasar-cli/prefetch-feature
-    // preFetch: true,
+    preFetch: true,
 
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
@@ -21,9 +21,7 @@ module.exports = function(/* ctx */) {
     boot: ["i18n", "axios"],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
-    css: [
-      "app.sass", '~swiper/swiper.scss',
-    ],
+    css: ["app.sass", "~swiper/swiper.scss"],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -110,7 +108,7 @@ module.exports = function(/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: ["Loading"]
     },
 
     // animations: 'all', // --- includes all animations

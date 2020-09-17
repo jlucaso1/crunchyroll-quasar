@@ -9,7 +9,7 @@
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
     "build": "quasar build -m ssr",
-    "start": "node index.js"
+    "start": "node dist/ssr/index.js"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",

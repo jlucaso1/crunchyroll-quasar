@@ -21,7 +21,9 @@ module.exports = function(/* ctx */) {
     boot: ["i18n", "axios"],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
-    css: ["app.sass"],
+    css: [
+      "app.sass", '~swiper/swiper.scss',
+    ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -88,7 +90,7 @@ module.exports = function(/* ctx */) {
 
           dark: "#000000",
 
-          positive: "#21BA45",
+          positive: "#2ABBB9",
           negative: "#C10015",
           info: "#31CCEC",
           warning: "#FC791E"

@@ -1,12 +1,14 @@
 <template>
-  <q-layout view="lHh Lpr lFf" class="bg-dark">
-    <q-header elevated style="background-color: black">
-      <q-toolbar class="items-center justify-between">
-        <q-img src="/icons/crunchyroll-logo.png" width="11rem" />
+  <q-layout class="bg-dark" view="hHh lpR fFf">
+    <q-header class="bg-dark">
+      <q-toolbar class="items-center justify-between q-px-sm">
+        <q-btn dense>
+          <q-img basic src="/icons/crunchyroll-logo.png" width="10rem" />
+        </q-btn>
         <q-btn icon="search" />
       </q-toolbar>
     </q-header>
-    <q-page-container>
+    <q-page-container class="q-px-md">
       <router-view />
     </q-page-container>
     <q-footer class="bg-secondary">
@@ -14,6 +16,8 @@
         indicator-color="transparent"
         active-color="warning"
         no-caps
+        dense
+        :align="$q.platform.is.mobile?'justify':'center'"
       >
         <q-route-tab
           icon="o_home"

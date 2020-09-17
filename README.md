@@ -1,26 +1,39 @@
-# Crunchyroll Quasar (crunchyroll-quasar)
+# Crunchyroll Quasar
 
-A Quasar Framework app
+Um site/aplicativo para assistir animes feito em quasar utilizando server side rendering(ssr) e api da crunchyroll.
 
-## Install the dependencies
+
+Metas a serem alcançadas:
+- [x] Página inicial
+- [ ] Páginas restantes
+- [ ] Sistema de navegação
+- [ ] Integração da API da crunchyroll
+- [ ] Função continuar assistindo
+
+
+Preview do projeto
+
+![Preview](https://i.imgur.com/Q4dZNwe.png)
+
+## Instale as dependências
 ```bash
 yarn
 ```
-
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+ou
 ```bash
-quasar dev
+npm install
 ```
 
-### Lint the files
+### Inicie o aplicativo em ssr com o seguinte comando
 ```bash
-yarn run lint
+quasar dev -m ssr
 ```
 
-### Build the app for production
+
+### Fazer a build da aplicação para produção
 ```bash
 quasar build
 ```
 
-### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+### Para mais informações sobre quasar
+Veja [Quasar Framework](https://quasar.dev/).

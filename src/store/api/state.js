@@ -1,6 +1,8 @@
 export default function() {
   return {
+    error: null,
     token: {},
-    psk: {}
+    psk: {},
+    home_feed: []
   };
 }

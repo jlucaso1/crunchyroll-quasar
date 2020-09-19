@@ -13,6 +13,11 @@ export default {
   components: {
     AnimesCollection
   },
-  created() {}
+  async created() {
+    await this.$store.dispatch(
+      "api/SET_HOME_FEED",
+      "Bearer " + this.$store.state.api.token.access_token
+    );
+  }
 };
 </script>

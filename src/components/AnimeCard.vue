@@ -4,7 +4,7 @@
       <q-card class="bg-secondary" square>
         <q-img
           src="https://img1.ak.crunchyroll.com/i/spire4/7b0b1d0858c0aeaad7fbb264b91f634e1593645590_full.jpg"
-          :ratio="118 / 166"
+          :ratio="2 / 3"
         />
         <div class="q-ma-sm">
           <p class="text-white">Tower of God</p>

@@ -13,6 +13,13 @@ export default {
       "api/SET_PSK",
       "Bearer " + store.state.api.token.access_token
     );
+  },
+  mounted() {
+    let auth = {
+      token: this.$store.state.api.token,
+      psk: this.$store.state.api.psk
+    };
+    this.$q.localStorage.set("auth", auth);
   }
 };
 </script>

@@ -16,7 +16,7 @@ export async function SET_TOKEN({ commit }) {
     let { data } = await api(options);
     commit("SET_TOKEN", data);
   } catch (err) {
-    commit("SET_ERROR", String(err));
+    commit("SET_ERROR", "Falha ao gerar um token");
   }
 }
 export async function SET_PSK({ commit }, auth) {
@@ -32,7 +32,7 @@ export async function SET_PSK({ commit }, auth) {
     let { data } = await api(options);
     commit("SET_PSK", data.cms);
   } catch (err) {
-    commit("SET_ERROR", String(err));
+    commit("SET_ERROR", "Token inválido. Verifique sua conexão com a internet");
   }
 }
 export async function SET_HOME_FEED({ commit }, auth) {

@@ -20,6 +20,31 @@ export default {
       psk: this.$store.state.api.psk
     };
     this.$q.localStorage.set("auth", auth);
+  },
+  watch: {
+    error() {
+      if (this.error.length > 0) {
+        this.$q.notify({
+          message: "Erro ao conectar-se com os servidores.",
+          type: "negative",
+          progress: true,
+          actions: [
+            {
+              label: "Reiniciar",
+              handler: () => {
+                window.location.reload();
+              },
+              color: "white"
+            }
+          ]
+        });
+      }
+    }
+  },
+  computed: {
+    error() {
+      return this.$store.state.api.error;
+    }
   }
 };
 </script>

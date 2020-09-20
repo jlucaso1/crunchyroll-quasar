@@ -1,8 +1,11 @@
 <template>
   <q-page>
-    <AnimesCollection title="MAIS POPULARES" />
-    <AnimesCollection title="RECÉM ATUALIZADOS" />
-    <AnimesCollection title="SIMULCASTS" />
+    <AnimesCollection
+      v-for="(feed, index) in home_feed"
+      :key="index"
+      :title="feed.title"
+      :animes="feed.animes.items"
+    />
   </q-page>
 </template>
 
@@ -13,11 +16,10 @@ export default {
   components: {
     AnimesCollection
   },
-  async created() {
-    await this.$store.dispatch(
-      "api/SET_HOME_FEED",
-      "Bearer " + this.$store.state.api.token.access_token
-    );
+  computed: {
+    home_feed() {
+      return this.$store.state.api.home_feed;
+    }
   }
 };
 </script>

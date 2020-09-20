@@ -3,7 +3,7 @@ import { LocalStorage } from "quasar";
 
 export async function SET_TOKEN({ commit }) {
   let options = {
-    endpoint: "auth/v1/token",
+    endpoint: "/auth/v1/token",
     data: "grant_type=client_id",
     method: "post",
     headers: {
@@ -21,7 +21,7 @@ export async function SET_TOKEN({ commit }) {
 }
 export async function SET_PSK({ commit }, auth) {
   let options = {
-    endpoint: "index/v2",
+    endpoint: "/index/v2",
     method: "get",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -37,15 +37,33 @@ export async function SET_PSK({ commit }, auth) {
 }
 export async function SET_HOME_FEED({ commit }, auth) {
   let options = {
-    endpoint: "content/v1/home_feed",
+    endpoint: "/content/v1/home_feed",
     method: "get",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
       Authorization: auth
+    },
+    params: {
+      Policy: LocalStorage.getItem("auth").psk.policy,
+      Signature: LocalStorage.getItem("auth").psk.signature,
+      "Key-Pair-Id": LocalStorage.getItem("auth").psk.key_pair_id
     }
   };
   try {
     let { data } = await api(options);
+    data.items = data.items.filter((item, index) => {
+      return item.resource_type != "panel" && index < 8;
+    });
+    let promise_arr = []
+    for (let feed_item of data.items) {
+      let new_options = {
+        ...options,
+        endpoint: feed_item.__links__.resource.href
+      };
+      let { data } = await api(new_options);
+      feed_item.animes = data;
+    }
+
     commit("SET_HOME_FEED", data.items);
   } catch (err) {
     commit("SET_ERROR", String(err));

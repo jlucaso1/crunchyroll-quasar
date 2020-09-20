@@ -14,12 +14,18 @@ export default {
       "Bearer " + store.state.api.token.access_token
     );
   },
-  mounted() {
+  async mounted() {
+    this.$q.loading.show()
+    await this.$store.dispatch(
+      "api/SET_HOME_FEED",
+      "Bearer " + this.$store.state.api.token.access_token
+    );
     let auth = {
       token: this.$store.state.api.token,
       psk: this.$store.state.api.psk
     };
     this.$q.localStorage.set("auth", auth);
+    this.$q.loading.hide()
   },
   watch: {
     error() {

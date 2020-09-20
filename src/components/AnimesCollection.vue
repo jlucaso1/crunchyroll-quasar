@@ -2,7 +2,7 @@
   <div>
     <h6 class="text-white q-my-md text-weight-regular">{{ title }}</h6>
     <swiper class="swiper q-my-lg" :options="swiperOption">
-      <swiper-slide v-for="i in 15" :key="i"><AnimeCard/></swiper-slide>
+      <swiper-slide v-for="anime in animes" :key="anime.id"><AnimeCard :anime="anime"/></swiper-slide>
     </swiper>
   </div>
 </template>
@@ -34,7 +34,8 @@ export default {
     };
   },
   props: {
-    title: String
+    title: String,
+    animes: Array
   },
   components: {
     Swiper,

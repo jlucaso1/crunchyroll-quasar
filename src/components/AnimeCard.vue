@@ -1,13 +1,13 @@
 <template>
   <div>
-    <router-link to="/anime/id" class="cursor-pointer">
+    <router-link :to="'/anime/' + anime.id" class="cursor-pointer">
       <q-card class="bg-secondary" square>
         <q-img
-          src="https://img1.ak.crunchyroll.com/i/spire4/7b0b1d0858c0aeaad7fbb264b91f634e1593645590_full.jpg"
+          :src="anime.images.poster_tall[0][3].source"
           :ratio="2 / 3"
         />
         <div class="q-ma-sm">
-          <p class="text-white">Tower of God</p>
+          <p class="text-white ellipsis">{{anime.title}}</p>
           <p class="text-positive text-caption">SÉRIE</p>
         </div>
       </q-card>
@@ -20,6 +20,9 @@ export default {
   // name: 'ComponentName',
   data() {
     return {};
+  },
+  props: {
+    anime: Object
   }
 };
 </script>

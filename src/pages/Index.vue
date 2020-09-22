@@ -4,7 +4,7 @@
       v-for="(feed, index) in home_feed"
       :key="index"
       :title="feed.title"
-      :animes="feed.animes.items"
+      :animes="feed.animes"
     />
   </q-page>
 </template>

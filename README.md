@@ -26,7 +26,7 @@ npm install
 
 ### Inicie o aplicativo em ssr com o seguinte comando
 ```bash
-quasar dev -m ssr
+quasar dev
 ```
 
 

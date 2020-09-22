@@ -7,17 +7,11 @@
 import { Loading } from "quasar";
 export default {
   name: "App",
-  async preFetch({ store }) {
-    await store.dispatch("api/SET_TOKEN");
-    await store.dispatch(
-      "api/SET_PSK",
-      "Bearer " + store.state.api.token.access_token
-    );
-  },
-  async mounted() {
-    this.$q.loading.show()
+  async created() {
+    this.$q.loading.show();
+    await this.$store.dispatch("api/SET_TOKEN");
     await this.$store.dispatch(
-      "api/SET_HOME_FEED",
+      "api/SET_PSK",
       "Bearer " + this.$store.state.api.token.access_token
     );
     let auth = {
@@ -25,7 +19,11 @@ export default {
       psk: this.$store.state.api.psk
     };
     this.$q.localStorage.set("auth", auth);
-    this.$q.loading.hide()
+    await this.$store.dispatch(
+      "api/SET_HOME_FEED",
+      "Bearer " + this.$store.state.api.token.access_token
+    );
+    this.$q.loading.hide();
   },
   watch: {
     error() {

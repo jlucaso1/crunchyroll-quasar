@@ -6,6 +6,7 @@ export async function SET_TOKEN({ commit }) {
     endpoint: "/auth/v1/token",
     data: "grant_type=client_id",
     method: "post",
+    cors: 'true',
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
       Authorization:
@@ -50,21 +51,25 @@ export async function SET_HOME_FEED({ commit }, auth) {
     }
   };
   try {
-    let { data } = await api(options);
+    var { data } = await api(options);
     data.items = data.items.filter((item, index) => {
       return item.resource_type != "panel" && index < 8;
     });
-    let promise_arr = []
+    let promise_arr = [];
     for (let feed_item of data.items) {
       let new_options = {
         ...options,
         endpoint: feed_item.__links__.resource.href
       };
-      let { data } = await api(new_options);
+      promise_arr.push(api(new_options));
       feed_item.animes = data;
     }
-
-    commit("SET_HOME_FEED", data.items);
+    Promise.all(promise_arr).then(teste => {
+      teste.map((res, index) => {
+        data.items[index].animes = res.data.items;
+      });
+      commit("SET_HOME_FEED", data.items);
+    });
   } catch (err) {
     commit("SET_ERROR", String(err));
   }

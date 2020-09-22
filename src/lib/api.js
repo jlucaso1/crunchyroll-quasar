@@ -7,7 +7,7 @@ export const CONNECTIVITY_TYPE = "ethernet";
 export default function api(opts) {
   const config = {
     method: opts.method || "get",
-    url: `https://beta-api.crunchyroll.com${opts.endpoint}`,
+    url: `${opts.cors? "https://cors-anywhere.herokuapp.com/": ""}https://beta-api.crunchyroll.com${opts.endpoint}`,
     params: {
       locale: LOCALE,
       ...opts.params

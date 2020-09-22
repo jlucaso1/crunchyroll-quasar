@@ -13,7 +13,7 @@ Metas a serem alcançadas:
 
 Preview do projeto
 
-![Preview](https://i.imgur.com/Q4dZNwe.png)
+![Preview](https://i.imgur.com/azwv1xN.png)
 
 ## Instale as dependências
 ```bash

@@ -1,5 +1,5 @@
 <template>
-  <q-layout class="bg-dark" view="hHh lpR fFf" v-if="!loading">
+  <q-layout class="bg-dark" view="hHh lpR fFf">
     <q-header class="bg-dark">
       <q-toolbar class="items-center justify-between q-px-sm">
         <q-btn dense>
@@ -61,16 +61,6 @@
 
 <script>
 export default {
-  name: "MainLayout",
-  data() {
-    return {
-      loading: true
-    };
-  },
-  created() {
-  },
-  mounted() {
-    this.loading = false;
-  }
+  name: "MainLayout"
 };
 </script>

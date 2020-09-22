@@ -4,26 +4,19 @@
   </div>
 </template>
 <script>
-import { Loading } from "quasar";
+import { Loading, LocalStorage } from "quasar";
 export default {
   name: "App",
   async created() {
-    this.$q.loading.show();
-    await this.$store.dispatch("api/SET_TOKEN");
-    await this.$store.dispatch(
-      "api/SET_PSK",
-      "Bearer " + this.$store.state.api.token.access_token
-    );
-    let auth = {
-      token: this.$store.state.api.token,
-      psk: this.$store.state.api.psk
-    };
-    this.$q.localStorage.set("auth", auth);
-    await this.$store.dispatch(
-      "api/SET_HOME_FEED",
-      "Bearer " + this.$store.state.api.token.access_token
-    );
-    this.$q.loading.hide();
+    Loading.show();
+    if (this.valid_session) {
+      await this.$store.commit("api/SET_AUTH", LocalStorage.getItem("auth"));
+    } else {
+      await this.$store.dispatch("api/SET_AUTH");
+    }
+    await this.$store.dispatch("api/SET_HOME_FEED");
+    Loading.hide()
+
   },
   watch: {
     error() {
@@ -48,6 +41,16 @@ export default {
   computed: {
     error() {
       return this.$store.state.api.error;
+    },
+    valid_session() {
+      try {
+        if (LocalStorage.getItem("auth").token.expires_in > Date.now()) {
+          return true;
+        }
+        return false;
+      } catch (error) {
+        return false;
+      }
     }
   }
 };

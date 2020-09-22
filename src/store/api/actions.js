@@ -1,12 +1,12 @@
 import api from "../../lib/api";
 import { LocalStorage } from "quasar";
 
-export async function SET_TOKEN({ commit }) {
+export async function SET_AUTH({ commit }) {
   let options = {
     endpoint: "/auth/v1/token",
     data: "grant_type=client_id",
     method: "post",
-    cors: 'true',
+    cors: "true",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
       Authorization:
@@ -14,35 +14,35 @@ export async function SET_TOKEN({ commit }) {
     }
   };
   try {
-    let { data } = await api(options);
-    commit("SET_TOKEN", data);
-  } catch (err) {
-    commit("SET_ERROR", "Falha ao gerar um token");
+    var auth = {};
+    let response = await api(options);
+    auth.token = response.data;
+    auth.token.expires_in = Date.now() + auth.token.expires_in * 1000;
+    auth.token.access_token = "Bearer " + auth.token.access_token;
+    // PSK
+    options = {
+      endpoint: "/index/v2",
+      method: "get",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: auth.token.access_token
+      }
+    };
+    response = await api(options);
+    auth.psk = response.data.cms;
+    LocalStorage.set("auth", auth);
+    commit("SET_AUTH", auth);
+  } catch (error) {
+    commit("SET_ERROR", "Falha de rede");
   }
 }
-export async function SET_PSK({ commit }, auth) {
-  let options = {
-    endpoint: "/index/v2",
-    method: "get",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: auth
-    }
-  };
-  try {
-    let { data } = await api(options);
-    commit("SET_PSK", data.cms);
-  } catch (err) {
-    commit("SET_ERROR", "Token inválido. Verifique sua conexão com a internet");
-  }
-}
-export async function SET_HOME_FEED({ commit }, auth) {
+export async function SET_HOME_FEED({ commit }) {
   let options = {
     endpoint: "/content/v1/home_feed",
     method: "get",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: auth
+      Authorization: LocalStorage.getItem("auth").token.access_token
     },
     params: {
       Policy: LocalStorage.getItem("auth").psk.policy,
@@ -53,7 +53,7 @@ export async function SET_HOME_FEED({ commit }, auth) {
   try {
     var { data } = await api(options);
     data.items = data.items.filter((item, index) => {
-      return item.resource_type != "panel" && index < 8;
+      return item.resource_type != "panel" && index < 10;
     });
     let promise_arr = [];
     for (let feed_item of data.items) {
@@ -74,3 +74,4 @@ export async function SET_HOME_FEED({ commit }, auth) {
     commit("SET_ERROR", String(err));
   }
 }
+export async function SET_ANIME({ commit }) {}

@@ -24,6 +24,11 @@
 
 <script>
 export default {
-  // name: 'PageName',
+  created(){
+    this.$store.dispatch("api/SET_ANIME")
+  },
+  computed: {
+
+  }
 };
 </script>

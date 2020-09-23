@@ -22,6 +22,7 @@ export default {
           : 6,
         autoHeight: true, //enable auto height
         spaceBetween: 8,
+        lazy: true,
         pagination: {
           el: ".swiper-pagination",
           clickable: true

@@ -5,11 +5,13 @@
         <q-img
           :src="anime.images.poster_tall[0][3].source"
           :ratio="2 / 3"
+          class="swiper-lazy"
         />
         <div class="q-ma-sm">
           <p class="text-white ellipsis">{{anime.title}}</p>
           <p class="text-positive text-caption">SÉRIE</p>
         </div>
+        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
       </q-card>
     </router-link>
   </div>

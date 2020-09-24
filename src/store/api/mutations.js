@@ -7,3 +7,6 @@ export function SET_AUTH(state, data) {
 export function SET_HOME_FEED(state, data) {
   state.home_feed = data;
 }
+export function SET_ANIME(state, data) {
+  state.anime = data;
+}

@@ -43,11 +43,6 @@ export async function SET_HOME_FEED({ commit }) {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
       Authorization: LocalStorage.getItem("auth").token.access_token
-    },
-    params: {
-      Policy: LocalStorage.getItem("auth").psk.policy,
-      Signature: LocalStorage.getItem("auth").psk.signature,
-      "Key-Pair-Id": LocalStorage.getItem("auth").psk.key_pair_id
     }
   };
   try {
@@ -74,4 +69,14 @@ export async function SET_HOME_FEED({ commit }) {
     commit("SET_ERROR", String(err));
   }
 }
-export async function SET_ANIME({ commit }) {}
+export async function SET_ANIME({ commit }, id) {
+  let options = {
+    endpoint: `/cms/v2${LocalStorage.getItem("auth").psk.bucket}/series/${id}`,
+    method: "get"
+  };
+  let response = await api(options);
+  var anime = response.data
+  commit("SET_ANIME", anime)
+
+  
+}

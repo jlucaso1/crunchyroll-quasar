@@ -90,7 +90,7 @@ module.exports = function(/* ctx */) {
 
           positive: "#2ABBB9",
           negative: "#C10015",
-          info: "#31CCEC",
+          info: "#24252A",
           warning: "#FC791E"
         }
       },

@@ -7,16 +7,18 @@
 import { Loading, LocalStorage } from "quasar";
 export default {
   name: "App",
-  async created() {
+  async preFetch({ store }) {
     Loading.show();
-    if (this.valid_session) {
-      await this.$store.commit("api/SET_AUTH", LocalStorage.getItem("auth"));
+    if (
+      LocalStorage.getItem("auth") &&
+      LocalStorage.getItem("auth").token.expires_in > Date.now()
+    ) {
+      await store.commit("api/SET_AUTH", LocalStorage.getItem("auth"));
     } else {
-      await this.$store.dispatch("api/SET_AUTH");
+      await store.dispatch("api/SET_AUTH");
     }
-    await this.$store.dispatch("api/SET_HOME_FEED");
-    Loading.hide()
-
+    await store.dispatch("api/SET_HOME_FEED");
+    Loading.hide();
   },
   watch: {
     error() {
@@ -41,16 +43,6 @@ export default {
   computed: {
     error() {
       return this.$store.state.api.error;
-    },
-    valid_session() {
-      try {
-        if (LocalStorage.getItem("auth").token.expires_in > Date.now()) {
-          return true;
-        }
-        return false;
-      } catch (error) {
-        return false;
-      }
     }
   }
 };

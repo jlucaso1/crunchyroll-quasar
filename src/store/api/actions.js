@@ -53,7 +53,7 @@ export async function SET_HOME_FEED({ commit }) {
   try {
     var { data } = await api(options);
     data.items = data.items.filter((item, index) => {
-      return item.resource_type != "panel" && index < 10;
+      return item.resource_type != "panel";
     });
     let promise_arr = [];
     for (let feed_item of data.items) {

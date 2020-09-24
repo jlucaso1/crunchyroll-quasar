@@ -1,11 +1,17 @@
 <template>
-  <q-page>
-    <AnimesCollection
-      v-for="(feed, index) in home_feed"
-      :key="index"
-      :title="feed.title"
-      :animes="feed.animes"
-    />
+  <q-page v-if="home_feed.length">
+    <q-infinite-scroll @load="onLoad" :offset="250">
+      <AnimesCollection
+        v-for="index in visible_feeds"
+        :key="index"
+        :feed_item="home_feed[index - 1]"
+      />
+      <template v-slot:loading v-if="this.home_feed.length > this.visible_feeds">
+        <div class="row justify-center q-my-md">
+          <q-spinner-dots color="primary" size="40px" />
+        </div>
+      </template>
+    </q-infinite-scroll>
   </q-page>
 </template>
 
@@ -16,9 +22,24 @@ export default {
   components: {
     AnimesCollection
   },
+  data() {
+    return {
+      visible_feeds: 3
+    };
+  },
   computed: {
     home_feed() {
       return this.$store.state.api.home_feed;
+    }
+  },
+  methods: {
+    onLoad(index, done) {
+      if (this.home_feed.length > this.visible_feeds) {
+        setTimeout(() => {
+          this.visible_feeds += 3;
+          done();
+        }, 500);
+      }
     }
   }
 };

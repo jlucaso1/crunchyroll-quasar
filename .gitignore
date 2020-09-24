@@ -1,7 +1,7 @@
 .DS_Store
 .thumbs.db
 node_modules
-
+.vercel
 # Quasar core related directories
 .quasar
 /dist

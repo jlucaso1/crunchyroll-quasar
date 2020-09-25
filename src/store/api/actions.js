@@ -75,8 +75,6 @@ export async function SET_ANIME({ commit }, id) {
     method: "get"
   };
   let response = await api(options);
-  var anime = response.data
-  commit("SET_ANIME", anime)
-
-  
+  var anime = response.data;
+  commit("SET_ANIME", anime);
 }

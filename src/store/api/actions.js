@@ -72,9 +72,26 @@ export async function SET_HOME_FEED({ commit }) {
 export async function SET_ANIME({ commit }, id) {
   let options = {
     endpoint: `/cms/v2${LocalStorage.getItem("auth").psk.bucket}/series/${id}`,
-    method: "get"
+    method: "get",
+    cors: true
   };
   let response = await api(options);
   var anime = response.data;
-  commit("SET_ANIME", anime);
+  options.endpoint = anime.__links__["series/seasons"].href;
+  response = await api(options);
+  anime.seasons = response.data.items;
+  let promise_arr = [];
+  for (let season of anime.seasons) {
+    let new_options = {
+      ...options,
+      endpoint: season.__links__["season/episodes"].href
+    };
+    promise_arr.push(api(new_options));
+  }
+  Promise.all(promise_arr).then(teste => {
+    teste.map((res, index) => {
+      anime.seasons[index].episodes = res.data.items;
+    });
+    commit("SET_ANIME", anime);
+  });
 }

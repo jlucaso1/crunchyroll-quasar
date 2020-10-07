@@ -15,7 +15,6 @@ export default function api(opts) {
       locale: LOCALE,
       ...opts.params
     },
-    mode: 'no-cors',
     data: opts.data,
     headers: opts.endpoint.match("cms") ? "" : opts.headers
   };

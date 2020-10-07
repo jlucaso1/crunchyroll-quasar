@@ -1,10 +1,16 @@
 <template>
-  <q-page v-if="anime">
-    <q-img :src="anime.images.poster_tall[0][4].source" :ratio="16/17">
+  <q-page v-if="anime_verification">
+    <q-img
+      :src="anime.images.poster_tall[0][4].source"
+      :ratio="16 / 17"
+      style="-webkit-box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);
+-moz-box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);
+box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);"
+    >
       <div class="absolute-bottom text-body1">
         {{ anime.title }}
-      </div></q-img
-    >
+      </div>
+    </q-img>
     <div class="ellipsis-2-lines text-grey q-mx-sm">
       {{ anime.description }}
     </div>
@@ -57,15 +63,25 @@
       active-color="white"
       indicator-color="warning"
     >
-      <q-tab name="episodes" label="EPISÓDIOS" class="col" />
-      <q-tab name="similars" label="SÉRIES SIMILARES" class="col" />
+      <q-tab name="episodes" label="EPISÓDIOS" class="col-6" />
+      <q-tab name="similars" label="SÉRIES SIMILARES" class="col-6" />
     </q-tabs>
 
     <q-separator />
 
     <q-tab-panels v-model="tab" animated>
       <q-tab-panel name="episodes" class="bg-dark">
-        <div class="text-h6 text-cyan">S1 temporada 1</div>
+        <q-select
+          borderless
+          dark
+          v-model="season"
+          :display-value="anime.seasons[0].title"
+          :options="anime.seasons.map(season => season.title)"
+          dense
+          color="cyan"
+          label-color="cyan"
+        />
+        <q-separator dark />
       </q-tab-panel>
 
       <q-tab-panel name="similars" class="bg-dark similars">
@@ -88,22 +104,36 @@
 
 <script>
 import AnimeCard from "components/AnimeCard.vue";
+import { Loading } from "quasar";
 export default {
   components: { AnimeCard },
   data() {
     return {
       tab: "episodes",
-      anime_infos: false
+      anime_infos: false,
+      season: ""
     };
   },
-  preFetch({ store, currentRoute }) {
+  async preFetch({ store, currentRoute }) {
     if (!(store.state.api.anime.id == currentRoute.params.id)) {
-      store.dispatch("api/SET_ANIME", currentRoute.params.id);
+      await store.dispatch("api/SET_ANIME", currentRoute.params.id);
     }
   },
+  mounted() {},
   computed: {
     anime() {
       return this.$store.state.api.anime;
+    },
+    anime_verification() {
+      if (this.anime.id == this.$route.params.id) {
+        return true;
+      }
+      return false;
+    }
+  },
+  methods: {
+    seasonSet() {
+      console.log("eae");
     }
   }
 };

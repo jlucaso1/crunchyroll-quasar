@@ -74,14 +74,54 @@ box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);"
         <q-select
           borderless
           dark
-          v-model="season"
-          :display-value="anime.seasons[0].title"
+          v-model="season.title"
           :options="anime.seasons.map(season => season.title)"
           dense
-          color="cyan"
-          label-color="cyan"
         />
         <q-separator dark />
+        <q-btn dense icon="o_sort" color="white" outline flat> </q-btn>
+        <q-card
+          class="bg-secondary q-my-sm"
+          v-for="episode in season.episodes"
+          :key="episode.id"
+          square
+        >
+          <q-card-section horizontal>
+            <q-img
+              :src="episode.images.thumbnail[0][0].source"
+              class="col-5"
+              native-context-menu
+            >
+              <div
+                class="absolute-bottom-right text-subtitle2 q-ma-xs"
+                style="padding: 1px; font-size: 10px;"
+              >
+                {{ parseInt(episode.duration_ms / 60000) + "m" }}
+              </div>
+            </q-img>
+            <q-card-section class="q-pa-sm col">
+              <div class="text-white ellipsis">
+                {{
+                  "S" +
+                    episode.season_number +
+                    " E" +
+                    episode.episode_number +
+                    " " +
+                    episode.title
+                }}
+              </div>
+              <q-btn
+                round
+                size="8px"
+                icon="get_app"
+                outline
+                color="white"
+                class="float-right"
+                style="top: 15px"
+              ></q-btn>
+            </q-card-section>
+          </q-card-section>
+        </q-card>
       </q-tab-panel>
 
       <q-tab-panel name="similars" class="bg-dark similars">
@@ -111,7 +151,7 @@ export default {
     return {
       tab: "episodes",
       anime_infos: false,
-      season: ""
+      season: {}
     };
   },
   async preFetch({ store, currentRoute }) {
@@ -126,6 +166,7 @@ export default {
     },
     anime_verification() {
       if (this.anime.id == this.$route.params.id) {
+        this.seasonSet();
         return true;
       }
       return false;
@@ -133,7 +174,7 @@ export default {
   },
   methods: {
     seasonSet() {
-      console.log("eae");
+      this.season = this.anime.seasons[0];
     }
   }
 };

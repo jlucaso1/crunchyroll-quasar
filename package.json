@@ -11,16 +11,17 @@
     "deploy": "quasar build && cp -r .vercel dist/spa && vercel dist/spa --prod"
   },
   "dependencies": {
-    "@quasar/extras": "^1.0.0",
+    "@quasar/cli": "^1.1.2",
+    "@quasar/extras": "^1.9.7",
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
-    "quasar": "^1.0.0",
+    "quasar": "^1.14.1",
     "swiper": "^6.2.0",
     "vue-awesome-swiper": "^4.1.1",
     "vue-i18n": "^8.0.0"
   },
   "devDependencies": {
-    "@quasar/app": "^2.0.0",
+    "@quasar/app": "^2.1.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",

@@ -71,18 +71,12 @@ box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);"
 
     <q-tab-panels v-model="tab" animated>
       <q-tab-panel name="episodes" class="bg-dark">
-        <q-select
-          borderless
-          dark
-          v-model="season.title"
-          :options="anime.seasons.map(season => season.title)"
-          dense
-        />
+        <q-select borderless dark v-model="season" :options="seasons" dense />
         <q-separator dark />
         <q-btn dense icon="o_sort" color="white" outline flat> </q-btn>
         <q-card
           class="bg-secondary q-my-sm"
-          v-for="episode in season.episodes"
+          v-for="episode in season.value.episodes"
           :key="episode.id"
           square
         >
@@ -116,8 +110,7 @@ box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);"
                 icon="get_app"
                 outline
                 color="white"
-                class="float-right"
-                style="top: 15px"
+                class="absolute-bottom-right q-ma-xs"
               ></q-btn>
             </q-card-section>
           </q-card-section>
@@ -151,7 +144,8 @@ export default {
     return {
       tab: "episodes",
       anime_infos: false,
-      season: {}
+      season: {},
+      seasons: []
     };
   },
   async preFetch({ store, currentRoute }) {
@@ -174,7 +168,10 @@ export default {
   },
   methods: {
     seasonSet() {
-      this.season = this.anime.seasons[0];
+      this.seasons = this.anime.seasons.map(season => {
+        return { value: season, label: season.title };
+      });
+      this.season = this.seasons[0];
     }
   }
 };

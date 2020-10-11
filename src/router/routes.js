@@ -13,7 +13,16 @@ const routes = [
   {
     path: "/anime/",
     component: () => import("layouts/Secondary.vue"),
-    children: [{ path: ":id", component: () => import("pages/Anime.vue") }]
+    children: [
+      {
+        path: ":id",
+        component: () => import("pages/Anime.vue")
+      },
+      {
+        path: ":anime_id/:episode_id",
+        component: () => import("pages/Episode.vue")
+      }
+    ]
   },
 
   // Always leave this as last one,

@@ -43,17 +43,12 @@ export async function SET_HOME_FEED({ commit }) {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
       Authorization: LocalStorage.getItem("auth").token.access_token
-    },
-    params: {
-      Policy: LocalStorage.getItem("auth").psk.policy,
-      Signature: LocalStorage.getItem("auth").psk.signature,
-      "Key-Pair-Id": LocalStorage.getItem("auth").psk.key_pair_id
     }
   };
   try {
     var { data } = await api(options);
     data.items = data.items.filter((item, index) => {
-      return item.resource_type != "panel" && index < 10;
+      return item.resource_type != "panel";
     });
     let promise_arr = [];
     for (let feed_item of data.items) {
@@ -74,4 +69,44 @@ export async function SET_HOME_FEED({ commit }) {
     commit("SET_ERROR", String(err));
   }
 }
-export async function SET_ANIME({ commit }) {}
+export async function SET_ANIME({ commit }, id) {
+  let options = {
+    endpoint: `/cms/v2${LocalStorage.getItem("auth").psk.bucket}/series/${id}`,
+    method: "get",
+    cors: true
+  };
+  let response = await api(options);
+  var anime = response.data;
+  options.endpoint = anime.__links__["series/seasons"].href;
+  response = await api(options);
+  anime.seasons = response.data.items;
+  let promise_arr = [];
+  for (let season of anime.seasons) {
+    let new_options = {
+      ...options,
+      endpoint: season.__links__["season/episodes"].href
+    };
+    promise_arr.push(api(new_options));
+  }
+  Promise.all(promise_arr).then(teste => {
+    teste.map((res, index) => {
+      anime.seasons[index].episodes = res.data.items;
+    });
+    commit("SET_ANIME", anime);
+  });
+}
+export async function SET_EPISODE({ commit }, id) {
+  let options = {
+    endpoint: `/cms/v2${
+      LocalStorage.getItem("auth").psk.bucket
+    }/episodes/${id}`,
+    method: "get",
+    cors: true
+  };
+  let { data } = await api(options);
+  let episode = data;
+  options.endpoint = episode.__links__.streams.href;
+  data = await api(options);
+  episode.streams = data.data;
+  commit("SET_EPISODE", episode);
+}

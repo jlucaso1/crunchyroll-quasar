@@ -6,7 +6,8 @@
 
 <script>
 import DPlayer from "dplayer";
-import Hls from "hls.js";
+import dashjs from "dashjs";
+// import Hls from "hls.js";
 
 export default {
   // name: 'PageName',
@@ -24,15 +25,8 @@ export default {
       return this.$store.state.api.episode;
     },
     streamUrl() {
-      const url = this.data.streams[0].url;
-      if (url && url.includes("pl.crunchyroll.com")) {
-        return this.data.streams[0].url.replace(
-          "https://pl.crunchyroll.com",
-          "/pl-proxy"
-        );
-      } else {
-        return this.data.streams[0].url;
-      }
+      let url = this.episode.streams.streams.adaptive_dash["pt-BR"].url;
+      return `https://crunchyroll-quasar.herokuapp.com/${url}`;
     }
   },
   watch: {
@@ -40,22 +34,22 @@ export default {
       if (this.episode) {
         this.player = new DPlayer({
           container: document.getElementById("dplayer"),
-          preload: "auto",
-          autoplay: true,
           video: {
-            url: this.episode.streams.streams.adaptive_hls["pt-BR"].url,
+            autoplay: true,
+            preload: "auto",
+            url: this.streamUrl,
             pic: this.episode.images.thumbnail[0][4].source,
-            type: "customHls",
+            type: "customDash",
             customType: {
-              customHls: function(video, player) {
-                const hls = new Hls();
-                hls.loadSource(video.src);
-                hls.attachMedia(video);
+              customDash: function(video, player) {
+                dashjs
+                  .MediaPlayer()
+                  .create()
+                  .initialize(video, video.src, false);
               }
             }
           },
           highlight: this.episode.ad_breaks.map(ad => {
-            console.log(ad);
             return {
               text: "Skipper",
               time: ad.offset_ms / 1000

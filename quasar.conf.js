@@ -73,7 +73,16 @@ module.exports = function(/* ctx */) {
     devServer: {
       https: false,
       port: 8080,
-      open: true // opens browser window automatically
+      open: true, // opens browser window automatically
+      proxy: {
+        "/pl-proxy": {
+          target: "https://pl.crunchyroll.com",
+          changeOrigin: true,
+          pathRewrite: {
+            "^/pl-proxy": ""
+          }
+        }
+      }
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework

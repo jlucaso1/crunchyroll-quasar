@@ -10,3 +10,6 @@ export function SET_HOME_FEED(state, data) {
 export function SET_ANIME(state, data) {
   state.anime = data;
 }
+export function SET_EPISODE(state, data) {
+  state.episode = data;
+}

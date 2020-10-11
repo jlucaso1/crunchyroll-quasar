@@ -3,6 +3,8 @@ export default function() {
     error: [],
     auth: {},
     home_feed: [],
-    anime: {}
+    anime: {},
+    episode: {},
+    next_episode: {}
   };
 }

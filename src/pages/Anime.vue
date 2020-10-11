@@ -74,47 +74,49 @@ box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);"
         <q-select borderless dark v-model="season" :options="seasons" dense />
         <q-separator dark />
         <q-btn dense icon="o_sort" color="white" outline flat> </q-btn>
-        <q-card
-          class="bg-secondary q-my-sm"
+        <router-link
+          :to="$route.path + '/' + episode.id"
           v-for="episode in season.value.episodes"
           :key="episode.id"
-          square
+          class="cursor-pointer"
         >
-          <q-card-section horizontal>
-            <q-img
-              :src="episode.images.thumbnail[0][0].source"
-              class="col-5"
-              native-context-menu
-            >
-              <div
-                class="absolute-bottom-right text-subtitle2 q-ma-xs"
-                style="padding: 1px; font-size: 10px;"
+          <q-card class="bg-secondary q-my-sm" square>
+            <q-card-section horizontal>
+              <q-img
+                :src="episode.images.thumbnail[0][0].source"
+                class="col-5"
+                native-context-menu
               >
-                {{ parseInt(episode.duration_ms / 60000) + "m" }}
-              </div>
-            </q-img>
-            <q-card-section class="q-pa-sm col">
-              <div class="text-white ellipsis">
-                {{
-                  "S" +
-                    episode.season_number +
-                    " E" +
-                    episode.episode_number +
-                    " " +
-                    episode.title
-                }}
-              </div>
-              <q-btn
-                round
-                size="8px"
-                icon="get_app"
-                outline
-                color="white"
-                class="absolute-bottom-right q-ma-xs"
-              ></q-btn>
+                <div
+                  class="absolute-bottom-right text-subtitle2 q-ma-xs"
+                  style="padding: 1px; font-size: 10px;"
+                >
+                  {{ parseInt(episode.duration_ms / 60000) + "m" }}
+                </div>
+              </q-img>
+              <q-card-section class="q-pa-sm col">
+                <div class="text-white ellipsis">
+                  {{
+                    "S" +
+                      episode.season_number +
+                      " E" +
+                      episode.episode_number +
+                      " " +
+                      episode.title
+                  }}
+                </div>
+                <q-btn
+                  round
+                  size="8px"
+                  icon="get_app"
+                  outline
+                  color="white"
+                  class="absolute-bottom-right q-ma-xs"
+                ></q-btn>
+              </q-card-section>
             </q-card-section>
-          </q-card-section>
-        </q-card>
+          </q-card>
+        </router-link>
       </q-tab-panel>
 
       <q-tab-panel name="similars" class="bg-dark similars">
@@ -182,4 +184,6 @@ export default {
   grid-template-columns repeat(auto-fit, minmax(120px, 1fr))
   grid-gap 10px
   display grid
+a
+  text-decoration: none;
 </style>

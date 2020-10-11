@@ -95,3 +95,18 @@ export async function SET_ANIME({ commit }, id) {
     commit("SET_ANIME", anime);
   });
 }
+export async function SET_EPISODE({ commit }, id) {
+  let options = {
+    endpoint: `/cms/v2${
+      LocalStorage.getItem("auth").psk.bucket
+    }/episodes/${id}`,
+    method: "get",
+    cors: true
+  };
+  let { data } = await api(options);
+  let episode = data;
+  options.endpoint = episode.__links__.streams.href;
+  data = await api(options);
+  episode.streams = data.data;
+  commit("SET_EPISODE", episode);
+}

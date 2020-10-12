@@ -31,9 +31,9 @@ export async function SET_AUTH({ commit }) {
     response = await api(options);
     auth.psk = response.data.cms;
     LocalStorage.set("auth", auth);
-    commit("SET_AUTH", auth);
+    return commit("SET_AUTH", auth);
   } catch (error) {
-    commit("SET_ERROR", "Falha de rede");
+    return commit("SET_ERROR", "Falha de rede");
   }
 }
 export async function SET_HOME_FEED({ commit }) {

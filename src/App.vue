@@ -4,17 +4,20 @@
   </div>
 </template>
 <script>
-import { LocalStorage } from "quasar";
+import { LocalStorage, Dark, Loading } from "quasar";
 export default {
   name: "App",
   async preFetch({ store }) {
+    Dark.set(true);
     if (
       LocalStorage.getItem("auth") &&
       LocalStorage.getItem("auth").token.expires_in > Date.now()
     ) {
-      await store.commit("api/SET_AUTH", LocalStorage.getItem("auth"));
+      store.commit("api/SET_AUTH", LocalStorage.getItem("auth"));
     } else {
+      Loading.show();
       await store.dispatch("api/SET_AUTH");
+      Loading.hide();
     }
   },
   watch: {

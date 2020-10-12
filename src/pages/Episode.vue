@@ -7,7 +7,7 @@
 <script>
 import DPlayer from "dplayer";
 import dashjs from "dashjs";
-// import Hls from "hls.js";
+import { Loading, AppFullscreen } from "quasar";
 
 export default {
   // name: 'PageName',
@@ -16,49 +16,48 @@ export default {
       player: null
     };
   },
-  created() {
-    this.$store.dispatch("api/SET_EPISODE", this.$route.params.episode_id);
-  },
-  mounted() {},
-  computed: {
-    episode() {
-      return this.$store.state.api.episode;
-    },
-    streamUrl() {
-      let url = this.episode.streams.streams.adaptive_dash["pt-BR"].url;
-      return `https://crunchyroll-quasar.herokuapp.com/${url}`;
+  async preFetch({ store, currentRoute }) {
+    if (
+      !(
+        store.state.api.episode &&
+        store.state.api.episode.id == currentRoute.params.episode_id
+      )
+    ) {
+      Loading.show();
+      await store.commit("api/SET_EPISODE", null);
+      await store.dispatch("api/SET_EPISODE", currentRoute.params.episode_id);
+      Loading.hide();
     }
   },
-  watch: {
-    episode() {
-      if (this.episode) {
-        this.player = new DPlayer({
-          container: document.getElementById("dplayer"),
-          video: {
-            autoplay: true,
-            preload: "auto",
-            url: this.streamUrl,
-            pic: this.episode.images.thumbnail[0][4].source,
-            type: "customDash",
-            customType: {
-              customDash: function(video, player) {
-                dashjs
-                  .MediaPlayer()
-                  .create()
-                  .initialize(video, video.src, false);
-              }
-            }
-          },
-          highlight: this.episode.ad_breaks.map(ad => {
-            return {
-              text: "Skipper",
-              time: ad.offset_ms / 1000
-            };
-          })
-        });
-        this.player.fullScreen.request("web");
-      }
-    }
+  mounted() {
+    this.player = new DPlayer({
+      container: document.getElementById("dplayer"),
+      video: {
+        autoplay: true,
+        preload: "auto",
+        url: `https://crunchyroll-quasar.herokuapp.com/${this.$store.state.api.episode.streams.streams.adaptive_dash["pt-BR"].url}`,
+        pic: this.$store.state.api.episode.images.thumbnail[0][4].source,
+        type: "customDash",
+        customType: {
+          customDash: function(video, player) {
+            dashjs
+              .MediaPlayer()
+              .create()
+              .initialize(video, video.src, false);
+          }
+        }
+      },
+      highlight: this.$store.state.api.episode.ad_breaks.map(ad => {
+        return {
+          text: "Skipper",
+          time: ad.offset_ms / 1000
+        };
+      })
+    });
+
+    this.player.on("canplay", () => {
+      this.player.play();
+    });
   }
 };
 </script>

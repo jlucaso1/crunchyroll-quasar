@@ -1,14 +1,13 @@
 <template>
-  <div id="q-app">
+  <div id="q-app" v-if="$store.state.api.auth">
     <router-view />
   </div>
 </template>
 <script>
-import { Loading, LocalStorage } from "quasar";
+import { LocalStorage } from "quasar";
 export default {
   name: "App",
   async preFetch({ store }) {
-    Loading.show();
     if (
       LocalStorage.getItem("auth") &&
       LocalStorage.getItem("auth").token.expires_in > Date.now()
@@ -17,8 +16,6 @@ export default {
     } else {
       await store.dispatch("api/SET_AUTH");
     }
-    await store.dispatch("api/SET_HOME_FEED");
-    Loading.hide();
   },
   watch: {
     error() {

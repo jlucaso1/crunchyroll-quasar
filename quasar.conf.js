@@ -123,7 +123,7 @@ module.exports = function(/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ["Loading", "LocalStorage", "Notify"]
+      plugins: ["Loading", "LocalStorage", "Notify", "AppFullscreen"]
     },
 
     // animations: 'all', // --- includes all animations
@@ -143,9 +143,9 @@ module.exports = function(/* ctx */) {
       manifest: {
         name: `Crunchyroll Quasar`,
         short_name: `Crunchyroll Quasar`,
-        description: `A Quasar Framework app`,
+        description: `Cópia da Crunchyroll feita em Vue`,
         display: "standalone",
-        orientation: "portrait",
+        orientation: "any",
         background_color: "#ffffff",
         theme_color: "#027be3",
         icons: [

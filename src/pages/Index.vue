@@ -1,12 +1,15 @@
 <template>
-  <q-page v-if="home_feed.length">
+  <q-page v-if="home_feed">
     <q-infinite-scroll @load="onLoad" :offset="250">
       <AnimesCollection
         v-for="index in visible_feeds"
         :key="index"
         :feed_item="home_feed[index - 1]"
       />
-      <template v-slot:loading v-if="this.home_feed.length > this.visible_feeds">
+      <template
+        v-slot:loading
+        v-if="this.home_feed.length > this.visible_feeds"
+      >
         <div class="row justify-center q-my-md">
           <q-spinner-dots color="primary" size="40px" />
         </div>
@@ -17,6 +20,7 @@
 
 <script>
 import AnimesCollection from "components/AnimesCollection";
+import { Loading } from "quasar";
 export default {
   name: "PageIndex",
   components: {
@@ -27,9 +31,22 @@ export default {
       visible_feeds: 3
     };
   },
+  async preFetch({ store }) {
+    if (!store.state.api.home_feed.length) {
+      Loading.show();
+      store.dispatch("api/SET_HOME_FEED");
+    }
+  },
   computed: {
     home_feed() {
       return this.$store.state.api.home_feed;
+    }
+  },
+  watch: {
+    home_feed() {
+      if (this.home_feed) {
+        Loading.hide();
+      }
     }
   },
   methods: {

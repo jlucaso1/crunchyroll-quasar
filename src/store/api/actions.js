@@ -88,11 +88,11 @@ export async function SET_ANIME({ commit }, id) {
     };
     promise_arr.push(api(new_options));
   }
-  Promise.all(promise_arr).then(teste => {
+  return Promise.all(promise_arr).then(teste => {
     teste.map((res, index) => {
       anime.seasons[index].episodes = res.data.items;
     });
-    commit("SET_ANIME", anime);
+    return commit("SET_ANIME", anime);
   });
 }
 export async function SET_EPISODE({ commit }, id) {

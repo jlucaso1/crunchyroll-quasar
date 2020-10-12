@@ -18,10 +18,14 @@ module.exports = function(/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
-    boot: ["i18n", "axios"],
+    boot: ["axios"],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
-    css: ["app.sass", "~swiper/swiper.scss"],
+    css: [
+      "~swiper/swiper.scss",
+      "~video.js/dist/video-js.css",
+      "videojs.markers.css"
+    ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -72,23 +76,23 @@ module.exports = function(/* ctx */) {
     devServer: {
       https: false,
       port: 8080,
-      open: false, // opens browser window automatically
-      proxy: {
-        "/cdn": {
-          target: "http://img1.ak.crunchyroll.com",
-          changeOrigin: true,
-          pathRewrite: {
-            "^/cdn": ""
-          }
-        },
-        "/pl-proxy": {
-          target: "https://pl.crunchyroll.com",
-          changeOrigin: true,
-          pathRewrite: {
-            "^/pl-proxy": ""
-          }
-        }
-      }
+      open: false // opens browser window automatically
+      // proxy: {
+      //   "/cdn": {
+      //     target: "http://img1.ak.crunchyroll.com",
+      //     changeOrigin: true,
+      //     pathRewrite: {
+      //       "^/cdn": ""
+      //     }
+      //   },
+      //   "/pl-proxy": {
+      //     target: "https://pl.crunchyroll.com",
+      //     changeOrigin: true,
+      //     pathRewrite: {
+      //       "^/pl-proxy": ""
+      //     }
+      //   }
+      // }
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework

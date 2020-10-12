@@ -1,5 +1,5 @@
 <template>
-  <div id="q-app" v-if="$store.state.api.auth">
+  <div id="q-app">
     <router-view />
   </div>
 </template>

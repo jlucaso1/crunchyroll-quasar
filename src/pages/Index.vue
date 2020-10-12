@@ -32,21 +32,15 @@ export default {
     };
   },
   async preFetch({ store }) {
-    if (!store.state.api.home_feed.length) {
+    if (!store.state.api.home_feed) {
       Loading.show();
-      store.dispatch("api/SET_HOME_FEED");
+      await store.dispatch("api/SET_HOME_FEED");
+      Loading.hide();
     }
   },
   computed: {
     home_feed() {
       return this.$store.state.api.home_feed;
-    }
-  },
-  watch: {
-    home_feed() {
-      if (this.home_feed) {
-        Loading.hide();
-      }
     }
   },
   methods: {

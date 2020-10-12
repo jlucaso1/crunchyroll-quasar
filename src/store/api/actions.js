@@ -59,14 +59,14 @@ export async function SET_HOME_FEED({ commit }) {
       promise_arr.push(api(new_options));
       feed_item.animes = data;
     }
-    Promise.all(promise_arr).then(teste => {
+    return Promise.all(promise_arr).then(teste => {
       teste.map((res, index) => {
         data.items[index].animes = res.data.items;
       });
-      commit("SET_HOME_FEED", data.items);
+      return commit("SET_HOME_FEED", data.items);
     });
   } catch (err) {
-    commit("SET_ERROR", String(err));
+    return commit("SET_ERROR", String(err));
   }
 }
 export async function SET_ANIME({ commit }, id) {

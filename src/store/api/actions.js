@@ -108,5 +108,5 @@ export async function SET_EPISODE({ commit }, id) {
   options.endpoint = episode.__links__.streams.href;
   data = await api(options);
   episode.streams = data.data;
-  commit("SET_EPISODE", episode);
+  return commit("SET_EPISODE", episode);
 }

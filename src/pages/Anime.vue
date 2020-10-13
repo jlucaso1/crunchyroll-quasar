@@ -1,5 +1,13 @@
 <template>
   <q-page v-if="$store.state.api.anime">
+    <q-btn
+      icon="o_reply"
+      flat
+      outline
+      color="white"
+      dense
+      class="flip-horizontal fixed-top-right z-top"
+    />
     <q-img
       :src="$store.state.api.anime.images.poster_tall[0][4].source"
       :ratio="16 / 17"

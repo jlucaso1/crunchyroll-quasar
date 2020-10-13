@@ -76,23 +76,30 @@ module.exports = function(/* ctx */) {
     devServer: {
       https: false,
       port: 8080,
-      open: false // opens browser window automatically
-      // proxy: {
-      //   "/cdn": {
-      //     target: "http://img1.ak.crunchyroll.com",
-      //     changeOrigin: true,
-      //     pathRewrite: {
-      //       "^/cdn": ""
-      //     }
-      //   },
-      //   "/pl-proxy": {
-      //     target: "https://pl.crunchyroll.com",
-      //     changeOrigin: true,
-      //     pathRewrite: {
-      //       "^/pl-proxy": ""
-      //     }
-      //   }
-      // }
+      open: false, // opens browser window automatically
+      proxy: {
+        "/cdn": {
+          target: "http://img1.ak.crunchyroll.com",
+          changeOrigin: true,
+          pathRewrite: {
+            "^/cdn": ""
+          }
+        },
+        "/pl-proxy": {
+          target: "https://pl.crunchyroll.com",
+          changeOrigin: true,
+          pathRewrite: {
+            "^/pl-proxy": ""
+          }
+        },
+        "/cms": {
+          target: "https://beta-api.crunchyroll.com/",
+          changeOrigin: true,
+          pathRewrite: {
+            "^/cms": ""
+          }
+        }
+      }
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework

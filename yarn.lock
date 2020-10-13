@@ -10510,6 +10510,11 @@ videojs-markers@^1.0.1:
   resolved "https://registry.yarnpkg.com/videojs-markers/-/videojs-markers-1.0.1.tgz#d7f8d804253fd587813271f8db308a22b9f7df34"
   integrity sha1-1/jYBCU/1YeBMnH42zCKIrn33zQ=
 
+videojs-titleoverlay@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/videojs-titleoverlay/-/videojs-titleoverlay-1.1.0.tgz#e2a1018ada94678f3302739f730efc8b65e54291"
+  integrity sha512-rV0asoq3JqBWXkLi3+wUDqBeY/2FpoSG9SV4BniwyO72jQqaNBWgPeuxOVt4P45dP4GjOwFogQ64whu1Bl2W9A==
+
 videojs-vtt.js@^0.15.2:
   version "0.15.2"
   resolved "https://registry.yarnpkg.com/videojs-vtt.js/-/videojs-vtt.js-0.15.2.tgz#a828c4ea0aac6303fa471fd69bc7586a5ba1a273"

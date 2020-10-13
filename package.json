@@ -20,6 +20,7 @@
     "swiper": "^6.2.0",
     "video.js": "^7.8.4",
     "videojs-markers": "^1.0.1",
+    "videojs-titleoverlay": "^1.1.0",
     "vue-awesome-swiper": "^4.1.1",
     "vue-i18n": "^8.0.0"
   },

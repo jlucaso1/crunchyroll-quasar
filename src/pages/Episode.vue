@@ -1,6 +1,16 @@
 <template>
-  <q-page>
-    <player-vue :options="videoOptions" />
+  <q-page v-if="$store.state.api.episode">
+    <q-btn
+      v-if="$store.state.api.episode.next_episode_id"
+      icon="skip_next"
+      class="absolute-top-right z-top"
+      flat
+      dense
+      outline
+      replace
+      :to="{ params: { episode_id: $store.state.api.episode.next_episode_id } }"
+    ></q-btn>
+    <player-vue />
   </q-page>
 </template>
 
@@ -10,24 +20,6 @@ import PlayerVue from "src/components/Player.vue";
 
 export default {
   // name: 'PageName',
-  data() {
-    return {
-      videoOptions: {
-        autoplay: true,
-        preload: "auto",
-        controls: true,
-        fluid: true,
-        sources: [
-          {
-            src: this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
-              "pt-BR"
-            ].url,
-            type: "application/x-mpegURL"
-          }
-        ]
-      }
-    };
-  },
   components: { PlayerVue },
   async preFetch({ store, currentRoute }) {
     if (
@@ -41,7 +33,6 @@ export default {
       await store.dispatch("api/SET_EPISODE", currentRoute.params.episode_id);
       return Loading.hide();
     }
-  },
-  methods: {}
+  }
 };
 </script>

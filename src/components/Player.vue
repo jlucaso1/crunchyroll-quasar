@@ -9,6 +9,7 @@ import videojs from "video.js";
 import "@videojs/http-streaming";
 import "videojs-markers";
 import "videojs-titleoverlay";
+import "videojs-landscape-fullscreen";
 
 export default {
   name: "VideoPlayer",
@@ -42,25 +43,28 @@ export default {
         "-E" +
         this.$store.state.api.episode.episode_number +
         ": " +
-        this.$store.state.api.episode.title, //Title for movie
-      floatPosition: "left", //Float left or right (to prevent big play button overlap) (default left)
-      margin: "10px", //Margin from top/left/right (default 10px)
-      fontSize: "1.6em" //font size (default 1em)
+        this.$store.state.api.episode.title,
+      floatPosition: "left",
+      margin: "10px",
+      fontSize: "2em"
     };
     this.player.titleoverlay(options);
+    this.player.landscapeFullscreen();
   },
   computed: {
     ad_breaks_filtered() {
       let ad_breaks = [...this.$store.state.api.episode.ad_breaks];
+      let chooseds =
+        this.$store.state.api.episode.ad_breaks.length == 4 ? [1, 3] : [];
       ad_breaks = ad_breaks
         .sort((a, b) => (a.offset_ms > b.offset_ms ? 1 : -1))
         .filter((key, index) => {
-          if (index == 1 || index == 3) {
+          if (chooseds.includes(index)) {
             return key;
           }
         })
         .map(ad => {
-          return { text: "Skipper", time: ad.offset_ms / 1000 };
+          return { time: ad.offset_ms / 1000 };
         });
       return ad_breaks;
     }

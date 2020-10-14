@@ -2,16 +2,17 @@
   <div>
     <router-link :to="'/anime/' + anime.id" class="cursor-pointer">
       <q-card class="bg-secondary" square>
-        <q-img
-          :src="anime.images.poster_tall[0][3].source"
-          :ratio="2 / 3"
-          class="swiper-lazy"
-        />
+        <q-img :src="anime.images.poster_tall[0][3].source" :ratio="2 / 3" />
         <div class="q-ma-sm">
-          <p class="text-white ellipsis">{{anime.title}}</p>
-          <p class="text-positive text-caption">SÉRIE</p>
+          <p class="text-white ellipsis">{{ anime.title }}</p>
+          <p class="text-positive text-caption q-ma-none">SÉRIE</p>
+          <q-btn
+            dense
+            flat
+            icon="more_vert"
+            class="absolute-bottom-right q-pa-none"
+          />
         </div>
-        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
       </q-card>
     </router-link>
   </div>

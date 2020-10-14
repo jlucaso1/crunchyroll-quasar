@@ -5,6 +5,7 @@ export default function() {
     home_feed: null,
     anime: {},
     episode: {},
-    next_episode: {}
+    next_episode: {},
+    search_result: {}
   };
 }

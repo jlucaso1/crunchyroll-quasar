@@ -1,6 +1,22 @@
 <template>
   <div>
-    <video ref="videoPlayer" class="video-js vjs-16-9"></video>
+    <div
+      v-if="paused"
+      class="fixed-top z-top text-center q-ma-sm ellipsis text-subtitle1"
+    >
+      {{
+        "S" +
+          $store.state.api.episode.season_number +
+          "-E" +
+          $store.state.api.episode.episode_number +
+          ": " +
+          $store.state.api.episode.title
+      }}
+    </div>
+    <video
+      ref="videoPlayer"
+      class="video-js vjs-16-9 vjs-big-play-centered"
+    ></video>
   </div>
 </template>
 
@@ -8,14 +24,14 @@
 import videojs from "video.js";
 import "@videojs/http-streaming";
 import "videojs-markers";
-import "videojs-titleoverlay";
 import "videojs-landscape-fullscreen";
 
 export default {
   name: "VideoPlayer",
   data() {
     return {
-      player: null
+      player: {},
+      paused: true
     };
   },
   mounted() {
@@ -48,14 +64,28 @@ export default {
       margin: "10px",
       fontSize: "2em"
     };
-    this.player.titleoverlay(options);
+    this.player.on("play", () => {
+      this.paused = false;
+    });
+    this.player.on("pause", () => {
+      this.paused = true;
+    });
+    this.player.on("ended", () => {
+      if (this.$store.state.api.episode.next_episode_id) {
+        this.$router.go({
+          params: { episode_id: $store.state.api.episode.next_episode_id }
+        });
+      }
+    });
     this.player.landscapeFullscreen();
   },
   computed: {
     ad_breaks_filtered() {
       let ad_breaks = [...this.$store.state.api.episode.ad_breaks];
       let chooseds =
-        this.$store.state.api.episode.ad_breaks.length == 4 ? [1, 3] : [];
+        this.$store.state.api.episode.ad_breaks.length == 4
+          ? [0, 1, 2, 3, 4, 5, 6]
+          : [0, 1, 2, 3, 4, 5, 6];
       ad_breaks = ad_breaks
         .sort((a, b) => (a.offset_ms > b.offset_ms ? 1 : -1))
         .filter((key, index) => {
@@ -66,6 +96,7 @@ export default {
         .map(ad => {
           return { time: ad.offset_ms / 1000 };
         });
+      console.log(ad_breaks);
       return ad_breaks;
     }
   },

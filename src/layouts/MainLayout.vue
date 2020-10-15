@@ -24,6 +24,7 @@
                 flat
               />
               <q-input
+                autofocus
                 color="red"
                 borderless
                 dense

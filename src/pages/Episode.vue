@@ -3,7 +3,7 @@
     <q-btn
       v-if="$store.state.api.episode.next_episode_id"
       icon="skip_next"
-      class="absolute-top-right z-top"
+      class="fixed-top-right z-top"
       flat
       dense
       outline

@@ -86,6 +86,7 @@ export async function SET_ANIME({ commit }, id) {
       ...options,
       endpoint: season.__links__["season/episodes"].href
     };
+    season.title = "S" + season.season_number + " - " + season.title;
     promise_arr.push(api(new_options));
   }
   return Promise.all(promise_arr).then(teste => {
@@ -105,9 +106,11 @@ export async function SET_EPISODE({ commit }, id) {
   };
   let { data } = await api(options);
   let episode = data;
-  options.endpoint = episode.__links__.streams.href;
-  data = await api(options);
-  episode.streams = data.data;
+  try {
+    options.endpoint = episode.__links__.streams.href;
+    data = await api(options);
+    episode.streams = data.data;
+  } catch (err) {}
   return commit("SET_EPISODE", episode);
 }
 

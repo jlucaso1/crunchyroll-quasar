@@ -1,13 +1,24 @@
 <template>
   <q-page v-if="$store.state.api.anime">
-    <q-btn
-      icon="o_reply"
-      flat
-      outline
-      color="white"
-      dense
-      class="flip-horizontal fixed-top-right z-top"
-    />
+    <q-header>
+      <q-btn
+        icon="o_arrow_back"
+        flat
+        outline
+        color="white"
+        class="absolute-top-left"
+        dense
+        to="/"
+      />
+      <q-btn
+        icon="o_reply"
+        flat
+        outline
+        color="white"
+        dense
+        class="flip-horizontal fixed-top-right z-top"
+      />
+    </q-header>
     <q-img
       :src="$store.state.api.anime.images.poster_tall[0][4].source"
       :ratio="16 / 17"
@@ -83,7 +94,7 @@ box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);"
         <q-separator dark />
         <q-btn dense icon="o_sort" color="white" outline flat> </q-btn>
         <router-link
-          :to="$route.path + '/' + episode.id"
+          :to="'/watch/' + episode.id"
           v-for="episode in season.value.episodes"
           :key="episode.id"
           class="cursor-pointer"

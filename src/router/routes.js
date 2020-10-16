@@ -11,15 +11,21 @@ const routes = [
     ]
   },
   {
-    path: "/anime/",
+    path: "/series/",
     component: () => import("layouts/Secondary.vue"),
     children: [
       {
         path: ":id",
         component: () => import("pages/Anime.vue")
-      },
+      }
+    ]
+  },
+  {
+    path: "/watch/",
+    component: () => import("layouts/Secondary.vue"),
+    children: [
       {
-        path: ":anime_id/:episode_id",
+        path: ":id",
         component: () => import("pages/Episode.vue")
       }
     ]

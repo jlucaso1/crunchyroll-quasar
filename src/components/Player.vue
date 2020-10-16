@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="paused"
-      class="fixed-top z-top text-center q-ma-sm ellipsis text-subtitle1"
+      class="fixed-top z-top text-center q-my-xs q-mx-xl ellipsis text-subtitle1"
     >
       {{
         "S" +
@@ -42,9 +42,13 @@ export default {
       fluid: true,
       sources: [
         {
-          src: this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
-            "pt-BR"
-          ].url,
+          src:
+            this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
+              "pt-BR"
+            ].url ||
+            this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
+              "en-US"
+            ].url,
           type: "application/x-mpegURL"
         }
       ]
@@ -52,18 +56,6 @@ export default {
     this.player.markers({
       markers: this.ad_breaks_filtered
     });
-    var options = {
-      title:
-        "S" +
-        this.$store.state.api.episode.season_number +
-        "-E" +
-        this.$store.state.api.episode.episode_number +
-        ": " +
-        this.$store.state.api.episode.title,
-      floatPosition: "left",
-      margin: "10px",
-      fontSize: "2em"
-    };
     this.player.on("play", () => {
       this.paused = false;
     });
@@ -73,7 +65,7 @@ export default {
     this.player.on("ended", () => {
       if (this.$store.state.api.episode.next_episode_id) {
         this.$router.go({
-          params: { episode_id: $store.state.api.episode.next_episode_id }
+          params: { id: $store.state.api.episode.next_episode_id }
         });
       }
     });
@@ -96,7 +88,6 @@ export default {
         .map(ad => {
           return { time: ad.offset_ms / 1000 };
         });
-      console.log(ad_breaks);
       return ad_breaks;
     }
   },

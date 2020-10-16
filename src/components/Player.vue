@@ -35,6 +35,7 @@ export default {
     };
   },
   mounted() {
+    console.log();
     this.player = videojs(this.$refs.videoPlayer, {
       autoplay: true,
       preload: "auto",
@@ -42,13 +43,17 @@ export default {
       fluid: true,
       sources: [
         {
-          src:
-            this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
-              "pt-BR"
-            ].url ||
-            this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
-              "en-US"
-            ].url,
+          src: this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
+            "pt-BR"
+          ]
+            ? this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
+                "pt-BR"
+              ].url
+            : this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
+                Object.keys(
+                  this.$store.state.api.episode.streams.streams.vo_adaptive_hls
+                )[1]
+              ].url,
           type: "application/x-mpegURL"
         }
       ]

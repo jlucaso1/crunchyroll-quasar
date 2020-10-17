@@ -13,16 +13,12 @@
   "dependencies": {
     "@quasar/cli": "^1.1.2",
     "@quasar/extras": "^1.9.7",
-    "@videojs/http-streaming": "^2.2.2",
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
     "dplayer": "^1.26.0",
     "hls.js": "^0.14.15",
     "quasar": "^1.14.1",
     "swiper": "^6.2.0",
-    "video.js": "^7.8.4",
-    "videojs-landscape-fullscreen": "^11.1.0",
-    "videojs-markers": "^1.0.1",
     "vue-awesome-swiper": "^4.1.1",
     "vue-i18n": "^8.0.0"
   },

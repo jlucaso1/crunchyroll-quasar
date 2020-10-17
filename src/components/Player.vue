@@ -40,7 +40,6 @@
 <script>
 import Hls from "hls.js";
 import DPlayer from "dplayer";
-import { AppFullscreen } from "quasar";
 
 export default {
   name: "VideoPlayer",

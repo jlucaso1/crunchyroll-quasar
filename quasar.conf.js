@@ -21,11 +21,7 @@ module.exports = function(/* ctx */) {
     boot: ["axios"],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
-    css: [
-      "~swiper/swiper.scss",
-      "~video.js/dist/video-js.css",
-      "videojs.markers.css"
-    ],
+    css: ["~swiper/swiper.scss"],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -150,14 +146,14 @@ module.exports = function(/* ctx */) {
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
       workboxPluginMode: "GenerateSW", // 'GenerateSW' or 'InjectManifest'
-      workboxOptions: {}, // only for GenerateSW
+      workboxOptions: { skipWaiting: true, clientsClaim: true }, // only for GenerateSW
       manifest: {
         name: `Crunchyroll Quasar`,
         short_name: `Crunchyroll Quasar`,
         description: `Cópia da Crunchyroll feita em Vue`,
-        display: "standalone",
-        orientation: "any",
-        background_color: "#ffffff",
+        display: "fullscreen",
+        orientation: "portrait-primary",
+        background_color: "#FC791E",
         theme_color: "#027be3",
         icons: [
           {

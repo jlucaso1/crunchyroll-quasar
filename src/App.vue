@@ -19,6 +19,7 @@ export default {
       await store.dispatch("api/SET_AUTH");
       Loading.hide();
     }
+    return;
   },
   watch: {
     error() {

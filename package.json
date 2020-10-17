@@ -16,6 +16,8 @@
     "@videojs/http-streaming": "^2.2.2",
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
+    "dplayer": "^1.26.0",
+    "hls.js": "^0.14.15",
     "quasar": "^1.14.1",
     "swiper": "^6.2.0",
     "video.js": "^7.8.4",

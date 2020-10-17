@@ -11,24 +11,39 @@
         </div>
       </router-link>
       <q-btn
-        size="md"
-        dense
+        round
         flat
+        dense
         icon="more_vert"
         class="absolute-bottom-right q-pa-none"
-      />
+        ><q-menu auto-close content-class="bg-secondary" anchor="bottom left">
+          <q-list>
+            <q-item clickable :to="'/series/' + anime.id">
+              <q-item-section>Assistir agora</q-item-section>
+            </q-item>
+            <q-item clickable @click="share()">
+              <q-item-section>Compartilhar</q-item-section>
+            </q-item>
+          </q-list>
+        </q-menu></q-btn
+      >
     </q-card>
   </div>
 </template>
 
 <script>
+import { copyToClipboard } from "quasar";
 export default {
-  // name: 'ComponentName',
   data() {
     return {};
   },
   props: {
     anime: Object
+  },
+  methods: {
+    share() {
+      copyToClipboard(window.location.href + "series/" + this.anime.id);
+    }
   }
 };
 </script>

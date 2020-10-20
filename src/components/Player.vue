@@ -1,6 +1,6 @@
 <template>
-  <div ref="player" class="player">
-    <q-header v-if="paused">
+  <div>
+    <q-header>
       <q-btn
         icon="o_arrow_back"
         flat
@@ -14,14 +14,14 @@
       <q-btn
         v-if="$store.state.api.episode.next_episode_id"
         icon="skip_next"
-        class="fixed-top-right z-top"
+        class="fixed-top-right"
         flat
         dense
         outline
         :to="{ params: { id: $store.state.api.episode.next_episode_id } }"
       ></q-btn>
       <div
-        class="fixed-top z-top text-center q-my-xs q-mx-xl ellipsis text-subtitle1"
+        class="fixed-top text-center q-my-xs q-mx-xl ellipsis text-subtitle1"
       >
         {{
           "S" +
@@ -52,8 +52,7 @@ export default {
   name: "VideoPlayer",
   data() {
     return {
-      player: {},
-      paused: true
+      player: {}
     };
   },
   async mounted() {
@@ -99,12 +98,6 @@ export default {
           ]
         : [{ text: "Fim dos episódios", click: () => {} }]
     });
-    this.player.on("pause", () => {
-      this.paused = true;
-    });
-    this.player.on("play", () => {
-      this.paused = false;
-    });
     if (this.$q.platform.is.mobile) {
       document.addEventListener("fullscreenchange", function() {
         if (document.fullscreen) {
@@ -126,10 +119,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.player:fullscreen {
-  width: 100vw;
-  height: 100vh;
-}
-</style>

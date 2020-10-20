@@ -152,7 +152,7 @@ module.exports = function(/* ctx */) {
         short_name: `Crunchyroll Quasar`,
         description: `Cópia da Crunchyroll feita em Vue`,
         display: "fullscreen",
-        orientation: "portrait",
+        orientation: "portrait-primary",
         background_color: "#FC791E",
         theme_color: "#027be3",
         icons: [

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="player" class="player">
     <q-header v-if="paused">
       <q-btn
         icon="o_arrow_back"
@@ -33,7 +33,14 @@
         }}
       </div>
     </q-header>
-    <div ref="videoPlayer"></div>
+    <div
+      ref="videoPlayer"
+      @dblclick="full()"
+      v-if="!$store.state.api.episode.is_premium_only"
+    ></div>
+    <div v-else class="text-white absolute-center text-h5 text-center">
+      Esse conteúdo é somente para premium
+    </div>
   </div>
 </template>
 
@@ -52,7 +59,7 @@ export default {
   async mounted() {
     this.player = await new DPlayer({
       container: this.$refs.videoPlayer,
-      autoplay: false,
+      autoplay: true,
       theme: "#FC791E",
       video: {
         pic: this.$store.state.api.episode.images.thumbnail[0][4].source,
@@ -98,34 +105,31 @@ export default {
     this.player.on("play", () => {
       this.paused = false;
     });
-    this.player.on("fullscreen", () => {
-      if (this.$q.platform.is.mobile && screen.orientation.angle == 0) {
-        screen.orientation.lock("landscape");
-      }
-    });
-    this.player.on("fullscreen_cancel", () => {
-      if (this.$q.platform.is.mobile && screen.orientation.angle != 0) {
-        screen.orientation.lock("portrait");
-      }
-    });
-    window.addEventListener("orientationchange", () => {
-      if (event.target.screen.orientation.angle != 0) {
-        this.fullscreen();
-      } else {
-        this.CancelFullscreen();
-      }
-    });
-  },
-  methods: {
-    fullscreen(e) {
-      this.player.fullScreen.request("browser");
-    },
-    CancelFullscreen(e) {
-      this.player.fullScreen.cancel("browser");
+    if (this.$q.platform.is.mobile) {
+      document.addEventListener("fullscreenchange", function() {
+        if (document.fullscreen) {
+          screen.orientation.lock("landscape");
+        } else {
+          screen.orientation.lock("portrait");
+        }
+      });
     }
   },
-  beforeDestroy() {
-    this.player.destroy();
+  methods: {
+    full() {
+      if (document.fullscreen) {
+        this.player.fullScreen.cancel("browser");
+      } else {
+        this.player.fullScreen.request("browser");
+      }
+    }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.player:fullscreen {
+  width: 100vw;
+  height: 100vh;
+}
+</style>

@@ -91,7 +91,9 @@ export async function SET_ANIME({ commit }, id) {
   }
   return Promise.all(promise_arr).then(teste => {
     teste.map((res, index) => {
-      anime.seasons[index].episodes = res.data.items;
+      anime.seasons[index].episodes = res.data.items.filter(
+        key => key.episode_number != null
+      );
     });
     return commit("SET_ANIME", anime);
   });

@@ -1,9 +1,6 @@
 <template>
   <q-page v-if="$store.state.api.episode">
-    <player-vue v-if="!$store.state.api.episode.is_premium_only" />
-    <div v-else class="text-white absolute-center text-h5 text-center">
-      Esse conteúdo é somente para premium
-    </div>
+    <player-vue />
   </q-page>
 </template>
 

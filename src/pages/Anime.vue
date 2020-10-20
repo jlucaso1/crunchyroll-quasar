@@ -20,7 +20,7 @@
       />
     </q-header>
     <q-img
-      :src="$store.state.api.anime.images.poster_tall[0][4].source"
+      :src="$store.state.api.anime.images.poster_tall[0][6].source"
       :ratio="16 / 17"
       style="-webkit-box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);
 -moz-box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);
@@ -100,9 +100,15 @@ box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);"
           class="cursor-pointer"
         >
           <q-card class="bg-secondary q-my-sm" square>
+            <q-icon
+              name="o_lock"
+              size="xl"
+              class="absolute-center"
+              v-if="episode.is_premium_only"
+            />
             <q-card-section horizontal>
               <q-img
-                :src="episode.images.thumbnail[0][0].source"
+                :src="episode.images.thumbnail[0][2].source"
                 class="col-5"
                 native-context-menu
               >
@@ -148,7 +154,10 @@ box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);"
       </q-tab-panel>
     </q-tab-panels>
     <q-footer class="bg-dark flex justify-center q-mx-sm">
-      <q-btn class="bg-warning text-black q-ma-sm col-grow">
+      <q-btn
+        class="bg-warning text-black q-ma-sm col-grow"
+        :to="'/watch/' + season.value.episodes[0].id"
+      >
         <q-icon name="o_play_arrow" size="30px" />
         <p class="text-subtitle2 q-ma-none">COMEÇAR A ASSISTIR</p></q-btn
       >

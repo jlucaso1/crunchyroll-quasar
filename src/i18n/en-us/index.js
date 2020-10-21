@@ -1,7 +1,15 @@
-// This is just an example,
-// so you can safely delete all default props below
-
 export default {
-  failed: 'Action failed',
-  success: 'Action was successful'
-}
+  home: "Home",
+  settings: "Settings",
+  catalog: "Catalog",
+  list: "List",
+  watch_now: "Watch now",
+  share: "Share",
+  search: "Search",
+  start_watching: "START WATCHING",
+  series_details: "Series details",
+  episodes: "EPISODES",
+  similar_series: "SIMILAR SERIES",
+  series: "Series",
+  language: "Language"
+};

@@ -28,7 +28,7 @@
         <p class="text-h6 q-ma-none">
           {{ $store.state.api.anime.title }}
         </p>
-        <p class="text-primary text-subtitle2 q-ma-none">Série</p>
+        <p class="text-primary text-subtitle2 q-ma-none">{{ $t("series") }}</p>
       </section>
     </q-img>
     <div class="ellipsis-2-lines text-grey q-mx-sm">
@@ -73,7 +73,7 @@
     </q-dialog>
     <div class="justify-center full-width flex">
       <q-btn @click="anime_infos = true">
-        <p class="text-warning ">DETALHES DA SÉRIE ></p>
+        <p class="text-warning ">{{ $t("series_details") }} ></p>
       </q-btn>
     </div>
     <q-tabs
@@ -83,8 +83,8 @@
       active-color="white"
       indicator-color="warning"
     >
-      <q-tab name="episodes" label="EPISÓDIOS" class="col-6" />
-      <q-tab name="similars" label="SÉRIES SIMILARES" class="col-6" />
+      <q-tab name="episodes" :label="$t('episodes')" class="col-6" />
+      <q-tab name="similars" :label="$t('similar_series')" class="col-6" />
     </q-tabs>
 
     <q-separator />
@@ -160,7 +160,9 @@
         :to="'/watch/' + season.value.episodes[0].id"
       >
         <q-icon name="o_play_arrow" size="30px" />
-        <p class="text-subtitle2 q-ma-none">COMEÇAR A ASSISTIR</p></q-btn
+        <p class="text-subtitle2 q-ma-none">
+          {{ $t("start_watching") }}
+        </p></q-btn
       >
       <q-btn icon="o_turned_in_not" color="warning" outline class="q-ma-sm" />
     </q-footer>

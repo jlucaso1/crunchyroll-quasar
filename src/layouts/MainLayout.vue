@@ -34,7 +34,7 @@
                 debounce="500"
                 type="search"
                 square
-                label="Busca"
+                :label="$t('search')"
                 label-color="white"
                 input-style="font-size: large"
               ></q-input>
@@ -64,21 +64,21 @@
         <q-route-tab
           icon="o_home"
           to="/"
-          label="Início"
+          :label="$t('home')"
           exact
           :class="$q.platform.is.mobile ? 'q-px-xs' : ''"
         />
         <q-route-tab
           icon="o_turned_in_not"
           to="/list"
-          label="Listas"
+          :label="$t('list')"
           exact
           :class="$q.platform.is.mobile ? 'q-px-xs' : ''"
         />
         <q-route-tab
           icon="o_scatter_plot"
           to="/catalog"
-          label="Catálogo"
+          :label="$t('catalog')"
           exact
           :class="$q.platform.is.mobile ? 'q-px-xs' : ''"
         />
@@ -92,7 +92,7 @@
         <q-route-tab
           icon="o_perm_identity"
           to="/settings"
-          label="Ajustes"
+          :label="$t('settings')"
           exact
           :class="$q.platform.is.mobile ? 'q-px-xs' : ''"
         />

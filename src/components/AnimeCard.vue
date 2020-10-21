@@ -14,7 +14,7 @@
           <p class="text-white ellipsis-2-lines" style="height: 40px;">
             {{ anime.title }}
           </p>
-          <p class="text-positive text-caption q-my-sm">SÉRIE</p>
+          <p class="text-positive text-caption q-my-sm">{{ $t("series") }}</p>
         </div>
       </router-link>
       <q-btn
@@ -26,10 +26,10 @@
         ><q-menu auto-close content-class="bg-secondary" anchor="bottom left">
           <q-list>
             <q-item clickable :to="'/series/' + anime.id">
-              <q-item-section>Assistir agora</q-item-section>
+              <q-item-section>{{ $t("watch_now") }}</q-item-section>
             </q-item>
             <q-item clickable @click="share()">
-              <q-item-section>Compartilhar</q-item-section>
+              <q-item-section>{{ $t("share") }}</q-item-section>
             </q-item>
           </q-list>
         </q-menu></q-btn

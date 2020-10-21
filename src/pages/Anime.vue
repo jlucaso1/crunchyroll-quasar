@@ -20,15 +20,16 @@
       />
     </q-header>
     <q-img
-      :src="$store.state.api.anime.images.poster_tall[0][6].source"
-      :ratio="16 / 17"
-      style="-webkit-box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);
--moz-box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);
-box-shadow: inset 0px 0px 36px 30px rgba(0,0,0,1);"
+      :ratio="10 / 9"
+      :src="$store.state.api.anime.images.poster_tall[0][8].source"
+      class="poster"
     >
-      <div class="absolute-bottom text-body1">
-        {{ $store.state.api.anime.title }}
-      </div>
+      <section class="absolute-bottom q-mx-sm" style="z-index: 1">
+        <p class="text-h6 q-ma-none">
+          {{ $store.state.api.anime.title }}
+        </p>
+        <p class="text-primary text-subtitle2 q-ma-none">Série</p>
+      </section>
     </q-img>
     <div class="ellipsis-2-lines text-grey q-mx-sm">
       {{ $store.state.api.anime.description }}
@@ -200,11 +201,27 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
-.similars
-  grid-template-columns repeat(auto-fit, minmax(120px, 1fr))
-  grid-gap 10px
-  display grid
-a
+<style lang="scss" scoped>
+.similars {
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-gap: 10px;
+  display: grid;
+}
+a {
   text-decoration: none;
+}
+.poster::before {
+  content: "";
+  z-index: 1;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(9, 9, 121, 0) 100%
+  );
+}
 </style>

@@ -14,5 +14,8 @@ export default {
   language: "Idioma",
   without_subtitle: "Sem legenda em Português",
   error: "Erro",
-  back: "Voltar"
+  back: "Voltar",
+  total_episodes: "Total de Episódios",
+  age_rating: "Faxa etária",
+  distributor: "Distribuidora"
 };

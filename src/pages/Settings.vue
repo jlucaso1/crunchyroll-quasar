@@ -31,6 +31,11 @@ export default {
       this.$q.localStorage.set("locale", this.$i18n.locale);
       this.$store.dispatch("api/SET_HOME_FEED");
     }
+  },
+  meta() {
+    return {
+      title: this.$t("settings")
+    };
   }
 };
 </script>

@@ -51,19 +51,19 @@
             {{ $store.state.api.anime.description }}
           </div>
           <div class="row q-my-sm">
-            <div class="text-subtitle2">Total de Episódios</div>
+            <div class="text-subtitle2">{{ $t("total_episodes") }}</div>
             <q-space />
             <div>{{ $store.state.api.anime.media_count }}</div>
           </div>
           <q-separator dark />
           <div class="row q-my-sm">
-            <div class="text-subtitle2">Classificação Etária</div>
+            <div class="text-subtitle2">{{ $t("age_rating") }}</div>
             <q-space />
             <div>{{ $store.state.api.anime.maturity_ratings[0] }}</div>
           </div>
           <q-separator dark />
           <div class="row q-my-sm">
-            <div class="text-subtitle2">Distribuidora</div>
+            <div class="text-subtitle2">{{ $t("distributor") }}</div>
             <q-space />
             <div>{{ $store.state.api.anime.content_provider }}</div>
           </div>
@@ -199,6 +199,11 @@ export default {
       return { value: season, label: season.title };
     });
     this.season = this.seasons[0];
+  },
+  meta() {
+    return {
+      title: this.$store.state.api.anime.title
+    };
   }
 };
 </script>

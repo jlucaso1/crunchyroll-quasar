@@ -52,6 +52,11 @@ export default {
         }, 500);
       }
     }
+  },
+  meta() {
+    return {
+      title: this.$t("home")
+    };
   }
 };
 </script>

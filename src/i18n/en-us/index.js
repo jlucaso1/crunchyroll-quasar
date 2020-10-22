@@ -14,5 +14,8 @@ export default {
   language: "Language",
   without_subtitle: "No English subtitles",
   error: "Error",
-  back: "Back"
+  back: "Back",
+  total_episodes: "Total Episodes",
+  age_rating: "Age rating",
+  distributor: "Distributor"
 };

@@ -24,6 +24,11 @@ export default {
       Loading.hide();
       return;
     }
+  },
+  meta() {
+    return {
+      title: this.$store.state.api.episode.series_title
+    };
   }
 };
 </script>

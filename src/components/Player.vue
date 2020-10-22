@@ -63,10 +63,10 @@ export default {
       video: {
         pic: this.$store.state.api.episode.images.thumbnail[0][4].source,
         url: this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
-          "pt-BR"
+          this.locale
         ]
           ? this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
-              "pt-BR"
+              this.locale
             ].url
           : this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
               Object.keys(
@@ -106,6 +106,15 @@ export default {
           screen.orientation.lock("portrait");
         }
       });
+    }
+  },
+  computed: {
+    locale() {
+      let lang = this.$q.localStorage.getItem("locale");
+      lang = lang.split("-");
+      lang[1] = lang[1].toUpperCase();
+      lang = lang.join("-");
+      return lang;
     }
   },
   methods: {

@@ -133,8 +133,9 @@
                 </div>
                 <q-btn
                   round
-                  size="8px"
-                  icon="get_app"
+                  dense
+                  flat
+                  icon="o_play_circle_outline"
                   outline
                   color="white"
                   class="absolute-bottom-right q-ma-xs"

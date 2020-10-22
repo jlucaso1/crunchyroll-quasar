@@ -41,6 +41,21 @@
     <div v-else class="text-white absolute-center text-h5 text-center">
       Esse conteúdo é somente para premium
     </div>
+    <q-dialog v-model="alert" @hide="$router.back()" persistent>
+      <q-card class="bg-secondary">
+        <q-card-section>
+          <div class="text-h6">{{ $t("error") }}</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          {{ $t("without_subtitle") }}
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat :label="$t('back')" color="warning" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -52,7 +67,8 @@ export default {
   name: "VideoPlayer",
   data() {
     return {
-      player: {}
+      player: {},
+      alert: false
     };
   },
   async mounted() {
@@ -68,11 +84,7 @@ export default {
           ? this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
               this.locale
             ].url
-          : this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
-              Object.keys(
-                this.$store.state.api.episode.streams.streams.vo_adaptive_hls
-              )[1]
-            ].url,
+          : (this.alert = true),
         type: "customHls",
         customType: {
           customHls: function(video, player) {

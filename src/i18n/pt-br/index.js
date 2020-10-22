@@ -11,5 +11,8 @@ export default {
   episodes: "EPISÓDIOS",
   similar_series: "SÉRIES SIMILARES",
   series: "Série",
-  language: "Idioma"
+  language: "Idioma",
+  without_subtitle: "Sem legenda em Português",
+  error: "Erro",
+  back: "Voltar"
 };

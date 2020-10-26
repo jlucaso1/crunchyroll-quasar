@@ -39,11 +39,25 @@ export default {
           ]
         });
       }
+    },
+    sessionExpired() {
+      if (this.sessionExpired) {
+        store.dispatch("api/SET_AUTH");
+      }
     }
   },
   computed: {
     error() {
       return this.$store.state.api.error;
+    },
+    sessionExpired() {
+      if (
+        LocalStorage.getItem("auth") &&
+        LocalStorage.getItem("auth").token.expires_in > Date.now()
+      ) {
+        return false;
+      }
+      return true;
     }
   }
 };

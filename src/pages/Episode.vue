@@ -117,7 +117,6 @@ export default {
       }
     },
     async nextEpisode() {
-      Loading.show();
       this.$router.replace({
         params: { id: this.$store.state.api.episode.next_episode_id }
       });
@@ -125,8 +124,8 @@ export default {
         "api/SET_EPISODE",
         this.$store.state.api.episode.next_episode_id
       );
+      await this.player.destroy();
       await this.createPlayer();
-      Loading.hide();
     },
     createPlayer() {
       this.player = new DPlayer({

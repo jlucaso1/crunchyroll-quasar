@@ -21,7 +21,14 @@ module.exports = function(/* ctx */) {
     boot: ["axios", "i18n"],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
-    css: ["~swiper/swiper.scss"],
+    css: [
+      "~swiper/swiper.scss",
+      "~video.js/dist/video-js.min.css",
+      "videojs.markers.css",
+      "videojs-overlay.css",
+      "videojs-contextmenu-ui.css",
+      "videojs-mobile-ui.css"
+    ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [

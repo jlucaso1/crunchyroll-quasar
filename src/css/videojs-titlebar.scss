@@ -1,0 +1,55 @@
+@import "../../node_modules/video.js/src/css/utilities";
+
+// Sass for videojs-title-bar
+.video-js {
+  .vjs-title-bar-content {
+    font-size: 1.4em;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(43, 51, 63, 0.7);
+    height: 2em;
+    line-height: 2em;
+    overflow: hidden;
+    padding: 0 10px;
+    text-align: left;
+    display: none;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+}
+
+// Video has started playing
+.vjs-has-started .vjs-title-bar-content {
+  @include display-flex;
+  visibility: visible;
+  opacity: 1;
+  $trans: visibility 0.1s, opacity 0.1s; // Var needed because of comma
+  @include transition($trans);
+}
+
+// Video has started playing AND user is inactive
+.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-title-bar-content {
+  visibility: hidden;
+  opacity: 0;
+  $trans: visibility 1s, opacity 1s;
+  @include transition($trans);
+}
+
+.vjs-controls-disabled .vjs-title-bar-content,
+.vjs-using-native-controls .vjs-title-bar-content,
+.vjs-error .vjs-title-bar-content {
+  // !important is ok in this context.
+  display: none !important;
+}
+
+// Don't hide the control bar if it's audio
+.vjs-audio.vjs-has-started.vjs-user-inactive.vjs-playing
+  .vjs-title-bar-content {
+  opacity: 1;
+  visibility: visible;
+}

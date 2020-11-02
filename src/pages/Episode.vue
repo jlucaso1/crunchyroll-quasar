@@ -1,6 +1,6 @@
 <template>
   <q-page v-if="$store.state.api.episode">
-    <q-header ref="header">
+    <!-- <q-header ref="header">
       <q-btn
         icon="o_arrow_back"
         flat
@@ -25,7 +25,7 @@
       >
         {{ this.title }}
       </div>
-    </q-header>
+    </q-header> -->
     <Player
       ref="player"
       v-if="!$store.state.api.episode.is_premium_only"

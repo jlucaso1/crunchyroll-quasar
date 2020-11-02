@@ -12,6 +12,7 @@ import "../lib/player/videojs-contextmenu-ui.es";
 import "../lib/player/videojs-markers";
 import "../lib/player/videojs-overlay.es";
 import "../lib/player/videojs-landscape-fullscreen.min";
+import "../lib/player/videojs-titlebar";
 export default {
   name: "VideoPlayer",
   props: {
@@ -36,12 +37,6 @@ export default {
   methods: {
     updatePlayer() {
       if (this.player) {
-        this.player.markers.removeAll();
-        this.player.markers.add(
-          this.$store.state.api.episode.ad_breaks.map(ad => {
-            return { time: ad.offset_ms / 1000, text: "Skip" };
-          })
-        );
         this.player.src({
           src: this.options,
           type: "application/x-mpegURL"
@@ -68,9 +63,6 @@ export default {
       });
       this.player.addClass("vjs-crunchyroll");
       this.player.markers({
-        markers: this.$store.state.api.episode.ad_breaks.map(ad => {
-          return { time: ad.offset_ms / 1000, text: "Skip" };
-        }),
         markerTip: {
           display: false
         },
@@ -113,6 +105,19 @@ export default {
           iOS: true
         }
       });
+      this.player.on("loadeddata", () => {
+        this.player.markers.removeAll();
+        this.player.markers.add(
+          this.$store.state.api.episode.ad_breaks.map(ad => {
+            return { time: ad.offset_ms / 1000, text: "Skip" };
+          })
+        );
+        this.player.titleBar({ title: this.$store.state.api.episode.title });
+      });
+      this.player.on("error", () => {
+        console.log("erro");
+      });
+      this.player.titleBar();
     },
     async nextEpisode() {
       if (this.$store.state.api.episode.next_episode_id) {

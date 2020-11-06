@@ -12,7 +12,7 @@ import "../lib/player/videojs-contextmenu-ui.es";
 import "../lib/player/videojs-markers";
 import "../lib/player/videojs-overlay.es";
 import "../lib/player/videojs-landscape-fullscreen.min";
-import "../lib/player/videojs-titlebar";
+import "../lib/player/videojs-plugins";
 export default {
   name: "VideoPlayer",
   props: {
@@ -37,6 +37,7 @@ export default {
   methods: {
     updatePlayer() {
       if (this.player) {
+        this.player.reset();
         this.player.src({
           src: this.options,
           type: "application/x-mpegURL"
@@ -59,38 +60,44 @@ export default {
             type: "application/x-mpegURL"
           }
         ],
-        fluid: true
-      });
-      this.player.addClass("vjs-crunchyroll");
-      this.player.markers({
-        markerTip: {
-          display: false
-        },
-        markerStyle: {
-          width: "2px",
-          "background-color": "white"
+        aspectRatio: "16:9",
+        fill: true,
+        plugins: {
+          markers: {
+            markerTip: {
+              display: false
+            },
+            markerStyle: {
+              width: "2px",
+              "background-color": "white"
+            }
+          },
+          contextmenuUI: {
+            content: [
+              {
+                label: "Próximo episódio",
+                listener: () => {
+                  this.nextEpisode();
+                }
+              }
+            ]
+          },
+          landscapeFullscreen: {
+            fullscreen: {
+              enterOnRotate: true,
+              alwaysInLandscapeMode: true,
+              iOS: true
+            }
+          },
+          plugins: {
+            title: this.$store.state.api.episode.title,
+            onclick: this.$store.state.api.episode.next_episode_id
+              ? this.nextEpisode
+              : false
+          }
         }
       });
-      this.player.contextmenuUI({
-        content: [
-          {
-            label: "Próximo episódio",
-            listener: () => {
-              this.nextEpisode();
-            }
-          }
-        ]
-      });
-      if (this.$store.state.api.episode.next_episode_id) {
-        var skip_button = this.player.controlBar.addChild("button", {
-          text: "Next episode"
-        });
-        skip_button.on("click", () => {
-          this.nextEpisode();
-        });
-        skip_button.addClass("vjs-icon-next-item");
-        skip_button.addClass("cursor-pointer");
-      }
+      this.player.addClass("vjs-crunchyroll");
       this.player.on("dblclick", () => {
         if (this.player.isFullscreen()) {
           this.player.exitFullscreen();
@@ -98,38 +105,39 @@ export default {
           this.player.requestFullscreen();
         }
       });
-      this.player.landscapeFullscreen({
-        fullscreen: {
-          enterOnRotate: true,
-          alwaysInLandscapeMode: true,
-          iOS: true
-        }
-      });
       this.player.on("loadeddata", () => {
+        this.player.plugins().updateState({
+          title: this.$store.state.api.episode.title,
+          onclick: this.$store.state.api.episode.next_episode_id
+            ? this.nextEpisode
+            : false
+        });
         this.player.markers.removeAll();
         this.player.markers.add(
           this.$store.state.api.episode.ad_breaks.map(ad => {
             return { time: ad.offset_ms / 1000, text: "Skip" };
           })
         );
-        this.player.titleBar({ title: this.$store.state.api.episode.title });
       });
       this.player.on("error", () => {
         console.log("erro");
       });
-      this.player.titleBar();
     },
     async nextEpisode() {
       if (this.$store.state.api.episode.next_episode_id) {
-        await this.$store.dispatch(
+        let error = await this.$store.dispatch(
           "api/SET_EPISODE",
           this.$store.state.api.episode.next_episode_id
         );
-        this.$router.replace({
-          params: { id: this.$store.state.api.episode.next_episode_id }
-        });
-        this.updatePlayer();
+        if (error != false) {
+          this.$router.replace({
+            params: { id: this.$store.state.api.episode.next_episode_id }
+          });
+          this.updatePlayer();
+          return true;
+        }
       }
+      return false;
     }
   }
 };

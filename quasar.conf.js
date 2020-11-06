@@ -28,7 +28,7 @@ module.exports = function(/* ctx */) {
       "videojs-overlay.css",
       "videojs-contextmenu-ui.css",
       "videojs-mobile-ui.css",
-      "videojs-titlebar.scss"
+      "videojs-skip-button.css"
     ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras

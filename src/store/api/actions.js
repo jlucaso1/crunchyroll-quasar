@@ -106,14 +106,16 @@ export async function SET_EPISODE({ commit }, id) {
     method: "get",
     cors: true
   };
-  let { data } = await api(options);
-  let episode = data;
   try {
+    let { data } = await api(options);
+    let episode = data;
     options.endpoint = episode.__links__.streams.href;
     data = await api(options);
     episode.streams = data.data;
-  } catch (err) {}
-  return commit("SET_EPISODE", episode);
+    return commit("SET_EPISODE", episode);
+  } catch (err) {
+    return false;
+  }
 }
 
 export async function SET_SEARCH({ commit }, search_text) {

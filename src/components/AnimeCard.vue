@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-card class="bg-secondary" square>
-      <router-link :to="'/series/' + anime.id" class="cursor-pointer" replace>
+      <router-link :to="'/series/' + anime.id" class="cursor-pointer">
         <q-img :src="anime.images.poster_tall[0][2].source" :ratio="2 / 3" />
         <div class="q-ma-sm">
           <p class="text-white ellipsis-2-lines" style="height: 40px;">

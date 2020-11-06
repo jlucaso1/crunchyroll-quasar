@@ -4,21 +4,22 @@
   </div>
 </template>
 <script>
-import { Loading, LocalStorage } from "quasar";
+import { LocalStorage, Dark, Loading } from "quasar";
 export default {
   name: "App",
   async preFetch({ store }) {
-    Loading.show();
+    Dark.set(true);
     if (
       LocalStorage.getItem("auth") &&
       LocalStorage.getItem("auth").token.expires_in > Date.now()
     ) {
-      await store.commit("api/SET_AUTH", LocalStorage.getItem("auth"));
+      store.commit("api/SET_AUTH", LocalStorage.getItem("auth"));
     } else {
+      Loading.show();
       await store.dispatch("api/SET_AUTH");
+      Loading.hide();
     }
-    await store.dispatch("api/SET_HOME_FEED");
-    Loading.hide();
+    return;
   },
   watch: {
     error() {
@@ -38,11 +39,25 @@ export default {
           ]
         });
       }
+    },
+    sessionExpired() {
+      if (this.sessionExpired) {
+        store.dispatch("api/SET_AUTH");
+      }
     }
   },
   computed: {
     error() {
       return this.$store.state.api.error;
+    },
+    sessionExpired() {
+      if (
+        LocalStorage.getItem("auth") &&
+        LocalStorage.getItem("auth").token.expires_in > Date.now()
+      ) {
+        return false;
+      }
+      return true;
     }
   }
 };

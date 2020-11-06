@@ -13,3 +13,6 @@ export function SET_ANIME(state, data) {
 export function SET_EPISODE(state, data) {
   state.episode = data;
 }
+export function SET_SEARCH(state, data) {
+  state.search_result = data;
+}

@@ -1,30 +1,49 @@
 <template>
   <div>
-    <router-link :to="'/anime/' + anime.id" class="cursor-pointer">
-      <q-card class="bg-secondary" square>
-        <q-img
-          :src="anime.images.poster_tall[0][3].source"
-          :ratio="2 / 3"
-          class="swiper-lazy"
-        />
+    <q-card class="bg-secondary" square>
+      <router-link :to="'/series/' + anime.id" class="cursor-pointer">
+        <q-img :src="anime.images.poster_tall[0][2].source" :ratio="2 / 3" />
         <div class="q-ma-sm">
-          <p class="text-white ellipsis">{{anime.title}}</p>
-          <p class="text-positive text-caption">SÉRIE</p>
+          <p class="text-white ellipsis-2-lines" style="height: 40px;">
+            {{ anime.title }}
+          </p>
+          <p class="text-positive text-caption q-my-sm">{{ $t("series") }}</p>
         </div>
-        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-      </q-card>
-    </router-link>
+      </router-link>
+      <q-btn
+        round
+        flat
+        dense
+        icon="more_vert"
+        class="absolute-bottom-right q-pa-none"
+        ><q-menu auto-close content-class="bg-secondary" anchor="bottom left">
+          <q-list>
+            <q-item clickable :to="'/series/' + anime.id">
+              <q-item-section>{{ $t("watch_now") }}</q-item-section>
+            </q-item>
+            <q-item clickable @click="share()">
+              <q-item-section>{{ $t("share") }}</q-item-section>
+            </q-item>
+          </q-list>
+        </q-menu></q-btn
+      >
+    </q-card>
   </div>
 </template>
 
 <script>
+import { copyToClipboard } from "quasar";
 export default {
-  // name: 'ComponentName',
   data() {
     return {};
   },
   props: {
     anime: Object
+  },
+  methods: {
+    share() {
+      copyToClipboard(window.location.href + "series/" + this.anime.id);
+    }
   }
 };
 </script>

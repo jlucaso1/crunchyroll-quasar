@@ -10,6 +10,7 @@ Metas a serem alcançadas:
 - [x] Sistema de navegação
 - [x] Integração da API da crunchyroll
 - [x] Possibilidade de assistir
+- [x] Internacionalização (Em andamento)
 - [ ] Páginas restantes
 - [ ] Função continuar assistindo
 
@@ -31,18 +32,18 @@ ou
 npm install
 ```
 
-### Inicie o aplicativo em ssr com o seguinte comando
+### Iniciar o projeto em modo de desenvolvimento
 
 ```bash
 quasar dev
 ```
 
-### Fazer a build da aplicação para produção
+### Fazer a build do projeto para produção
 
 ```bash
 quasar build
 ```
 
-### Para mais informações sobre quasar
+### Para mais informações sobre:
 
 Veja [Quasar Framework](https://quasar.dev/).

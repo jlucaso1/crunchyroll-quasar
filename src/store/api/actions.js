@@ -31,9 +31,9 @@ export async function SET_AUTH({ commit }) {
     response = await api(options);
     auth.psk = response.data.cms;
     LocalStorage.set("auth", auth);
-    commit("SET_AUTH", auth);
+    return commit("SET_AUTH", auth);
   } catch (error) {
-    commit("SET_ERROR", "Falha de rede");
+    return commit("SET_ERROR", "Falha de rede");
   }
 }
 export async function SET_HOME_FEED({ commit }) {
@@ -59,14 +59,14 @@ export async function SET_HOME_FEED({ commit }) {
       promise_arr.push(api(new_options));
       feed_item.animes = data;
     }
-    Promise.all(promise_arr).then(teste => {
+    return Promise.all(promise_arr).then(teste => {
       teste.map((res, index) => {
         data.items[index].animes = res.data.items;
       });
-      commit("SET_HOME_FEED", data.items);
+      return commit("SET_HOME_FEED", data.items);
     });
   } catch (err) {
-    commit("SET_ERROR", String(err));
+    return commit("SET_ERROR", String(err));
   }
 }
 export async function SET_ANIME({ commit }, id) {
@@ -86,13 +86,16 @@ export async function SET_ANIME({ commit }, id) {
       ...options,
       endpoint: season.__links__["season/episodes"].href
     };
+    season.title = "S" + season.season_number + " - " + season.title;
     promise_arr.push(api(new_options));
   }
-  Promise.all(promise_arr).then(teste => {
+  return Promise.all(promise_arr).then(teste => {
     teste.map((res, index) => {
-      anime.seasons[index].episodes = res.data.items;
+      anime.seasons[index].episodes = res.data.items.filter(
+        key => key.episode_number != null
+      );
     });
-    commit("SET_ANIME", anime);
+    return commit("SET_ANIME", anime);
   });
 }
 export async function SET_EPISODE({ commit }, id) {
@@ -103,10 +106,30 @@ export async function SET_EPISODE({ commit }, id) {
     method: "get",
     cors: true
   };
+  try {
+    let { data } = await api(options);
+    let episode = data;
+    options.endpoint = episode.__links__.streams.href;
+    data = await api(options);
+    episode.streams = data.data;
+    return commit("SET_EPISODE", episode);
+  } catch (err) {
+    return false;
+  }
+}
+
+export async function SET_SEARCH({ commit }, search_text) {
+  let options = {
+    endpoint: `/content/v1/search`,
+    method: "get",
+    params: { q: search_text, n: 3 },
+    headers: {
+      Authorization: LocalStorage.getItem("auth").token.access_token
+    }
+  };
   let { data } = await api(options);
-  let episode = data;
-  options.endpoint = episode.__links__.streams.href;
-  data = await api(options);
-  episode.streams = data.data;
-  commit("SET_EPISODE", episode);
+  if (data) {
+    return commit("SET_SEARCH", data.items[1].items);
+  }
+  console.error("SEARCH ACTION");
 }

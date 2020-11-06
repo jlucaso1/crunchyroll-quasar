@@ -18,10 +18,18 @@ module.exports = function(/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
-    boot: ["i18n", "axios"],
+    boot: ["axios", "i18n"],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
-    css: ["app.sass", "~swiper/swiper.scss"],
+    css: [
+      "~swiper/swiper.scss",
+      "~video.js/dist/video-js.min.css",
+      "videojs.markers.css",
+      "videojs-overlay.css",
+      "videojs-contextmenu-ui.css",
+      "videojs-mobile-ui.css",
+      "videojs-skip-button.css"
+    ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -72,23 +80,30 @@ module.exports = function(/* ctx */) {
     devServer: {
       https: false,
       port: 8080,
-      open: false, // opens browser window automatically
-      proxy: {
-        "/cdn": {
-          target: "http://img1.ak.crunchyroll.com",
-          changeOrigin: true,
-          pathRewrite: {
-            "^/cdn": ""
-          }
-        },
-        "/pl-proxy": {
-          target: "https://pl.crunchyroll.com",
-          changeOrigin: true,
-          pathRewrite: {
-            "^/pl-proxy": ""
-          }
-        }
-      }
+      open: false // opens browser window automatically
+      // proxy: {
+      //   "/cdn": {
+      //     target: "http://img1.ak.crunchyroll.com",
+      //     changeOrigin: true,
+      //     pathRewrite: {
+      //       "^/cdn": ""
+      //     }
+      //   },
+      //   "/pl-proxy": {
+      //     target: "https://pl.crunchyroll.com",
+      //     changeOrigin: true,
+      //     pathRewrite: {
+      //       "^/pl-proxy": ""
+      //     }
+      //   },
+      //   "/cms": {
+      //     target: "https://beta-api.crunchyroll.com/",
+      //     changeOrigin: true,
+      //     pathRewrite: {
+      //       "^/cms": ""
+      //     }
+      //   }
+      // }
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
@@ -123,7 +138,7 @@ module.exports = function(/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ["Loading", "LocalStorage", "Notify"]
+      plugins: ["Loading", "LocalStorage", "Notify", "Meta"]
     },
 
     // animations: 'all', // --- includes all animations
@@ -139,14 +154,14 @@ module.exports = function(/* ctx */) {
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
       workboxPluginMode: "GenerateSW", // 'GenerateSW' or 'InjectManifest'
-      workboxOptions: {}, // only for GenerateSW
+      workboxOptions: { skipWaiting: true, clientsClaim: true }, // only for GenerateSW
       manifest: {
         name: `Crunchyroll Quasar`,
         short_name: `Crunchyroll Quasar`,
-        description: `A Quasar Framework app`,
-        display: "standalone",
-        orientation: "portrait",
-        background_color: "#ffffff",
+        description: `Cópia da Crunchyroll feita em Vue`,
+        display: "fullscreen",
+        orientation: "portrait-primary",
+        background_color: "#FC791E",
         theme_color: "#027be3",
         icons: [
           {

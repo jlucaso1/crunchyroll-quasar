@@ -1,9 +1,13 @@
 import { axios } from "boot/axios";
 import { LocalStorage } from "quasar";
 
-export const LOCALE = "pt-BR";
-export const VERSION = "1.1.20.0";
-export const CONNECTIVITY_TYPE = "ethernet";
+export function LOCALE() {
+  let lang = LocalStorage.getItem("locale");
+  lang = lang.split("-");
+  lang[1] = lang[1].toUpperCase();
+  lang = lang.join("-");
+  return lang;
+}
 
 export default function api(opts) {
   const config = {
@@ -12,7 +16,7 @@ export default function api(opts) {
       opts.cors ? "https://crunchyroll-quasar.herokuapp.com/" : ""
     }https://beta-api.crunchyroll.com${opts.endpoint}`,
     params: {
-      locale: LOCALE,
+      locale: LOCALE(),
       ...opts.params
     },
     data: opts.data,

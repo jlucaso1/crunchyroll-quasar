@@ -1,62 +1,105 @@
 <template>
-  <q-page>
-    <div id="dplayer"></div>
+  <q-page v-if="$store.state.api.episode">
+    <!-- <q-header ref="header">
+      <q-btn
+        icon="o_arrow_back"
+        flat
+        outline
+        color="white"
+        class="absolute-top-left"
+        dense
+        :to="'/series/' + $store.state.api.episode.series_id"
+        replace
+      />
+      <q-btn
+        v-if="$store.state.api.episode.next_episode_id"
+        icon="skip_next"
+        class="fixed-top-right"
+        flat
+        dense
+        outline
+        @click="$refs.player.nextEpisode()"
+      ></q-btn>
+      <div
+        class="fixed-top text-center q-my-xs q-mx-xl ellipsis text-subtitle1"
+      >
+        {{ this.title }}
+      </div>
+    </q-header> -->
+    <Player
+      ref="player"
+      v-if="!$store.state.api.episode.is_premium_only"
+      :options="source"
+    />
+    <div v-else class="text-white absolute-center text-h5 text-center">
+      Esse conteúdo é somente para premium
+    </div>
+    <q-dialog v-model="alert" @hide="$router.back()" persistent>
+      <q-card class="bg-secondary">
+        <q-card-section>
+          <div class="text-h6">{{ $t("error") }}</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          {{ $t("without_subtitle") }}
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat :label="$t('back')" color="warning" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
-import DPlayer from "dplayer";
-import dashjs from "dashjs";
-// import Hls from "hls.js";
-
+import { Loading, AppFullscreen } from "quasar";
+import Player from "components/Player.vue";
 export default {
-  // name: 'PageName',
+  components: { Player },
   data() {
     return {
-      player: null
+      player: {},
+      alert: false,
+      options: {}
     };
   },
-  created() {
-    this.$store.dispatch("api/SET_EPISODE", this.$route.params.episode_id);
+  async created() {
+    await this.$store.commit("api/SET_EPISODE", null);
+    await this.$store.dispatch("api/SET_EPISODE", this.$route.params.id);
   },
-  mounted() {},
+  meta() {
+    return {
+      title: this.title
+    };
+  },
   computed: {
-    episode() {
-      return this.$store.state.api.episode;
+    source() {
+      return (
+        this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
+          this.locale
+        ].url || ""
+      );
     },
-    streamUrl() {
-      let url = this.episode.streams.streams.adaptive_dash["pt-BR"].url;
-      return `https://crunchyroll-quasar.herokuapp.com/${url}`;
-    }
-  },
-  watch: {
-    episode() {
-      if (this.episode) {
-        this.player = new DPlayer({
-          container: document.getElementById("dplayer"),
-          video: {
-            autoplay: true,
-            preload: "auto",
-            url: this.streamUrl,
-            pic: this.episode.images.thumbnail[0][4].source,
-            type: "customDash",
-            customType: {
-              customDash: function(video, player) {
-                dashjs
-                  .MediaPlayer()
-                  .create()
-                  .initialize(video, video.src, false);
-              }
-            }
-          },
-          highlight: this.episode.ad_breaks.map(ad => {
-            return {
-              text: "Skipper",
-              time: ad.offset_ms / 1000
-            };
-          })
-        });
-        this.player.fullScreen.request("web");
+    locale() {
+      let lang = this.$q.localStorage.getItem("locale");
+      lang = lang.split("-");
+      lang[1] = lang[1].toUpperCase();
+      lang = lang.join("-");
+      return lang;
+    },
+    title() {
+      try {
+        return (
+          "S" +
+          this.$store.state.api.episode.season_number +
+          "-E" +
+          this.$store.state.api.episode.episode_number +
+          ": " +
+          this.$store.state.api.episode.title
+        );
+      } catch (error) {
+        return "Carregando...";
       }
     }
   }

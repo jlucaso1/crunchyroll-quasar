@@ -7,19 +7,25 @@ const routes = [
       { path: "list", component: () => import("pages/Index.vue") },
       { path: "catalog", component: () => import("pages/Index.vue") },
       { path: "simulcasts", component: () => import("pages/Index.vue") },
-      { path: "settings", component: () => import("pages/Index.vue") }
+      { path: "settings", component: () => import("pages/Settings.vue") }
     ]
   },
   {
-    path: "/anime/",
+    path: "/series/",
     component: () => import("layouts/Secondary.vue"),
     children: [
       {
         path: ":id",
         component: () => import("pages/Anime.vue")
-      },
+      }
+    ]
+  },
+  {
+    path: "/watch/",
+    component: () => import("layouts/Secondary.vue"),
+    children: [
       {
-        path: ":anime_id/:episode_id",
+        path: ":id",
         component: () => import("pages/Episode.vue")
       }
     ]

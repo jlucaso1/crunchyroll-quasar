@@ -59,7 +59,6 @@ export default {
   components: { Player },
   data() {
     return {
-      player: {},
       alert: false,
       options: {}
     };
@@ -76,7 +75,7 @@ export default {
   computed: {
     source() {
       return (
-        this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
+        this.$store.state.api.episode.streams.streams.vo_adaptive_dash[
           this.locale
         ].url || ""
       );

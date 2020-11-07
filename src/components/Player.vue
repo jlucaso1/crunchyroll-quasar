@@ -1,16 +1,16 @@
 <template>
   <div>
-    <video ref="videoPlayer" class="video-js"></video>
+    <video
+      ref="videoPlayer"
+      class="video-js vjs-big-play-centered vjs-show-big-play-button-on-pause"
+    ></video>
   </div>
 </template>
 
 <script>
 import videojs from "video.js";
 
-import "../lib/player/videojs-mobile-ui.es";
-import "../lib/player/videojs-contextmenu-ui.es";
 import "../lib/player/videojs-markers";
-import "../lib/player/videojs-overlay.es";
 import "../lib/player/videojs-landscape-fullscreen.min";
 import "../lib/player/videojs-plugins";
 export default {
@@ -37,10 +37,10 @@ export default {
   methods: {
     updatePlayer() {
       if (this.player) {
-        this.player.reset();
+        // this.player.reset();
         this.player.src({
           src: this.options,
-          type: "application/x-mpegURL"
+          type: "application/dash+xml"
         });
       }
     },
@@ -52,18 +52,21 @@ export default {
     createPlayer() {
       this.player = videojs(this.$refs.videoPlayer, {
         controls: true,
-        autoplay: true,
+        autoplay: false,
         preload: "auto",
         sources: [
           {
             src: this.options,
-            type: "application/x-mpegURL"
+            type: "application/dash+xml"
           }
         ],
         aspectRatio: "16:9",
         fill: true,
         plugins: {
           markers: {
+            markers: this.$store.state.api.episode.ad_breaks.map(ad => {
+              return { time: ad.offset_ms / 1000, text: "Skip" };
+            }),
             markerTip: {
               display: false
             },
@@ -71,16 +74,6 @@ export default {
               width: "2px",
               "background-color": "white"
             }
-          },
-          contextmenuUI: {
-            content: [
-              {
-                label: "Próximo episódio",
-                listener: () => {
-                  this.nextEpisode();
-                }
-              }
-            ]
           },
           landscapeFullscreen: {
             fullscreen: {
@@ -90,10 +83,7 @@ export default {
             }
           },
           plugins: {
-            title: this.$store.state.api.episode.title,
-            onclick: this.$store.state.api.episode.next_episode_id
-              ? this.nextEpisode
-              : false
+            onclick: this.nextEpisode
           }
         }
       });
@@ -105,22 +95,22 @@ export default {
           this.player.requestFullscreen();
         }
       });
-      this.player.on("loadeddata", () => {
+      this.player.on("loadstart", () => {
         this.player.plugins().updateState({
-          title: this.$store.state.api.episode.title,
-          onclick: this.$store.state.api.episode.next_episode_id
-            ? this.nextEpisode
-            : false
+          title:
+            "S" +
+            this.$store.state.api.episode.season_number +
+            "-E" +
+            this.$store.state.api.episode.episode_number +
+            ": " +
+            this.$store.state.api.episode.title,
+          onclick: this.nextEpisode
         });
-        this.player.markers.removeAll();
-        this.player.markers.add(
+        this.player.markers.reset(
           this.$store.state.api.episode.ad_breaks.map(ad => {
             return { time: ad.offset_ms / 1000, text: "Skip" };
           })
         );
-      });
-      this.player.on("error", () => {
-        console.log("erro");
       });
     },
     async nextEpisode() {
@@ -135,6 +125,11 @@ export default {
           });
           this.updatePlayer();
           return true;
+        } else {
+          this.$q.dialog({
+            title: "Alerta",
+            message: "O próximo episódio só está disponível para premium"
+          });
         }
       }
       return false;
@@ -156,4 +151,11 @@ export default {
 .text-shadow {
   text-shadow: 1px 1px black;
 }
+/* .video-js .vjs-big-play-button {
+  background-color: transparent;
+  border-radius: 0.6em;
+}
+.video-js .vjs-big-play-button .vjs-icon-placeholder:before {
+  color: #fc791e;
+} */
 </style>

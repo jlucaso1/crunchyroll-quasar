@@ -33,6 +33,7 @@ export async function SET_AUTH({ commit }) {
     LocalStorage.set("auth", auth);
     return commit("SET_AUTH", auth);
   } catch (error) {
+    console.error("FAILED TO AUTHENTICATE");
     return commit("SET_ERROR", "Falha de rede");
   }
 }
@@ -66,6 +67,7 @@ export async function SET_HOME_FEED({ commit }) {
       return commit("SET_HOME_FEED", data.items);
     });
   } catch (err) {
+    console.error("FAILED TO SET HOME FEED");
     return commit("SET_ERROR", String(err));
   }
 }
@@ -109,13 +111,18 @@ export async function SET_EPISODE({ commit }, id) {
   try {
     let { data } = await api(options);
     let episode = data;
-    options.endpoint = episode.__links__.streams.href;
-    data = await api(options);
-    episode.streams = data.data;
-    return commit("SET_EPISODE", episode);
+    if (!episode.is_premium_only) {
+      options.endpoint = episode.__links__.streams.href;
+      data = await api(options);
+      episode.streams = data.data;
+      return commit("SET_EPISODE", episode);
+    } else {
+      console.error("THIS EPISODE IS PREMIUM ONLY");
+    }
   } catch (err) {
-    return false;
+    console.error("FAILED TO CATCH EPISODE");
   }
+  return false;
 }
 
 export async function SET_SEARCH({ commit }, search_text) {

@@ -8,25 +8,49 @@
 </template>
 
 <script>
-import videojs from "video.js";
+import { LocalStorage } from "quasar";
 
+import videojs from "video.js";
 import "../lib/player/videojs-markers";
 import "../lib/player/videojs-landscape-fullscreen.min";
 import "../lib/player/videojs-plugins";
+
 export default {
   name: "VideoPlayer",
-  props: {
-    options: {
-      type: String,
-      default() {
-        return "";
-      }
-    }
-  },
   data() {
     return {
       player: null
     };
+  },
+  computed: {
+    source() {
+      return (
+        this.$store.state.api.episode.streams.streams.vo_adaptive_dash[
+          this.locale
+        ].url || ""
+      );
+    },
+    locale() {
+      let lang = this.$q.localStorage.getItem("locale");
+      lang = lang.split("-");
+      lang[1] = lang[1].toUpperCase();
+      lang = lang.join("-");
+      return lang;
+    },
+    title() {
+      try {
+        return (
+          "S" +
+          this.$store.state.api.episode.season_number +
+          "-E" +
+          this.$store.state.api.episode.episode_number +
+          ": " +
+          this.$store.state.api.episode.title
+        );
+      } catch (error) {
+        return "Carregando...";
+      }
+    }
   },
   mounted() {
     this.createPlayer();
@@ -37,9 +61,9 @@ export default {
   methods: {
     updatePlayer() {
       if (this.player) {
-        // this.player.reset();
+        this.player.off("timeupdate");
         this.player.src({
-          src: this.options,
+          src: this.source,
           type: "application/dash+xml"
         });
       }
@@ -52,11 +76,11 @@ export default {
     createPlayer() {
       this.player = videojs(this.$refs.videoPlayer, {
         controls: true,
-        autoplay: false,
+        autoplay: true,
         preload: "auto",
         sources: [
           {
-            src: this.options,
+            src: this.source,
             type: "application/dash+xml"
           }
         ],
@@ -65,7 +89,7 @@ export default {
         plugins: {
           markers: {
             markers: this.$store.state.api.episode.ad_breaks.map(ad => {
-              return { time: ad.offset_ms / 1000, text: "Skip" };
+              return { time: ad.offset_ms / 1000 };
             }),
             markerTip: {
               display: false
@@ -83,7 +107,9 @@ export default {
             }
           },
           plugins: {
-            onclick: this.nextEpisode
+            onclick: () => {
+              this.nextEpisode();
+            }
           }
         }
       });
@@ -97,20 +123,53 @@ export default {
       });
       this.player.on("loadstart", () => {
         this.player.plugins().updateState({
-          title:
-            "S" +
-            this.$store.state.api.episode.season_number +
-            "-E" +
-            this.$store.state.api.episode.episode_number +
-            ": " +
-            this.$store.state.api.episode.title,
-          onclick: this.nextEpisode
+          title: this.title
         });
         this.player.markers.reset(
           this.$store.state.api.episode.ad_breaks.map(ad => {
-            return { time: ad.offset_ms / 1000, text: "Skip" };
+            return { time: ad.offset_ms / 1000 };
           })
         );
+
+        // SAVE EPISODE ON LOCAL STORAGE
+        if (
+          LocalStorage.getItem("watch_later") &&
+          LocalStorage.getItem("watch_later")[
+            this.$store.state.api.episode.series_id
+          ] &&
+          LocalStorage.getItem("watch_later")[
+            this.$store.state.api.episode.series_id
+          ].episode.id == this.$store.state.api.episode.id
+        ) {
+          this.player.autoplay(false);
+          this.player.pause();
+          this.$q
+            .dialog({
+              message: "Deseja continuar o episódio?",
+              persistent: true,
+              ok: { label: "Sim" },
+              cancel: { label: "Não" }
+            })
+            .onOk(() => {
+              this.player.currentTime(
+                LocalStorage.getItem("watch_later")[
+                  this.$store.state.api.episode.series_id
+                ].timestamp
+              );
+              this.player.play();
+            })
+            .onCancel(() => {
+              this.player.play();
+            });
+        }
+        this.player.on("timeupdate", () => {
+          let updated = { ...LocalStorage.getItem("watch_later") };
+          updated[this.$store.state.api.episode.series_id] = {
+            timestamp: this.player.currentTime(),
+            episode: this.$store.state.api.episode
+          };
+          LocalStorage.set("watch_later", updated);
+        });
       });
     },
     async nextEpisode() {
@@ -126,14 +185,21 @@ export default {
           this.updatePlayer();
           return true;
         } else {
+          if (this.player.isFullscreen()) {
+            this.player.exitFullscreen();
+          }
           this.$q.dialog({
             title: "Alerta",
             message: "O próximo episódio só está disponível para premium"
           });
         }
       }
-      return false;
     }
+  },
+  meta() {
+    return {
+      title: this.title
+    };
   }
 };
 </script>

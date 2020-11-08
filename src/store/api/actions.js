@@ -129,7 +129,7 @@ export async function SET_SEARCH({ commit }, search_text) {
   let options = {
     endpoint: `/content/v1/search`,
     method: "get",
-    params: { q: search_text, n: 3 },
+    params: { q: search_text },
     headers: {
       Authorization: LocalStorage.getItem("auth").token.access_token
     }
@@ -138,5 +138,5 @@ export async function SET_SEARCH({ commit }, search_text) {
   if (data) {
     return commit("SET_SEARCH", data.items[1].items);
   }
-  console.error("SEARCH ACTION");
+  return console.error("SEARCH ACTION");
 }

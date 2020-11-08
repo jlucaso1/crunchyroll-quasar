@@ -25,7 +25,7 @@ module.exports = function(/* ctx */) {
       "~swiper/swiper.scss",
       "~video.js/dist/video-js.min.css",
       "videojs.markers.css",
-      "videojs-skip-button.css"
+      "videojs-plugins.css"
     ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras

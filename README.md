@@ -11,8 +11,10 @@ Metas a serem alcançadas:
 - [x] Integração da API da crunchyroll
 - [x] Possibilidade de assistir
 - [x] Internacionalização (Em andamento)
+- [x] Função continuar assistindo
 - [ ] Páginas restantes
-- [ ] Função continuar assistindo
+- [ ] Logar pela crunchyroll
+- [ ] Sincronizar com a conta da crunchyroll
 
 Preview do projeto
 

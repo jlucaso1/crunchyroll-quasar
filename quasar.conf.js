@@ -25,10 +25,7 @@ module.exports = function(/* ctx */) {
       "~swiper/swiper.scss",
       "~video.js/dist/video-js.min.css",
       "videojs.markers.css",
-      "videojs-overlay.css",
-      "videojs-contextmenu-ui.css",
-      "videojs-mobile-ui.css",
-      "videojs-skip-button.css"
+      "videojs-plugins.css"
     ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
@@ -138,7 +135,7 @@ module.exports = function(/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ["Loading", "LocalStorage", "Notify", "Meta"]
+      plugins: ["Loading", "LocalStorage", "Notify", "Meta", "Dialog"]
     },
 
     // animations: 'all', // --- includes all animations

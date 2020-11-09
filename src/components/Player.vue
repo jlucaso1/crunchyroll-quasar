@@ -1,32 +1,56 @@
 <template>
   <div>
-    <video ref="videoPlayer" class="video-js"></video>
+    <video
+      ref="videoPlayer"
+      class="video-js vjs-big-play-centered vjs-show-big-play-button-on-pause"
+    ></video>
   </div>
 </template>
 
 <script>
-import videojs from "video.js";
+import { LocalStorage } from "quasar";
 
-import "../lib/player/videojs-mobile-ui.es";
-import "../lib/player/videojs-contextmenu-ui.es";
+import videojs from "video.js";
 import "../lib/player/videojs-markers";
-import "../lib/player/videojs-overlay.es";
 import "../lib/player/videojs-landscape-fullscreen.min";
 import "../lib/player/videojs-plugins";
+
 export default {
   name: "VideoPlayer",
-  props: {
-    options: {
-      type: String,
-      default() {
-        return "";
-      }
-    }
-  },
   data() {
     return {
       player: null
     };
+  },
+  computed: {
+    source() {
+      return (
+        this.$store.state.api.episode.streams.streams.vo_adaptive_dash[
+          this.locale
+        ].url || ""
+      );
+    },
+    locale() {
+      let lang = this.$q.localStorage.getItem("locale");
+      lang = lang.split("-");
+      lang[1] = lang[1].toUpperCase();
+      lang = lang.join("-");
+      return lang;
+    },
+    title() {
+      try {
+        return (
+          "S" +
+          this.$store.state.api.episode.season_number +
+          "-E" +
+          this.$store.state.api.episode.episode_number +
+          ": " +
+          this.$store.state.api.episode.title
+        );
+      } catch (error) {
+        return "Carregando...";
+      }
+    }
   },
   mounted() {
     this.createPlayer();
@@ -37,10 +61,10 @@ export default {
   methods: {
     updatePlayer() {
       if (this.player) {
-        this.player.reset();
+        this.player.off("timeupdate");
         this.player.src({
-          src: this.options,
-          type: "application/x-mpegURL"
+          src: this.source,
+          type: "application/dash+xml"
         });
       }
     },
@@ -56,14 +80,17 @@ export default {
         preload: "auto",
         sources: [
           {
-            src: this.options,
-            type: "application/x-mpegURL"
+            src: this.source,
+            type: "application/dash+xml"
           }
         ],
         aspectRatio: "16:9",
         fill: true,
         plugins: {
           markers: {
+            markers: this.$store.state.api.episode.ad_breaks.map(ad => {
+              return { time: ad.offset_ms / 1000 };
+            }),
             markerTip: {
               display: false
             },
@@ -71,16 +98,6 @@ export default {
               width: "2px",
               "background-color": "white"
             }
-          },
-          contextmenuUI: {
-            content: [
-              {
-                label: "Próximo episódio",
-                listener: () => {
-                  this.nextEpisode();
-                }
-              }
-            ]
           },
           landscapeFullscreen: {
             fullscreen: {
@@ -90,10 +107,9 @@ export default {
             }
           },
           plugins: {
-            title: this.$store.state.api.episode.title,
-            onclick: this.$store.state.api.episode.next_episode_id
-              ? this.nextEpisode
-              : false
+            onclick: () => {
+              this.nextEpisode();
+            }
           }
         }
       });
@@ -105,22 +121,55 @@ export default {
           this.player.requestFullscreen();
         }
       });
-      this.player.on("loadeddata", () => {
+      this.player.on("loadstart", () => {
         this.player.plugins().updateState({
-          title: this.$store.state.api.episode.title,
-          onclick: this.$store.state.api.episode.next_episode_id
-            ? this.nextEpisode
-            : false
+          title: this.title
         });
-        this.player.markers.removeAll();
-        this.player.markers.add(
+        this.player.markers.reset(
           this.$store.state.api.episode.ad_breaks.map(ad => {
-            return { time: ad.offset_ms / 1000, text: "Skip" };
+            return { time: ad.offset_ms / 1000 };
           })
         );
-      });
-      this.player.on("error", () => {
-        console.log("erro");
+
+        // SAVE EPISODE ON LOCAL STORAGE
+        if (
+          LocalStorage.getItem("watch_later") &&
+          LocalStorage.getItem("watch_later")[
+            this.$store.state.api.episode.series_id
+          ] &&
+          LocalStorage.getItem("watch_later")[
+            this.$store.state.api.episode.series_id
+          ].episode.id == this.$store.state.api.episode.id
+        ) {
+          this.player.autoplay(false);
+          this.player.pause();
+          this.$q
+            .dialog({
+              message: "Deseja continuar o episódio?",
+              persistent: true,
+              ok: { label: "Sim" },
+              cancel: { label: "Não" }
+            })
+            .onOk(() => {
+              this.player.currentTime(
+                LocalStorage.getItem("watch_later")[
+                  this.$store.state.api.episode.series_id
+                ].timestamp
+              );
+              this.player.play();
+            })
+            .onCancel(() => {
+              this.player.play();
+            });
+        }
+        this.player.on("timeupdate", () => {
+          let updated = { ...LocalStorage.getItem("watch_later") };
+          updated[this.$store.state.api.episode.series_id] = {
+            timestamp: this.player.currentTime(),
+            episode: this.$store.state.api.episode
+          };
+          LocalStorage.set("watch_later", updated);
+        });
       });
     },
     async nextEpisode() {
@@ -135,10 +184,22 @@ export default {
           });
           this.updatePlayer();
           return true;
+        } else {
+          if (this.player.isFullscreen()) {
+            this.player.exitFullscreen();
+          }
+          this.$q.dialog({
+            title: "Alerta",
+            message: "O próximo episódio só está disponível para premium"
+          });
         }
       }
-      return false;
     }
+  },
+  meta() {
+    return {
+      title: this.title
+    };
   }
 };
 </script>
@@ -156,4 +217,11 @@ export default {
 .text-shadow {
   text-shadow: 1px 1px black;
 }
+/* .video-js .vjs-big-play-button {
+  background-color: transparent;
+  border-radius: 0.6em;
+}
+.video-js .vjs-big-play-button .vjs-icon-placeholder:before {
+  color: #fc791e;
+} */
 </style>

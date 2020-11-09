@@ -40,21 +40,13 @@ class Plugins extends Plugin {
 
       this.button = document.createElement("BUTTON");
       this.button.className = "vjs-icon-next-item";
-      this.button.onclick = () => {
-        options.onclick();
-      };
+      this.button.onclick = options.onclick;
       divPrincipal.appendChild(this.button);
-      this.title.innerHTML = options.title;
       player.el().appendChild(divPrincipal);
     });
   }
   updateState(options) {
     this.title.innerHTML = options.title;
-    if (!options.onclick) {
-      this.button.setAttribute("disabled", "disabled");
-    } else {
-      this.button.removeAttribute("disabled");
-    }
   }
 }
 

@@ -1,5 +1,7 @@
 <template>
   <q-page>
+    <div class="text-h5 q-my-md">Continue Assistindo</div>
+    <div class="absolute-center text-center text-h6 text-warning full-width" v-if="!watch_later">Assista qualquer anime para assistir depois</div>
     <router-link
       :to="'/watch/' + item.episode.id"
       v-for="item in watch_later"
@@ -62,7 +64,7 @@ import { LocalStorage } from "quasar";
 export default {
   computed: {
     watch_later() {
-      return LocalStorage.getItem("watch_later") || {};
+      return LocalStorage.getItem("watch_later") || null;
     }
   }
 };

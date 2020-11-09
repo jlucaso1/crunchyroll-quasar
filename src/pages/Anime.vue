@@ -111,7 +111,6 @@
               <q-img
                 :src="episode.images.thumbnail[0][2].source"
                 class="col-5"
-                native-context-menu
               >
                 <div
                   class="absolute-bottom-right text-subtitle2 q-ma-xs"

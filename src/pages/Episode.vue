@@ -16,21 +16,6 @@
     <div v-else class="text-white absolute-center text-h5 text-center">
       Esse conteúdo é somente para premium
     </div>
-    <!-- <q-dialog v-model="alert" @hide="$router.back()" persistent>
-      <q-card class="bg-secondary">
-        <q-card-section>
-          <div class="text-h6">{{ $t("error") }}</div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          {{ $t("without_subtitle") }}
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat :label="$t('back')" color="warning" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog> -->
   </q-page>
 </template>
 
@@ -49,6 +34,7 @@ export default {
     await this.$store.commit("api/SET_EPISODE", null);
     await this.$store.dispatch("api/SET_EPISODE", this.$route.params.id);
     Loading.hide();
+    return
   }
 };
 </script>

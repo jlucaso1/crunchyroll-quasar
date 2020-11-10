@@ -72,8 +72,8 @@
       </q-card>
     </q-dialog>
     <div class="justify-center full-width flex">
-      <q-btn @click="anime_infos = true">
-        <p class="text-warning ">{{ $t("series_details") }} ></p>
+      <q-btn @click="anime_infos = true" dense>
+        <p class="text-warning q-my-sm">{{ $t("series_details") }} ></p>
       </q-btn>
     </div>
     <q-tabs
@@ -93,7 +93,14 @@
       <q-tab-panel name="episodes" class="bg-dark">
         <q-select borderless dark v-model="season" :options="seasons" dense />
         <q-separator dark />
-        <q-btn dense icon="o_sort" color="white" outline flat> </q-btn>
+        <q-btn
+          dense
+          icon="o_sort"
+          color="white"
+          outline
+          flat
+          @click="reverse_season"
+        />
         <router-link
           :to="'/watch/' + episode.id"
           v-for="episode in season.value.episodes"
@@ -108,10 +115,7 @@
               v-if="episode.is_premium_only"
             />
             <q-card-section horizontal>
-              <q-img
-                :src="episode.images.thumbnail[0][2].source"
-                class="col-5"
-              >
+              <q-img :src="episode.images.thumbnail[0][2].source" class="col-5">
                 <div
                   class="absolute-bottom-right text-subtitle2 q-ma-xs"
                   style="padding: 1px; font-size: 10px;"
@@ -194,16 +198,22 @@ export default {
       Loading.hide();
     }
   },
-  created() {
+  beforeMount() {
     this.seasons = this.$store.state.api.anime.seasons.map(season => {
       return { value: season, label: season.title };
     });
-    this.season = this.seasons[0];
+    this.season =  this.seasons[0]
   },
   meta() {
     return {
       title: this.$store.state.api.anime.title
     };
+  },
+  methods: {
+    reverse_season() {
+      console.log(this.season.value.episodes);
+      this.season.value.episodes = this.season.value.episodes.reverse();
+    }
   }
 };
 </script>

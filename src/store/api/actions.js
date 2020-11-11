@@ -71,7 +71,8 @@ export async function SET_HOME_FEED({ commit }) {
     return commit("SET_ERROR", String(err));
   }
 }
-export async function SET_ANIME({ commit }, id) {
+export async function SET_ANIME({ commit, dispatch }, id) {
+  dispatch("SET_SIMILAR", id);
   let options = {
     endpoint: `/cms/v2${LocalStorage.getItem("auth").psk.bucket}/series/${id}`,
     method: "get",
@@ -91,14 +92,31 @@ export async function SET_ANIME({ commit }, id) {
     season.title = "S" + season.season_number + " - " + season.title;
     promise_arr.push(api(new_options));
   }
-  return Promise.all(promise_arr).then(teste => {
+  await Promise.all(promise_arr).then(async teste => {
     teste.map((res, index) => {
       anime.seasons[index].episodes = res.data.items.filter(
         key => key.episode_number != null
       );
     });
-    return commit("SET_ANIME", anime);
   });
+  commit("SET_ANIME", anime);
+  return;
+}
+export async function SET_SIMILAR({ commit }, id) {
+  let options = {
+    endpoint: "/content/v1/similar_to",
+    method: "get",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: LocalStorage.getItem("auth").token.access_token
+    },
+    params: {
+      n: 10,
+      guid: id
+    }
+  };
+  let { data } = await api(options);
+  commit("SET_SIMILAR", data.items);
 }
 export async function SET_EPISODE({ commit }, id) {
   let options = {
@@ -115,7 +133,8 @@ export async function SET_EPISODE({ commit }, id) {
       options.endpoint = episode.__links__.streams.href;
       data = await api(options);
       episode.streams = data.data;
-      return commit("SET_EPISODE", episode);
+      commit("SET_EPISODE", episode);
+      return true;
     } else {
       console.error("THIS EPISODE IS PREMIUM ONLY");
     }

@@ -33,8 +33,8 @@ export default {
     Loading.show();
     await this.$store.commit("api/SET_EPISODE", null);
     await this.$store.dispatch("api/SET_EPISODE", this.$route.params.id);
-    Loading.hide();
-    return
+
+    return Loading.hide();
   }
 };
 </script>

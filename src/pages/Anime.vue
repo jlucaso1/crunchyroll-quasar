@@ -1,6 +1,6 @@
 <template>
-  <q-page v-if="$store.state.api.anime">
-    <q-header>
+  <q-page v-if="anime">
+    <q-header ref="header">
       <q-btn
         icon="o_arrow_back"
         flat
@@ -21,18 +21,18 @@
     </q-header>
     <q-img
       :ratio="10 / 9"
-      :src="$store.state.api.anime.images.poster_tall[0][8].source"
+      :src="anime.images.poster_tall[0][8].source"
       class="poster"
     >
       <section class="absolute-bottom q-mx-sm" style="z-index: 1">
         <p class="text-h6 q-ma-none">
-          {{ $store.state.api.anime.title }}
+          {{ anime.title }}
         </p>
         <p class="text-primary text-subtitle2 q-ma-none">{{ $t("series") }}</p>
       </section>
     </q-img>
     <div class="ellipsis-2-lines text-grey q-mx-sm">
-      {{ $store.state.api.anime.description }}
+      {{ anime.description }}
     </div>
     <q-dialog v-model="anime_infos" maximized>
       <q-card dark>
@@ -40,32 +40,32 @@
           <q-btn icon="close" flat round dense v-close-popup class="q-pr-lg" />
           <q-space />
           <div class="text-h6 ellipsis">
-            {{ $store.state.api.anime.title
+            {{ anime.title
             }}<q-tooltip>
-              {{ $store.state.api.anime.title }}
+              {{ anime.title }}
             </q-tooltip>
           </div>
         </q-card-section>
         <q-card-section>
           <div class="q-mb-lg">
-            {{ $store.state.api.anime.description }}
+            {{ anime.description }}
           </div>
           <div class="row q-my-sm">
             <div class="text-subtitle2">{{ $t("total_episodes") }}</div>
             <q-space />
-            <div>{{ $store.state.api.anime.media_count }}</div>
+            <div>{{ anime.media_count }}</div>
           </div>
           <q-separator dark />
           <div class="row q-my-sm">
             <div class="text-subtitle2">{{ $t("age_rating") }}</div>
             <q-space />
-            <div>{{ $store.state.api.anime.maturity_ratings[0] }}</div>
+            <div>{{ anime.maturity_ratings[0] }}</div>
           </div>
           <q-separator dark />
           <div class="row q-my-sm">
             <div class="text-subtitle2">{{ $t("distributor") }}</div>
             <q-space />
-            <div>{{ $store.state.api.anime.content_provider }}</div>
+            <div>{{ anime.content_provider }}</div>
           </div>
           <q-separator dark />
         </q-card-section>
@@ -149,13 +149,14 @@
         </router-link>
       </q-tab-panel>
 
-      <q-tab-panel name="similars" class="bg-dark similars">
-        <div></div>
-        <!-- <AnimeCard
-          v-for="index in 5"
-          :anime="$store.state.api.home_feed[0].animes[index]"
-          :key="index"
-        /> -->
+      <q-tab-panel name="similars" class="bg-dark">
+        <div class="similars">
+          <AnimeCard
+            v-for="anime in anime.similar"
+            :anime="anime"
+            :key="anime.id"
+          />
+        </div>
       </q-tab-panel>
     </q-tab-panels>
     <q-footer class="bg-dark flex justify-center q-mx-sm">
@@ -177,7 +178,7 @@
 import AnimeCard from "components/AnimeCard.vue";
 import { Loading } from "quasar";
 export default {
-  // components: { AnimeCard },
+  components: { AnimeCard },
   data() {
     return {
       tab: "episodes",
@@ -187,32 +188,38 @@ export default {
     };
   },
   async preFetch({ store, currentRoute }) {
-    if (
-      !(
-        store.state.api.anime &&
-        store.state.api.anime.id == currentRoute.params.id
-      )
-    ) {
-      Loading.show();
-      await store.dispatch("api/SET_ANIME", currentRoute.params.id);
-      Loading.hide();
-    }
+    Loading.show();
+    await store.dispatch("api/SET_ANIME", currentRoute.params.id);
+
+    return Loading.hide();
   },
-  beforeMount() {
-    this.seasons = this.$store.state.api.anime.seasons.map(season => {
-      return { value: season, label: season.title };
-    });
-    this.season =  this.seasons[0]
+  created() {
+    this.update_seasons();
   },
   meta() {
     return {
       title: this.$store.state.api.anime.title
     };
   },
+  computed: {
+    anime() {
+      return this.$store.state.api.anime;
+    }
+  },
+  watch: {
+    anime() {
+      this.update_seasons();
+    }
+  },
   methods: {
     reverse_season() {
-      console.log(this.season.value.episodes);
       this.season.value.episodes = this.season.value.episodes.reverse();
+    },
+    update_seasons() {
+      this.seasons = this.$store.state.api.anime.seasons.map(season => {
+        return { value: season, label: season.title };
+      });
+      this.season = this.seasons[0];
     }
   }
 };

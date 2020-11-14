@@ -159,7 +159,7 @@ module.exports = function(/* ctx */) {
         display: "fullscreen",
         orientation: "portrait-primary",
         background_color: "#FC791E",
-        theme_color: "#027be3",
+        theme_color: "#FC791E",
         icons: [
           {
             src: "icons/icon-128x128.png",

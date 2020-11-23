@@ -14,7 +14,7 @@ import videojs from "video.js";
 import "../lib/player/videojs-contrib-quality-levels";
 import "../lib/player/videojs-hls-quality-selector";
 import "../lib/player/videojs-markers";
-import "../lib/player/videojs-landscape-fullscreen.min";
+import "../lib/player/videojs-landscape-fullscreen";
 import "../lib/player/videojs-plugins";
 
 export default {
@@ -112,11 +112,13 @@ export default {
             onclick: () => {
               this.nextEpisode();
             }
+          },
+          hlsQualitySelector: {
+            displayCurrentQuality: true
           }
         }
       });
       this.player.addClass("vjs-crunchyroll");
-      this.player.hlsQualitySelector()
       this.player.on("dblclick", () => {
         if (this.player.isFullscreen()) {
           this.player.exitFullscreen();

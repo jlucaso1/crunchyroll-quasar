@@ -8,7 +8,10 @@ export function SET_HOME_FEED(state, data) {
   state.home_feed = data;
 }
 export function SET_ANIME(state, data) {
-  state.anime = data;
+  state.anime = { ...state.anime, ...data };
+}
+export function SET_SIMILAR(state, data) {
+  state.anime.similar = data;
 }
 export function SET_EPISODE(state, data) {
   state.episode = data;

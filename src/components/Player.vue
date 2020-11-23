@@ -11,6 +11,8 @@
 import { LocalStorage } from "quasar";
 
 import videojs from "video.js";
+import "../lib/player/videojs-contrib-quality-levels";
+import "../lib/player/videojs-hls-quality-selector";
 import "../lib/player/videojs-markers";
 import "../lib/player/videojs-landscape-fullscreen.min";
 import "../lib/player/videojs-plugins";
@@ -25,7 +27,7 @@ export default {
   computed: {
     source() {
       return (
-        this.$store.state.api.episode.streams.streams.vo_adaptive_dash[
+        this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
           this.locale
         ].url || ""
       );
@@ -64,7 +66,7 @@ export default {
         this.player.off("timeupdate");
         this.player.src({
           src: this.source,
-          type: "application/dash+xml"
+          type: "application/x-mpegURL"
         });
       }
     },
@@ -81,7 +83,7 @@ export default {
         sources: [
           {
             src: this.source,
-            type: "application/dash+xml"
+            type: "application/x-mpegURL"
           }
         ],
         aspectRatio: "16:9",
@@ -114,6 +116,9 @@ export default {
         }
       });
       this.player.addClass("vjs-crunchyroll");
+      this.player.hlsQualitySelector({
+        displayCurrentQuality: true,
+      })
       this.player.on("dblclick", () => {
         if (this.player.isFullscreen()) {
           this.player.exitFullscreen();

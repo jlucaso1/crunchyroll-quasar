@@ -19,6 +19,8 @@
     "quasar": "^1.14.2",
     "swiper": "^6.2.0",
     "video.js": "7.0.3",
+    "videojs-contrib-quality-levels": "^2.0.9",
+    "videojs-hls-quality-selector": "^1.1.4",
     "vue-awesome-swiper": "^4.1.1",
     "vue-i18n": "^8.0.0"
   },

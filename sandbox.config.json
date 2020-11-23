@@ -1,5 +1,5 @@
 {
-  "template": "quasar-framework",
+  "template": "node",
   "container": {
     "port": 8080
   }

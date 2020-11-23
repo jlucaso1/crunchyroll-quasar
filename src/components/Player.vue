@@ -116,9 +116,7 @@ export default {
         }
       });
       this.player.addClass("vjs-crunchyroll");
-      this.player.hlsQualitySelector({
-        displayCurrentQuality: true,
-      })
+      this.player.hlsQualitySelector()
       this.player.on("dblclick", () => {
         if (this.player.isFullscreen()) {
           this.player.exitFullscreen();

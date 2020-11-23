@@ -115,7 +115,7 @@
               v-if="episode.is_premium_only"
             />
             <q-card-section horizontal>
-              <q-img :src="episode.images.thumbnail[0][2].source" class="col-5">
+              <q-img :src="getEpisodeImage(episode)" class="col-5">
                 <div
                   class="absolute-bottom-right text-subtitle2 q-ma-xs"
                   style="padding: 1px; font-size: 10px;"
@@ -220,6 +220,14 @@ export default {
         return { value: season, label: season.title };
       });
       this.season = this.seasons[0];
+      console.log(this.season)
+    },
+    getEpisodeImage(episode){
+      try {
+        return episode.images.thumbnail[0][2].source
+      } catch (error) {
+        return "https://www.hostinger.com.br/tutoriais/wp-content/uploads/sites/12/2018/03/o-que-e-http-http-error-e-quais-os-principais-codigos.jpg"
+      }
     }
   }
 };

@@ -1,14 +1,15 @@
 {
   "name": "crunchyroll-quasar",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
+  "description": "",
   "productName": "Crunchyroll Quasar",
   "author": "João Lucas de Oliveira Lopes <jlucaso@hotmail.com>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
-    "build": "quasar build -m pwa"
+    "build": "quasar build -m pwa",
+    "start": "quasar dev"
   },
   "dependencies": {
     "@quasar/cli": "^1.1.2",
@@ -45,5 +46,6 @@
     "node": ">= 10.18.1",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
-  }
+  },
+  "keywords": []
 }

@@ -17,7 +17,15 @@
         color="white"
         dense
         class="flip-horizontal fixed-top-right z-top"
-      />
+      >
+        <q-menu auto-close content-class="bg-secondary" anchor="bottom left">
+          <q-list>
+            <q-item clickable @click="share_serie">
+              <q-item-section>Compartilhar Série</q-item-section>
+            </q-item>
+          </q-list>
+        </q-menu>
+      </q-btn>
     </q-header>
     <q-img
       :ratio="10 / 9"
@@ -101,52 +109,11 @@
           flat
           @click="reverse_season"
         />
-        <router-link
-          :to="'/watch/' + episode.id"
+        <EpisodeCard
           v-for="episode in season.value.episodes"
           :key="episode.id"
-          class="cursor-pointer"
-        >
-          <q-card class="bg-secondary q-my-sm" square>
-            <q-icon
-              name="o_lock"
-              size="xl"
-              class="absolute-center"
-              v-if="episode.is_premium_only"
-            />
-            <q-card-section horizontal>
-              <q-img :src="getEpisodeImage(episode)" class="col-5">
-                <div
-                  class="absolute-bottom-right text-subtitle2 q-ma-xs"
-                  style="padding: 1px; font-size: 10px;"
-                >
-                  {{ parseInt(episode.duration_ms / 60000) + "m" }}
-                </div>
-              </q-img>
-              <q-card-section class="q-pa-sm col">
-                <div class="text-white ellipsis">
-                  {{
-                    "S" +
-                      episode.season_number +
-                      " E" +
-                      episode.episode_number +
-                      " " +
-                      episode.title
-                  }}
-                </div>
-                <q-btn
-                  round
-                  dense
-                  flat
-                  icon="o_play_circle_outline"
-                  outline
-                  color="white"
-                  class="absolute-bottom-right q-ma-xs"
-                ></q-btn>
-              </q-card-section>
-            </q-card-section>
-          </q-card>
-        </router-link>
+          :episode="episode"
+        />
       </q-tab-panel>
 
       <q-tab-panel name="similars" class="bg-dark">
@@ -175,10 +142,10 @@
 </template>
 
 <script>
-import AnimeCard from "components/AnimeCard.vue";
-import { Loading } from "quasar";
+import EpisodeCard from "components/EpisodeCard.vue";
+import { Loading, copyToClipboard } from "quasar";
 export default {
-  components: { AnimeCard },
+  components: { EpisodeCard },
   data() {
     return {
       tab: "episodes",
@@ -221,12 +188,8 @@ export default {
       });
       this.season = this.seasons[0];
     },
-    getEpisodeImage(episode) {
-      try {
-        return episode.images.thumbnail[0][2].source;
-      } catch (error) {
-        return "https://www.hostinger.com.br/tutoriais/wp-content/uploads/sites/12/2018/03/o-que-e-http-http-error-e-quais-os-principais-codigos.jpg";
-      }
+    share_serie(){
+      copyToClipboard(window.location.origin + "/series/" + this.anime.id);
     }
   }
 };

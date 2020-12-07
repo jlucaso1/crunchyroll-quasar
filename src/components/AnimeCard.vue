@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     share() {
-      copyToClipboard(window.location.href + "series/" + this.anime.id);
+      copyToClipboard(window.location.origin + "/series/" + this.anime.id);
     }
   }
 };

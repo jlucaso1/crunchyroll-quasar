@@ -33,4 +33,7 @@
   user-select: none;
   font-size: 1.4em;
   margin: 0 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

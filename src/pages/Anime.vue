@@ -220,13 +220,12 @@ export default {
         return { value: season, label: season.title };
       });
       this.season = this.seasons[0];
-      console.log(this.season)
     },
-    getEpisodeImage(episode){
+    getEpisodeImage(episode) {
       try {
-        return episode.images.thumbnail[0][2].source
+        return episode.images.thumbnail[0][2].source;
       } catch (error) {
-        return "https://www.hostinger.com.br/tutoriais/wp-content/uploads/sites/12/2018/03/o-que-e-http-http-error-e-quais-os-principais-codigos.jpg"
+        return "https://www.hostinger.com.br/tutoriais/wp-content/uploads/sites/12/2018/03/o-que-e-http-http-error-e-quais-os-principais-codigos.jpg";
       }
     }
   }

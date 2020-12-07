@@ -366,7 +366,7 @@ var HlsQualitySelectorPlugin = function () {
 
 
   HlsQualitySelectorPlugin.prototype.getHls = function getHls() {
-    return this.player.tech({ IWillNotUseThisInPlugins: true }).hls;
+    return this.player.tech({ IWillNotUseThisInPlugins: true }).vhs;
   };
 
   /**

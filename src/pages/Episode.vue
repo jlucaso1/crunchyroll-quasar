@@ -32,7 +32,36 @@
       </div>
       <div class="q-mt-md">
         <div class="text-caption">Próximo Episódio</div>
-        <episode-card :episode="episode" />
+        <q-card class="bg-secondary q-my-sm cursor-pointer" square @click="nextEpisode">
+          <q-icon
+            name="o_lock"
+            size="xl"
+            class="absolute-center"
+            v-if="next_episode.is_premium_only"
+          />
+          <q-card-section horizontal>
+            <q-img :src="getEpisodeImage(next_episode)" class="col-5">
+              <div
+                class="absolute-bottom-right q-ma-xs"
+                style="padding: 0.1em 0.5em; font-size: 0.7em;"
+              >
+                {{ Math.round(next_episode.duration_ms / 60000) + "m" }}
+              </div>
+            </q-img>
+            <q-card-section class="q-pa-sm col">
+              <div class="text-white ellipsis">
+                {{
+                  "S" +
+                    next_episode.season_number +
+                    "-E" +
+                    next_episode.episode_number +
+                    " " +
+                    next_episode.title
+                }}
+              </div>
+            </q-card-section>
+          </q-card-section>
+        </q-card>
       </div>
     </div>
   </q-page>
@@ -43,7 +72,12 @@ import { Loading, copyToClipboard } from "quasar";
 import Player from "components/Player.vue";
 import EpisodeCard from "components/EpisodeCard.vue";
 export default {
-  components: { Player, EpisodeCard },
+  components: { Player },
+  // async preFetch({ store, currentRoute }) {
+  //   console.log("OI")
+  //   await store.commit("api/SET_EPISODE", null);
+  //   await store.dispatch("api/SET_EPISODE", currentRoute.params.id);
+  // },
   async created() {
     Loading.show();
     await this.$store.commit("api/SET_EPISODE", null);
@@ -53,6 +87,9 @@ export default {
   computed: {
     episode() {
       return this.$store.state.api.episode;
+    },
+    next_episode() {
+      return this.$store.state.api.next_episode;
     },
     title() {
       try {
@@ -72,6 +109,16 @@ export default {
   methods: {
     share() {
       copyToClipboard(window.location.origin + "/watch/" + this.episode.id);
+    },
+    nextEpisode() {
+      this.$refs.player.nextEpisode();
+    },
+    getEpisodeImage(episode) {
+      try {
+        return episode.images.thumbnail[0][2].source;
+      } catch (error) {
+        return "https://www.hostinger.com.br/tutoriais/wp-content/uploads/sites/12/2018/03/o-que-e-http-http-error-e-quais-os-principais-codigos.jpg";
+      }
     }
   }
 };

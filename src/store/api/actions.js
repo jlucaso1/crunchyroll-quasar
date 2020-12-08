@@ -72,7 +72,6 @@ export async function SET_HOME_FEED({ commit }) {
   }
 }
 export async function SET_ANIME({ commit, dispatch }, id) {
-  dispatch("SET_SIMILAR", id);
   let options = {
     endpoint: `/cms/v2${LocalStorage.getItem("auth").psk.bucket}/series/${id}`,
     method: "get",
@@ -115,8 +114,8 @@ export async function SET_SIMILAR({ commit }, id) {
       guid: id
     }
   };
-  let { data } = await api(options);
-  commit("SET_SIMILAR", data.items);
+  let { items } = (await api(options)).data;
+  commit("SET_SIMILAR", items);
 }
 export async function SET_EPISODE({ commit }, id) {
   let options = {
@@ -127,17 +126,48 @@ export async function SET_EPISODE({ commit }, id) {
     cors: true
   };
   try {
-    let { data } = await api(options);
-    let episode = data;
+    let episode = (await api(options)).data;
     if (!episode.is_premium_only) {
-      options.endpoint = episode.__links__.streams.href;
-      data = await api(options);
-      episode.streams = data.data;
+      let [streams, next_episode] = await Promise.all([
+        (await api({ ...options, endpoint: episode.__links__.streams.href }))
+          .data,
+        (
+          await api({
+            ...options,
+            endpoint: episode.__links__["episode/next_episode"].href
+          })
+        ).data
+      ]);
+      episode.streams = streams;
       commit("SET_EPISODE", episode);
+      commit("SET_NEXT_EPISODE", next_episode);
       return true;
     } else {
       console.error("THIS EPISODE IS PREMIUM ONLY");
     }
+  } catch (err) {
+    console.error("FAILED TO CATCH EPISODE");
+    console.error(err);
+  }
+  return false;
+}
+export async function SET_NEXT_EPISODE({ commit }, id) {
+  let options = {
+    endpoint: `/cms/v2${
+      LocalStorage.getItem("auth").psk.bucket
+    }/episodes/${id}`,
+    method: "get",
+    cors: true
+  };
+  try {
+    let { data } = await api(options);
+    let next_episode = data;
+
+    options.endpoint = next_episode.__links__.streams.href;
+    data = await api(options);
+    next_episode.streams = data.data;
+    commit("SET_NEXT_EPISODE", next_episode);
+    return true;
   } catch (err) {
     console.error("FAILED TO CATCH EPISODE");
   }

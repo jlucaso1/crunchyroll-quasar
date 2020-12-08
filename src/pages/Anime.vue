@@ -143,9 +143,10 @@
 
 <script>
 import EpisodeCard from "components/EpisodeCard.vue";
+import AnimeCard from "components/AnimeCard.vue";
 import { Loading, copyToClipboard } from "quasar";
 export default {
-  components: { EpisodeCard },
+  components: { EpisodeCard, AnimeCard },
   data() {
     return {
       tab: "episodes",
@@ -156,8 +157,14 @@ export default {
   },
   async preFetch({ store, currentRoute }) {
     Loading.show();
-    await store.dispatch("api/SET_ANIME", currentRoute.params.id);
-
+    Promise.all([
+      await store.dispatch("api/SET_ANIME", currentRoute.params.id)
+    ]);
+    await store.dispatch(
+      "api/SET_ANIME",
+      currentRoute.params.id,
+      await store.dispatch("api/SET_SIMILAR", currentRoute.params.id)
+    );
     return Loading.hide();
   },
   created() {
@@ -188,7 +195,7 @@ export default {
       });
       this.season = this.seasons[0];
     },
-    share_serie(){
+    share_serie() {
       copyToClipboard(window.location.origin + "/series/" + this.anime.id);
     }
   }

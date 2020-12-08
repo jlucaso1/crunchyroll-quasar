@@ -205,7 +205,13 @@ export default {
     return {
       title: this.title
     };
-  }
+  },
+  // watch: {
+  //   "$route.params.id"() {
+  //     console.log("OIII")
+  //     this.nextEpisode()
+  //   }
+  // }
 };
 </script>
 

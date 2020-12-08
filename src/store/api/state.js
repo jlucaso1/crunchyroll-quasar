@@ -1,11 +1,11 @@
 export default function() {
   return {
     error: [],
-    auth: {},
+    auth: null,
     home_feed: null,
-    anime: {},
-    episode: {},
-    next_episode: {},
-    search_result: {}
+    anime: null,
+    episode: null,
+    next_episode: null,
+    search_result: null
   };
 }

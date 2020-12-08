@@ -16,6 +16,9 @@ export function SET_SIMILAR(state, data) {
 export function SET_EPISODE(state, data) {
   state.episode = data;
 }
+export function SET_NEXT_EPISODE(state, data) {
+  state.next_episode = data;
+}
 export function SET_SEARCH(state, data) {
   state.search_result = data;
 }

@@ -142,11 +142,12 @@
 </template>
 
 <script>
-import EpisodeCard from "components/EpisodeCard.vue";
-import AnimeCard from "components/AnimeCard.vue";
 import { Loading, copyToClipboard } from "quasar";
 export default {
-  components: { EpisodeCard, AnimeCard },
+  components: {
+    EpisodeCard: () => import("components/EpisodeCard.vue"),
+    AnimeCard: () => import("components/AnimeCard.vue")
+  },
   data() {
     return {
       tab: "episodes",
@@ -158,13 +159,9 @@ export default {
   async preFetch({ store, currentRoute }) {
     Loading.show();
     Promise.all([
-      await store.dispatch("api/SET_ANIME", currentRoute.params.id)
-    ]);
-    await store.dispatch(
-      "api/SET_ANIME",
-      currentRoute.params.id,
+      await store.dispatch("api/SET_ANIME", currentRoute.params.id),
       await store.dispatch("api/SET_SIMILAR", currentRoute.params.id)
-    );
+    ]);
     return Loading.hide();
   },
   created() {

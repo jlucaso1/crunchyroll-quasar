@@ -32,7 +32,11 @@
       </div>
       <div class="q-mt-md">
         <div class="text-caption">Próximo Episódio</div>
-        <q-card class="bg-secondary q-my-sm cursor-pointer" square @click="nextEpisode">
+        <q-card
+          class="bg-secondary q-my-sm cursor-pointer"
+          square
+          @click="nextEpisode"
+        >
           <q-icon
             name="o_lock"
             size="xl"
@@ -69,10 +73,10 @@
 
 <script>
 import { Loading, copyToClipboard } from "quasar";
-import Player from "components/Player.vue";
-import EpisodeCard from "components/EpisodeCard.vue";
 export default {
-  components: { Player },
+  components: {
+    Player: () => import("components/Player.vue"),
+  },
   // async preFetch({ store, currentRoute }) {
   //   console.log("OI")
   //   await store.commit("api/SET_EPISODE", null);

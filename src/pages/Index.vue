@@ -1,6 +1,6 @@
 <template>
-  <q-page v-if="home_feed">
-    <q-infinite-scroll @load="onLoad" :offset="250">
+  <q-page>
+    <q-infinite-scroll @load="onLoad" :offset="250" v-if="home_feed">
       <AnimesCollection
         v-for="index in visible_feeds"
         :key="index"
@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import AnimesCollection from "components/AnimesCollection";
 import { Loading } from "quasar";
+import AnimesCollection from "components/AnimesCollection";
 export default {
   name: "PageIndex",
   components: {

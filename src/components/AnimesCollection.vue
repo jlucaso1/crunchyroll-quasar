@@ -1,8 +1,12 @@
 <template>
   <div v-if="feed_item">
-    <h6 class="text-white q-my-md text-weight-regular">{{ feed_item.title }}</h6>
+    <h6 class="text-white q-my-md text-weight-regular">
+      {{ feed_item.title }}
+    </h6>
     <swiper class="swiper q-my-lg" :options="swiperOption">
-      <swiper-slide v-for="anime in feed_item.animes" :key="anime.id"><AnimeCard :anime="anime"/></swiper-slide>
+      <swiper-slide v-for="anime in feed_item.animes" :key="anime.id">
+        <AnimeCard :anime="anime"/>
+      </swiper-slide>
     </swiper>
   </div>
 </template>
@@ -22,7 +26,6 @@ export default {
           : 6,
         autoHeight: true, //enable auto height
         spaceBetween: 8,
-        lazy: true,
         pagination: {
           el: ".swiper-pagination",
           clickable: true

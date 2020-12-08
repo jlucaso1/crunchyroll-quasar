@@ -17,13 +17,13 @@
     "axios": "0.21.0",
     "core-js": "3.8.1",
     "quasar": "1.14.7",
-    "swiper": "6.3.5",
+    "swiper": "6.4.0",
     "video.js": "7.10.2",
     "vue-awesome-swiper": "^4.1.1",
     "vue-i18n": "8.22.2"
   },
   "devDependencies": {
-    "@quasar/app": "^2.1.10",
+    "@quasar/app": "^2.1.11",
     "babel-eslint": "^10.0.1",
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^7.0.0",

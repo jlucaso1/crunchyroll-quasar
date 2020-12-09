@@ -1,9 +1,6 @@
 <template>
   <q-page v-if="$store.state.api.episode">
-    <Player ref="player" v-if="!$store.state.api.episode.is_premium_only" />
-    <div v-else class="text-white absolute-center text-h5 text-center">
-      Esse conteúdo é somente para premium
-    </div>
+    <Player ref="player" />
     <div class="q-ma-sm">
       <q-btn
         class="text-caption text-warning ellipsis"
@@ -30,7 +27,7 @@
           </q-menu>
         </q-btn>
       </div>
-      <div class="q-mt-md">
+      <div class="q-mt-md" v-if="next_episode != null">
         <div class="text-caption">Próximo Episódio</div>
         <q-card
           class="bg-secondary q-my-sm cursor-pointer"
@@ -67,6 +64,7 @@
           </q-card-section>
         </q-card>
       </div>
+      <div v-else>Não há próximos episódios</div>
     </div>
   </q-page>
 </template>
@@ -75,7 +73,7 @@
 import { Loading, copyToClipboard } from "quasar";
 export default {
   components: {
-    Player: () => import("components/Player.vue"),
+    Player: () => import("components/Player.vue")
   },
   // async preFetch({ store, currentRoute }) {
   //   console.log("OI")

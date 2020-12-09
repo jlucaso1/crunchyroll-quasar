@@ -1,5 +1,6 @@
 import api from "../../lib/api";
 import { LocalStorage } from "quasar";
+import { axios } from "src/boot/axios";
 
 export async function SET_AUTH({ commit }) {
   let options = {
@@ -126,9 +127,22 @@ export async function SET_EPISODE({ commit }, id) {
     cors: true
   };
   try {
-    let episode = (await api(options)).data;
-    if (!episode.is_premium_only) {
-      let [streams, next_episode] = await Promise.all([
+    var next_episode,
+      episode = (await api(options)).data;
+
+    if (episode.is_premium_only) {
+      console.log("Getting premium");
+      let [streams] = await Promise.all([
+        (await axios.get("http://localhost:3000/premium/" + id)).data
+      ]);
+      var blob = new Blob([streams], {
+        type: "text/plain; charset=utf-8"
+      });
+      let video_stream_url = URL.createObjectURL(blob) + "#.m3u8";
+      next_episode = null;
+      episode.stream = video_stream_url;
+    } else {
+      let [streams, next_ep] = await Promise.all([
         (await api({ ...options, endpoint: episode.__links__.streams.href }))
           .data,
         (
@@ -138,13 +152,12 @@ export async function SET_EPISODE({ commit }, id) {
           })
         ).data
       ]);
+      next_episode = next_ep;
       episode.streams = streams;
-      commit("SET_EPISODE", episode);
-      commit("SET_NEXT_EPISODE", next_episode);
-      return true;
-    } else {
-      console.error("THIS EPISODE IS PREMIUM ONLY");
     }
+    commit("SET_EPISODE", episode);
+    commit("SET_NEXT_EPISODE", next_episode);
+    return true;
   } catch (err) {
     console.error("FAILED TO CATCH EPISODE");
     console.error(err);

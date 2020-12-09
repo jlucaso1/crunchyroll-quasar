@@ -26,6 +26,9 @@ export default {
   },
   computed: {
     source() {
+      if (this.$store.state.api.episode.is_premium_only) {
+        return this.$store.state.api.episode.stream;
+      }
       return (
         this.$store.state.api.episode.streams.streams.vo_adaptive_hls[
           this.locale
@@ -205,7 +208,7 @@ export default {
     return {
       title: this.title
     };
-  },
+  }
   // watch: {
   //   "$route.params.id"() {
   //     console.log("OIII")

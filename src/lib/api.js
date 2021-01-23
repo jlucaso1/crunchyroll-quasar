@@ -13,11 +13,8 @@ export default function api(opts) {
   const config = {
     method: opts.method || "get",
     url:
-      `${
-        opts.cors
-          ? "http://localhost:8080/cors"
-          : "https://beta-api.crunchyroll.com"
-      }` + opts.endpoint,
+      `${opts.cors ? process.env.CORS : "https://beta-api.crunchyroll.com"}` +
+      opts.endpoint,
     params: {
       locale: LOCALE(),
       ...opts.params

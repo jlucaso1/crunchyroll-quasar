@@ -1,6 +1,6 @@
 <template>
   <q-page v-if="$store.state.api.episode">
-    <Player ref="player" v-if="!$store.state.api.episode.is_premium_only" />
+    <Player v-if="!$store.state.api.episode.is_premium_only" />
     <div v-else class="text-white absolute-center text-h5 text-center">
       Esse conteúdo é somente para premium
     </div>
@@ -15,7 +15,7 @@
       </q-btn>
       <div class="flex items-center justify-between">
         <div class="ellipsis">
-          {{ title }}
+          {{ episode.title_formatted }}
         </div>
         <q-btn icon="more_vert" dense round>
           <q-menu auto-close content-class="bg-secondary" anchor="bottom left">
@@ -73,15 +73,11 @@
 
 <script>
 import { Loading, copyToClipboard } from "quasar";
+import Player from "components/Player.vue";
 export default {
   components: {
-    Player: () => import("components/Player.vue"),
+    Player
   },
-  // async preFetch({ store, currentRoute }) {
-  //   console.log("OI")
-  //   await store.commit("api/SET_EPISODE", null);
-  //   await store.dispatch("api/SET_EPISODE", currentRoute.params.id);
-  // },
   async created() {
     Loading.show();
     await this.$store.commit("api/SET_EPISODE", null);
@@ -94,20 +90,11 @@ export default {
     },
     next_episode() {
       return this.$store.state.api.next_episode;
-    },
-    title() {
-      try {
-        return (
-          "S" +
-          this.$store.state.api.episode.season_number +
-          "-E" +
-          this.$store.state.api.episode.episode_number +
-          ": " +
-          this.$store.state.api.episode.title
-        );
-      } catch (error) {
-        return "Carregando...";
-      }
+    }
+  },
+  watch: {
+    async $route() {
+      await this.$store.dispatch("api/SET_EPISODE", this.$route.params.id);
     }
   },
   methods: {
@@ -115,7 +102,7 @@ export default {
       copyToClipboard(window.location.origin + "/watch/" + this.episode.id);
     },
     nextEpisode() {
-      this.$refs.player.nextEpisode();
+      this.$router.push({ params: { id: this.next_episode.id } });
     },
     getEpisodeImage(episode) {
       try {

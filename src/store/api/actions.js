@@ -135,6 +135,13 @@ export async function SET_EPISODE({ commit, state }, id) {
         ).data
       ]);
       episode.streams = streams;
+      episode.title_formatted =
+        "S" +
+        episode.season_number +
+        "-E" +
+        episode.episode_number +
+        ": " +
+        episode.title;
       commit("SET_EPISODE", episode);
       commit("SET_NEXT_EPISODE", next_episode);
       return true;

@@ -1,11 +1,10 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import api from './api'
+import Vue from "vue";
+import Vuex from "vuex";
+import api from "./api";
+import VuexPersistence from "vuex-persist";
+import localforage from "localforage";
 
-// import example from './module-example'
-
-Vue.use(Vuex)
-
+Vue.use(Vuex);
 /*
  * If not building with SSR mode, you can
  * directly export the Store instantiation;
@@ -15,7 +14,7 @@ Vue.use(Vuex)
  * with the Store instance.
  */
 
-export default function (/* { ssrContext } */) {
+export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       api
@@ -23,8 +22,15 @@ export default function (/* { ssrContext } */) {
 
     // enable strict mode (adds overhead!)
     // for dev mode only
-    strict: process.env.DEV
-  })
-
-  return Store
+    strict: process.env.DEV,
+    plugins: [
+      new VuexPersistence({
+        storage: localforage,
+        asyncStorage: true
+        // strictMode: process.env.DEV
+      }).plugin
+    ]
+  });
+  process.env.DEV && (window.localforage = localforage);
+  return Store;
 }

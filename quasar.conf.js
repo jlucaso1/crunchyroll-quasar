@@ -50,7 +50,7 @@ module.exports = function(ctx) {
       env: {
         CORS: ctx.dev
           ? "http://localhost:8080"
-          : "https://crunchyroll-quasar.netlify.app/"
+          : "https://crunchyroll-quasar.netlify.app"
       },
       // transpile: false,
 

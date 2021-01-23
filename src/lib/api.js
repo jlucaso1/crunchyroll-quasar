@@ -12,9 +12,12 @@ export function LOCALE() {
 export default function api(opts) {
   const config = {
     method: opts.method || "get",
-    url: `${
-      opts.cors ? "https://crunchyroll-quasar.herokuapp.com/" : ""
-    }https://beta-api.crunchyroll.com${opts.endpoint}`,
+    url:
+      `${
+        opts.cors
+          ? "http://localhost:8080/cors"
+          : "https://beta-api.crunchyroll.com"
+      }` + opts.endpoint,
     params: {
       locale: LOCALE(),
       ...opts.params

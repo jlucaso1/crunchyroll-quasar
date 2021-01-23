@@ -6,6 +6,7 @@ export default function() {
     anime: null,
     episode: null,
     next_episode: null,
-    search_result: null
+    search_result: null,
+    similar: null
   };
 }

@@ -11,7 +11,7 @@ export function SET_ANIME(state, data) {
   state.anime = { ...state.anime, ...data };
 }
 export function SET_SIMILAR(state, data) {
-  state.anime.similar = data;
+  state.similar = data;
 }
 export function SET_EPISODE(state, data) {
   state.episode = data;

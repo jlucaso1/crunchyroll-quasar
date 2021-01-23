@@ -118,11 +118,7 @@
 
       <q-tab-panel name="similars" class="bg-dark">
         <div class="similars">
-          <AnimeCard
-            v-for="anime in anime.similar"
-            :anime="anime"
-            :key="anime.id"
-          />
+          <AnimeCard v-for="anime in similar" :anime="anime" :key="anime.id" />
         </div>
       </q-tab-panel>
     </q-tab-panels>
@@ -158,7 +154,6 @@ export default {
   },
   async preFetch({ store, currentRoute }) {
     Loading.show();
-    console.log(store.state.api.anime?.id);
     if (currentRoute.params.id != store.state.api.anime?.id) {
       await Promise.all([
         store.dispatch("api/SET_ANIME", currentRoute.params.id),
@@ -183,6 +178,9 @@ export default {
   computed: {
     anime() {
       return this.$store.state.api.anime;
+    },
+    similar() {
+      return this.$store.state.api.similar;
     }
   },
   watch: {

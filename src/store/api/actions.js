@@ -1,5 +1,4 @@
 import api from "../../lib/api";
-import { LocalStorage } from "quasar";
 
 export async function SET_AUTH({ commit }) {
   let options = {
@@ -30,20 +29,19 @@ export async function SET_AUTH({ commit }) {
     };
     response = await api(options);
     auth.psk = response.data.cms;
-    LocalStorage.set("auth", auth);
     return commit("SET_AUTH", auth);
   } catch (error) {
     console.error("FAILED TO AUTHENTICATE");
     return commit("SET_ERROR", "Falha de rede");
   }
 }
-export async function SET_HOME_FEED({ commit }) {
+export async function SET_HOME_FEED({ commit, state }) {
   let options = {
     endpoint: "/content/v1/home_feed",
     method: "get",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: LocalStorage.getItem("auth").token.access_token
+      Authorization: state.auth.token.access_token
     }
   };
   try {
@@ -71,9 +69,9 @@ export async function SET_HOME_FEED({ commit }) {
     return commit("SET_ERROR", String(err));
   }
 }
-export async function SET_ANIME({ commit, dispatch }, id) {
+export async function SET_ANIME({ commit, dispatch, state }, id) {
   let options = {
-    endpoint: `/cms/v2${LocalStorage.getItem("auth").psk.bucket}/series/${id}`,
+    endpoint: `/cms/v2${state.auth.psk.bucket}/series/${id}`,
     method: "get",
     cors: true
   };
@@ -101,13 +99,13 @@ export async function SET_ANIME({ commit, dispatch }, id) {
   commit("SET_ANIME", anime);
   return;
 }
-export async function SET_SIMILAR({ commit }, id) {
+export async function SET_SIMILAR({ commit, state }, id) {
   let options = {
     endpoint: "/content/v1/similar_to",
     method: "get",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: LocalStorage.getItem("auth").token.access_token
+      Authorization: state.auth.token.access_token
     },
     params: {
       n: 10,
@@ -117,11 +115,9 @@ export async function SET_SIMILAR({ commit }, id) {
   let { items } = (await api(options)).data;
   commit("SET_SIMILAR", items);
 }
-export async function SET_EPISODE({ commit }, id) {
+export async function SET_EPISODE({ commit, state }, id) {
   let options = {
-    endpoint: `/cms/v2${
-      LocalStorage.getItem("auth").psk.bucket
-    }/episodes/${id}`,
+    endpoint: `/cms/v2${state.auth.psk.bucket}/episodes/${id}`,
     method: "get",
     cors: true
   };
@@ -151,11 +147,9 @@ export async function SET_EPISODE({ commit }, id) {
   }
   return false;
 }
-export async function SET_NEXT_EPISODE({ commit }, id) {
+export async function SET_NEXT_EPISODE({ commit, state }, id) {
   let options = {
-    endpoint: `/cms/v2${
-      LocalStorage.getItem("auth").psk.bucket
-    }/episodes/${id}`,
+    endpoint: `/cms/v2${state.auth.psk.bucket}/episodes/${id}`,
     method: "get",
     cors: true
   };
@@ -174,13 +168,13 @@ export async function SET_NEXT_EPISODE({ commit }, id) {
   return false;
 }
 
-export async function SET_SEARCH({ commit }, search_text) {
+export async function SET_SEARCH({ commit, state }, search_text) {
   let options = {
     endpoint: `/content/v1/search`,
     method: "get",
     params: { q: search_text },
     headers: {
-      Authorization: LocalStorage.getItem("auth").token.access_token
+      Authorization: state.auth.token.access_token
     }
   };
   let { data } = await api(options);

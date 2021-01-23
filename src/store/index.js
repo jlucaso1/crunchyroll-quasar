@@ -13,7 +13,7 @@ Vue.use(Vuex);
  * async/await or return a Promise which resolves
  * with the Store instance.
  */
-
+let store;
 export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
@@ -32,5 +32,7 @@ export default function(/* { ssrContext } */) {
     ]
   });
   process.env.DEV && (window.localforage = localforage);
+  store = Store;
   return Store;
 }
+export { store };

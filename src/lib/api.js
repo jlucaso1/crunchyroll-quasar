@@ -1,6 +1,6 @@
 import { axios } from "boot/axios";
 import { LocalStorage } from "quasar";
-
+import { store } from "../store/index";
 export function LOCALE() {
   let lang = LocalStorage.getItem("locale");
   lang = lang.split("-");
@@ -9,7 +9,7 @@ export function LOCALE() {
   return lang;
 }
 
-export default function api(opts) {
+export default async function api(opts) {
   const config = {
     method: opts.method || "get",
     url:
@@ -25,10 +25,11 @@ export default function api(opts) {
     data: opts.data,
     headers: opts.endpoint.match("cms") ? "" : opts.headers
   };
+
   if (opts.endpoint.match("cms")) {
-    config.params["Policy"] = LocalStorage.getItem("auth").psk.policy;
-    config.params["Signature"] = LocalStorage.getItem("auth").psk.signature;
-    config.params["Key-Pair-Id"] = LocalStorage.getItem("auth").psk.key_pair_id;
+    config.params["Policy"] = store.state.api.auth.psk.policy;
+    config.params["Signature"] = store.state.api.auth.psk.signature;
+    config.params["Key-Pair-Id"] = store.state.api.auth.psk.key_pair_id;
   }
   return axios(config);
 }

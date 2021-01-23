@@ -32,11 +32,13 @@ export default {
     };
   },
   async preFetch({ store }) {
+    Loading.show();
     if (!store.state.api.home_feed) {
-      Loading.show();
       await store.dispatch("api/SET_HOME_FEED");
-      Loading.hide();
+    } else {
+      store.dispatch("api/SET_HOME_FEED");
     }
+    Loading.hide();
   },
   computed: {
     home_feed() {

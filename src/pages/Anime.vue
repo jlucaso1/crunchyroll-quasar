@@ -158,10 +158,18 @@ export default {
   },
   async preFetch({ store, currentRoute }) {
     Loading.show();
-    Promise.all([
-      await store.dispatch("api/SET_ANIME", currentRoute.params.id),
-      await store.dispatch("api/SET_SIMILAR", currentRoute.params.id)
-    ]);
+    console.log(store.state.api.anime?.id);
+    if (currentRoute.params.id != store.state.api.anime?.id) {
+      await Promise.all([
+        store.dispatch("api/SET_ANIME", currentRoute.params.id),
+        store.dispatch("api/SET_SIMILAR", currentRoute.params.id)
+      ]);
+    } else {
+      Promise.all([
+        store.dispatch("api/SET_ANIME", currentRoute.params.id),
+        store.dispatch("api/SET_SIMILAR", currentRoute.params.id)
+      ]);
+    }
     return Loading.hide();
   },
   created() {

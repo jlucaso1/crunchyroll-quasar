@@ -5,7 +5,7 @@ import routes from "./routes";
 
 Vue.use(VueRouter);
 
-export default function(/* { store, ssrContext } */) {
+export default function({ store }) {
   const Router = new VueRouter({
     routes,
     scrollBehavior(to, from, savedPosition) {
@@ -23,6 +23,9 @@ export default function(/* { store, ssrContext } */) {
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
   });
-
+  Router.beforeEach(async (to, from, next) => {
+    await store.restored;
+    next();
+  });
   return Router;
 }

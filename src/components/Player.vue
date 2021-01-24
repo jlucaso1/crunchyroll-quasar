@@ -1,32 +1,30 @@
 <template>
-  <Player ref="player" @vmControlsChange="controlActive = $event">
+  <Player
+    ref="player"
+    @vmControlsChange="controlActive = $event"
+    :autoplay="true"
+  >
     <Dash
       :src="episode.streams.streams.vo_adaptive_dash['pt-BR'].url"
       :poster="episode.images.thumbnail[0][4].source"
       :mediaTitle="episode.title_formatted"
     />
 
-    <DefaultUi>
-      <Controls pin="topLeft" :hidden="!controlActive" :fullWidth="true">
-        <Control @click="$parent.$parent.nextEpisode">
-          <Icon name="fast-forward" library="material" />
-          <Tooltip>Next</Tooltip>
-        </Control>
-      </Controls>
-    </DefaultUi>
+    <DefaultUi> </DefaultUi>
+    <Controls pin="topLeft">
+      <Control
+        @click="$parent.$parent.nextEpisode"
+        :hidden="!controlActive"
+        class="absolute-top-left q-ma-sm"
+      >
+        <Icon name="fast-forward" library="material" />
+      </Control>
+    </Controls>
   </Player>
 </template>
 
 <script>
-import {
-  Player,
-  Dash,
-  DefaultUi,
-  Icon,
-  Control,
-  Controls,
-  Tooltip
-} from "@vime/vue";
+import { Player, Dash, DefaultUi, Icon, Control, Controls } from "@vime/vue";
 
 export default {
   data() {
@@ -40,8 +38,7 @@ export default {
     DefaultUi,
     Icon,
     Control,
-    Controls,
-    Tooltip
+    Controls
   },
   computed: {
     episode() {

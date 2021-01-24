@@ -1,6 +1,6 @@
 <template>
   <q-page v-if="$store.state.api.episode">
-    <Player v-if="!$store.state.api.episode.is_premium_only" />
+    <Player v-if="!$store.state.api.episode.is_premium_only" ref="player" />
     <div v-else class="text-white absolute-center text-h5 text-center">
       Esse conteúdo é somente para premium
     </div>
@@ -94,7 +94,10 @@ export default {
   },
   watch: {
     async $route() {
+      await this.$refs.player.player.pause();
+      Loading.show();
       await this.$store.dispatch("api/SET_EPISODE", this.$route.params.id);
+      Loading.hide();
     }
   },
   methods: {

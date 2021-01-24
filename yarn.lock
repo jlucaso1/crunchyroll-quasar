@@ -1182,11 +1182,6 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
   integrity sha512-ONhaKPIufzzrlNbqtWFFd+jlnemX6lJAgq9ZeiZtS7I1PIf/la7CW4m83rTXRnVnsMbW2k56pGYu7AUFJD9Pow==
 
-"@stencil/core@^2.2.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.3.0.tgz#9190df3a0064537730be1546545e13531d701da8"
-  integrity sha512-VZ/Ox0E1kngcmHbJhHUufuLELi+xG3of3LuRI3X2AMWyE82JUVYlOEsQci/YBZWpfc9BS9I36R88prBew22oew==
-
 "@surma/rollup-plugin-off-main-thread@^1.4.1":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-1.4.2.tgz#e6786b6af5799f82f7ab3a82e53f6182d2b91a58"
@@ -1388,6 +1383,11 @@
   dependencies:
     source-map "^0.6.1"
 
+"@types/video.js@^7.3.11":
+  version "7.3.11"
+  resolved "https://registry.yarnpkg.com/@types/video.js/-/video.js-7.3.11.tgz#b1749fcc733c608ede4d10c9a570ebafc4ec2486"
+  integrity sha512-9KpJkt6zsy6xRiHZjzjKxCEySqt3TgPgl0XegszwJfaLO4+n4rELS5rbsHUgLJxZaMgbJtyTPXk1HkCsJ5kRiA==
+
 "@types/webpack-bundle-analyzer@3.8.0":
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/@types/webpack-bundle-analyzer/-/webpack-bundle-analyzer-3.8.0.tgz#d1f196f95159254f76a3c2283c4677585bdf354d"
@@ -1470,21 +1470,6 @@
     "@babel/runtime" "^7.5.5"
     global "~4.4.0"
     is-function "^1.0.1"
-
-"@vime/core@5.0.27":
-  version "5.0.27"
-  resolved "https://registry.yarnpkg.com/@vime/core/-/core-5.0.27.tgz#7c7f850a18bc7c62c788e59e9569e6e6527c6189"
-  integrity sha512-Dc6LwuH4lcGAyyuZseMPI/efKGoyz2YdFaFBGeZ7h9pxfZ66ELqEXMsBWMMyJqrbGqsTvCLvBjExmzdiTV/NHQ==
-  dependencies:
-    "@stencil/core" "^2.2.0"
-    stencil-wormhole "^3.2.2"
-
-"@vime/vue@^5.0.27":
-  version "5.0.27"
-  resolved "https://registry.yarnpkg.com/@vime/vue/-/vue-5.0.27.tgz#7fa9eca278d1786d94349a41ceb10f5514db6fde"
-  integrity sha512-RWyy8ZnQMWMkypa5ybQbLSUEw6aoeDiJbede4Ri049kSn5vbh74eCpivGujfOaFjFw5x0djLzN8HNZC1/NwCpA==
-  dependencies:
-    "@vime/core" "5.0.27"
 
 "@vue/component-compiler-utils@^3.1.0":
   version "3.2.0"
@@ -8860,11 +8845,6 @@ static-extend@^0.1.1:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
-
-stencil-wormhole@^3.2.2:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/stencil-wormhole/-/stencil-wormhole-3.4.0.tgz#7cdcd571a40024dcd1f944e0b18cb6a4630e84d9"
-  integrity sha512-TXqH4dUzHtJfWAVF7lU36AyeI3H/0Mj0lFJOPzWxZVb+nDmAsNlu8GUxA7zn4/DgZDNS3eenB8H1pFUkMTkgDw==
 
 stream-browserify@^2.0.1:
   version "2.0.2"

@@ -21,6 +21,7 @@
 <script>
 import { Loading } from "quasar";
 import AnimesCollection from "components/AnimesCollection";
+import "swiper/swiper.scss";
 export default {
   name: "PageIndex",
   components: {

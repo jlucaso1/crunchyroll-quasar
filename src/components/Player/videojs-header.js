@@ -31,10 +31,11 @@ class Plugins extends Plugin {
 
     this.options = videojs.mergeOptions(defaults, options);
     this.player.ready(() => {
-      this.player.addClass("vjs-plugins");
+      this.player.addClass("vjs-header");
       var divPrincipal = document.createElement("div");
       divPrincipal.className = "vjs-div-principal";
       this.title = document.createElement("div");
+      this.title.innerHTML = options.title;
       this.title.className = "vjs-text";
       divPrincipal.appendChild(this.title);
 
@@ -51,6 +52,6 @@ class Plugins extends Plugin {
 }
 
 // Register the plugin with video.js.
-videojs.registerPlugin("plugins", Plugins);
+videojs.registerPlugin("header", Plugins);
 
 export default Plugins;

@@ -1,6 +1,13 @@
 <template>
-  <q-page v-if="$store.state.api.episode">
-    <Player v-if="!$store.state.api.episode.is_premium_only" ref="player" />
+  <q-page v-if="episode">
+    <Player
+      v-if="!episode.is_premium_only"
+      ref="player"
+      :src="episode.streams.streams.vo_adaptive_dash['pt-BR'].url"
+      :poster="episode.images.thumbnail[0][2].source"
+      :markers="markers"
+      :title="episode.title_formatted"
+    />
     <div v-else class="text-white absolute-center text-h5 text-center">
       Esse conteúdo é somente para premium
     </div>
@@ -90,14 +97,17 @@ export default {
     },
     next_episode() {
       return this.$store.state.api.next_episode;
+    },
+    markers() {
+      return this.$store.state.api.episode.ad_breaks.map(ad => {
+        return { time: ad.offset_ms / 1000 };
+      });
     }
   },
   watch: {
     async $route() {
       await this.$refs.player.player.pause();
-      Loading.show();
       await this.$store.dispatch("api/SET_EPISODE", this.$route.params.id);
-      Loading.hide();
     }
   },
   methods: {

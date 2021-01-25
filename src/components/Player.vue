@@ -1,9 +1,58 @@
 <template>
   <div>
-    <video
-      ref="videoPlayer"
-      class="video-js vjs-crunchyroll vjs-big-play-centered vjs-show-big-play-button-on-pause"
-    ></video>
+    <div data-vjs-player>
+      <video
+        ref="videoPlayer"
+        class="video-js vjs-crunchyroll vjs-big-play-centered vjs-show-big-play-button-on-pause"
+        @ended="ended"
+      ></video>
+      <div v-show="isEnded" class="absolute-center z-max" style="width: 90%">
+        <q-card class="bg-secondary" square>
+          <q-icon
+            name="o_lock"
+            size="xl"
+            class="absolute-center"
+            v-if="next_episode.is_premium_only"
+          />
+          <q-card-section horizontal>
+            <q-img
+              :src="$parent.$parent.getEpisodeImage(next_episode)"
+              class="col-5"
+            >
+              <div
+                class="absolute-bottom-right q-ma-xs"
+                style="padding: 0.1em 0.5em"
+              >
+                {{ Math.round(next_episode.duration_ms / 60000) + "m" }}
+              </div>
+            </q-img>
+            <q-card-section class="q-pa-sm col">
+              <div class="text-white ellipsis text-subtitle2">
+                {{
+                  "S" +
+                    next_episode.season_number +
+                    "-E" +
+                    next_episode.episode_number +
+                    " " +
+                    next_episode.title
+                }}
+              </div>
+              <div>
+                <q-circular-progress
+                  :max="100"
+                  :min="0"
+                  :value="timer_circular"
+                  size="50px"
+                  color="warning"
+                  class="q-ma-md"
+                />
+                <p>Próximo episódio em: {{ timer_label }}</p>
+              </div>
+            </q-card-section>
+          </q-card-section>
+        </q-card>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -38,8 +87,16 @@ export default {
   },
   data() {
     return {
-      player: null
+      player: null,
+      isEnded: false,
+      timer_circular: 0,
+      timer_label: 5
     };
+  },
+  computed: {
+    next_episode() {
+      return this.$store.state.api.next_episode;
+    }
   },
   mounted() {
     this.player = videojs(this.$refs.videoPlayer, {
@@ -77,6 +134,7 @@ export default {
         }
       }
     });
+    // this.player.appendContent(this.$refs, )
   },
   beforeDestroy() {
     if (this.player) {
@@ -98,6 +156,25 @@ export default {
         player.load();
         player.play();
       });
+    }
+  },
+  methods: {
+    ended() {
+      this.isEnded = true;
+      let timer_label = setInterval(() => {
+        this.timer_label -= 1;
+        if (this.timer_label == 0) {
+          clearInterval(timer_label);
+          clearInterval(timer_circular);
+          this.$parent.$parent.nextEpisode();
+          this.isEnded = false;
+          this.timer_circular = 0;
+          this.timer_label = 5;
+        }
+      }, 1000);
+      let timer_circular = setInterval(() => {
+        this.timer_circular += 5;
+      }, 200);
     }
   }
 };

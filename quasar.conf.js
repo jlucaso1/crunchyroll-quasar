@@ -123,7 +123,7 @@ module.exports = function(ctx) {
       plugins: ["Loading", "LocalStorage", "Notify", "Meta", "Dialog"]
     },
 
-    // animations: 'all', // --- includes all animations
+    // animations: "all", // --- includes all animations
     // https://quasar.dev/options/animations
     animations: [],
 

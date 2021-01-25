@@ -1,16 +1,12 @@
 <template>
   <q-page v-if="episode">
     <Player
-      v-if="!episode.is_premium_only"
       ref="player"
       :src="episode.streams.streams.vo_adaptive_dash['pt-BR'].url"
       :poster="episode.images.thumbnail[0][2].source"
       :markers="markers"
       :title="episode.title_formatted"
     />
-    <div v-else class="text-white absolute-center text-h5 text-center">
-      Esse conteúdo é somente para premium
-    </div>
     <div class="q-ma-sm">
       <q-btn
         class="text-caption text-warning ellipsis"
@@ -40,6 +36,7 @@
       <div class="q-mt-md">
         <div class="text-caption">Próximo Episódio</div>
         <q-card
+          v-if="next_episode"
           class="bg-secondary q-my-sm cursor-pointer"
           square
           @click="nextEpisode"

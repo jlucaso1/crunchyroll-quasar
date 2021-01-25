@@ -6,7 +6,11 @@
         class="video-js vjs-crunchyroll vjs-big-play-centered vjs-show-big-play-button-on-pause"
         @ended="ended"
       ></video>
-      <div v-show="isEnded" class="absolute-center z-max" style="width: 90%">
+      <div
+        v-if="next_episode && isEnded"
+        class="absolute-center z-max"
+        style="width: 90%"
+      >
         <q-card class="bg-secondary" square>
           <q-icon
             name="o_lock"

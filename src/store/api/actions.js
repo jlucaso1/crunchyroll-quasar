@@ -115,25 +115,25 @@ export async function SET_SIMILAR({ commit, state }, id) {
   let { items } = (await api(options)).data;
   commit("SET_SIMILAR", items);
 }
-export async function SET_EPISODE({ commit, state }, id) {
+export async function SET_EPISODE({ commit, state, dispatch }, id) {
   let options = {
     endpoint: `/cms/v2${state.auth.psk.bucket}/episodes/${id}`,
     method: "get",
     cors: true
   };
+  if (id == state.next_episode?.id) {
+    let episode = state.next_episode;
+    dispatch("SET_NEXT_EPISODE", episode.next_episode_id);
+    commit("SET_EPISODE", episode);
+    return;
+  }
+
   try {
     let episode = (await api(options)).data;
     if (!episode.is_premium_only) {
-      let [streams, next_episode] = await Promise.all([
-        (await api({ ...options, endpoint: episode.__links__.streams.href }))
-          .data,
-        (
-          await api({
-            ...options,
-            endpoint: episode.__links__["episode/next_episode"].href
-          })
-        ).data
-      ]);
+      let streams = (
+        await api({ ...options, endpoint: episode.__links__.streams.href })
+      ).data;
       episode.streams = streams;
       episode.title_formatted =
         "S" +
@@ -142,8 +142,8 @@ export async function SET_EPISODE({ commit, state }, id) {
         episode.episode_number +
         ": " +
         episode.title;
+      dispatch("SET_NEXT_EPISODE", episode.next_episode_id);
       commit("SET_EPISODE", episode);
-      commit("SET_NEXT_EPISODE", next_episode);
       return true;
     } else {
       console.error("THIS EPISODE IS PREMIUM ONLY");
@@ -167,6 +167,13 @@ export async function SET_NEXT_EPISODE({ commit, state }, id) {
     options.endpoint = next_episode.__links__.streams.href;
     data = await api(options);
     next_episode.streams = data.data;
+    next_episode.title_formatted =
+      "S" +
+      next_episode.season_number +
+      "-E" +
+      next_episode.episode_number +
+      ": " +
+      next_episode.title;
     commit("SET_NEXT_EPISODE", next_episode);
     return true;
   } catch (err) {

@@ -3,6 +3,10 @@
   publish="dist/pwa"
   base = ""
 [[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+[[redirects]]
   from = "/cors/*"
   to = "https://beta-api.crunchyroll.com/:splat"
   status = 200

@@ -72,6 +72,8 @@ import "./Player/videojs-hls-quality-selector.js";
 import "./Player/videojs-hls-quality-selector.css";
 import "./Player/videojs-header.js";
 import "./Player/videojs-header.css";
+import "./Player/videojs-subtitles.js";
+import SubtitlesOctopus from "libass-wasm";
 
 export default {
   name: "Player",
@@ -87,12 +89,16 @@ export default {
     },
     title: {
       type: String
+    },
+    subtitles: {
+      type: Array
     }
   },
   data() {
     return {
       player: null,
       isEnded: false,
+      octopus: null,
       timer_circular: 0,
       timer_label: 5
     };
@@ -104,7 +110,7 @@ export default {
   },
   mounted() {
     this.player = videojs(this.$refs.videoPlayer, {
-      sources: [{ src: this.src, type: "application/dash+xml" }],
+      sources: [{ src: this.src, type: "application/x-mpegURL" }],
       fluid: true,
       controls: true,
       preload: "auto",
@@ -135,10 +141,13 @@ export default {
             this.$parent.$parent.nextEpisode();
           },
           title: this.title
+        },
+        subtitles: {
+          subtitles: this.subtitles,
+          locale: "pt-BR"
         }
       }
     });
-    // this.player.appendContent(this.$refs, )
   },
   beforeDestroy() {
     if (this.player) {
@@ -146,17 +155,19 @@ export default {
     }
   },
   watch: {
-    src() {
+    async src() {
       let player = this.player;
       player.src({
-        type: "application/dash+xml",
+        type: "application/x-mpegURL",
         src: this.src
       });
+      player.subtitles().updateSubtitles(this.subtitles);
       player.header().updateState({
         title: this.title
       });
+
+      player.markers.reset(this.markers);
       player.ready(() => {
-        player.markers.reset(this.markers);
         player.load();
         player.play();
       });

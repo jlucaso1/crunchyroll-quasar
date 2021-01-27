@@ -17,6 +17,7 @@
     "@types/video.js": "^7.3.11",
     "axios": "0.21.1",
     "core-js": "3.8.3",
+    "libass-wasm": "^4.0.0",
     "localforage": "^1.9.0",
     "quasar": "1.15.1",
     "swiper": "6.4.8",

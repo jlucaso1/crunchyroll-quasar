@@ -2,10 +2,11 @@
   <q-page v-if="episode">
     <Player
       ref="player"
-      :src="episode.streams.streams.vo_adaptive_dash['pt-BR'].url"
+      :src="episode.streams.streams.vo_adaptive_hls[''].url"
       :poster="episode.images.thumbnail[0][2].source"
       :markers="markers"
       :title="episode.title_formatted"
+      :subtitles="subtitles"
     />
     <div class="q-ma-sm">
       <q-btn
@@ -98,6 +99,17 @@ export default {
     markers() {
       return this.$store.state.api.episode.ad_breaks.map(ad => {
         return { time: ad.offset_ms / 1000 };
+      });
+    },
+    subtitles() {
+      return Object.keys(this.episode.streams.subtitles).map((key, index) => {
+        return {
+          src: this.episode.streams.subtitles[key].url,
+          label: this.episode.streams.subtitles[key].locale,
+          srclang: this.episode.streams.subtitles[key].locale,
+          kind: "subtitles",
+          type: "application/x-ass"
+        };
       });
     }
   },

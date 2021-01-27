@@ -6042,6 +6042,11 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
+libass-wasm@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/libass-wasm/-/libass-wasm-4.0.0.tgz#c1c120482ae4b5f63ee4f2a6303ff8ad733e3f0a"
+  integrity sha512-+fCkT3fP3b6wGg3s+VrUrFcW7IScFjVWlJq1aGu0gtiIw0RIPKMVdHqOHba2zkSYrfeJooB4Zn20fTORoY9brg==
+
 lie@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/lie/-/lie-3.1.1.tgz#9a436b2cc7746ca59de7a41fa469b3efb76bd87e"

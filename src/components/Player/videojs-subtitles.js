@@ -36,7 +36,8 @@ class Plugins extends Plugin {
         video: this.player.children()[0], // HTML5 video element
         subUrl: this.subtitles[0].src, // Link to subtitles
         workerUrl: "/subtitles-octopus-worker.js", // Link to WebAssembly-based file "libassjs-worker.js"
-        legacyWorkerUrl: "/subtitles-octopus-worker-legacy.js" // Link to non-WebAssembly worker
+        legacyWorkerUrl: "/subtitles-octopus-worker-legacy.js", // Link to non-WebAssembly worker
+        lossyRender: true
       };
       this.octopus_instance = new SubtitlesOctopus(options);
     });

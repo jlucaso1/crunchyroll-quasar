@@ -1,5 +1,16 @@
 import api from "../../lib/api";
 
+export async function CLEAR_ALL({ commit, dispatch }) {
+  commit("SET_AUTH", null);
+  commit("SET_HOME_FEED", null);
+  commit("SET_EPISODE", null);
+  commit("SET_ANIME", null);
+  commit("SET_NEXT_EPISODE", null);
+  commit("SET_SIMILAR", null);
+  commit("SET_SEARCH", null);
+  return await dispatch("SET_AUTH");
+}
+
 export async function SET_AUTH({ commit }) {
   let options = {
     endpoint: "/auth/v1/token",

@@ -1,7 +1,7 @@
-import enUS from "./translates/en-us.json";
-import ptBR from "./translates/pt-br.json";
+import enUS from "./translates/en-US.json";
+import ptBR from "./translates/pt-BR.json";
 
 export default {
-  "en-us": enUS,
-  "pt-br": ptBR
+  "en-US": enUS,
+  "pt-BR": ptBR
 };

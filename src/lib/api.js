@@ -1,13 +1,6 @@
 import { axios } from "boot/axios";
 import { LocalStorage } from "quasar";
 import { store } from "../store/index";
-export function LOCALE() {
-  let lang = LocalStorage.getItem("locale");
-  lang = lang.split("-");
-  lang[1] = lang[1].toUpperCase();
-  lang = lang.join("-");
-  return lang;
-}
 
 export default async function api(opts) {
   const config = {
@@ -19,7 +12,7 @@ export default async function api(opts) {
           : "https://beta-api.crunchyroll.com"
       }` + opts.endpoint,
     params: {
-      locale: LOCALE(),
+      locale: LocalStorage.getItem("locale"),
       ...opts.params
     },
     data: opts.data,

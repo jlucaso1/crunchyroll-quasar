@@ -3,11 +3,19 @@ import VueI18n from "vue-i18n";
 import { Quasar, LocalStorage } from "quasar";
 import messages from "src/i18n";
 
-Vue.use(VueI18n);
+function convertLocale(locale) {
+  let lang = locale;
+  lang = lang.split("-");
+  lang[1] = lang[1].toUpperCase();
+  lang = lang.join("-");
+  return lang;
+}
 
+Vue.use(VueI18n);
 const i18n = new VueI18n({
-  locale: LocalStorage.getItem("locale") || Quasar.lang.getLocale(),
-  fallbackLocale: "pt-br",
+  locale:
+    LocalStorage.getItem("locale") || convertLocale(Quasar.lang.getLocale()),
+  fallbackLocale: "pt-BR",
   messages
 });
 LocalStorage.set("locale", i18n.locale);

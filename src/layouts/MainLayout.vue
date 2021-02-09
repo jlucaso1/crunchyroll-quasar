@@ -60,19 +60,23 @@
         no-caps
         dense
         :align="$q.platform.is.mobile ? 'justify' : 'center'"
+        
       >
         <q-route-tab
           icon="o_home"
           to="/"
           :label="$t('home')"
           exact
+          replace
           :class="$q.platform.is.mobile ? 'q-px-xs' : ''"
+          
         />
         <q-route-tab
           icon="o_turned_in_not"
           to="/list"
           :label="$t('list')"
           exact
+          replace
           :class="$q.platform.is.mobile ? 'q-px-xs' : ''"
         />
         <q-route-tab
@@ -80,6 +84,7 @@
           to="/catalog"
           :label="$t('catalog')"
           exact
+          replace
           :class="$q.platform.is.mobile ? 'q-px-xs' : ''"
         />
         <q-route-tab
@@ -87,6 +92,7 @@
           to="/simulcasts"
           label="Simulcasts"
           exact
+          replace
           :class="$q.platform.is.mobile ? 'q-px-xs' : ''"
         />
         <q-route-tab
@@ -94,6 +100,7 @@
           to="/settings"
           :label="$t('settings')"
           exact
+          replace
           :class="$q.platform.is.mobile ? 'q-px-xs' : ''"
         />
       </q-tabs>

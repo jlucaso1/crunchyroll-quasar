@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import { LocalStorage } from "quasar";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
 //PLUGINS
@@ -106,6 +107,13 @@ export default {
   computed: {
     next_episode() {
       return this.$store.state.api.next_episode;
+    },
+    locale() {
+      let temp = LocalStorage.getItem("locale");
+      temp = temp.split("-");
+      temp[1] = temp[1].toUpperCase();
+      temp = temp.join("-");
+      return temp;
     }
   },
   mounted() {
@@ -144,7 +152,7 @@ export default {
         },
         subtitles: {
           subtitles: this.subtitles,
-          locale: "pt-BR"
+          locale: this.locale
         }
       }
     });

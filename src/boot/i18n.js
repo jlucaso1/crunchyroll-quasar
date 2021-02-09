@@ -15,7 +15,7 @@ Vue.use(VueI18n);
 const i18n = new VueI18n({
   locale:
     LocalStorage.getItem("locale") || convertLocale(Quasar.lang.getLocale()),
-  fallbackLocale: "pt-BR",
+  fallbackLocale: "en-US",
   messages
 });
 LocalStorage.set("locale", i18n.locale);

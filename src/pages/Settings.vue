@@ -21,7 +21,11 @@ export default {
       lang: this.$i18n.locale,
       langOptions: [
         { value: "pt-BR", label: "Português" },
-        { value: "en-US", label: "English" }
+        { value: "en-US", label: "English" },
+        { value: "es-ES", label: "Espanol" },
+        { value: "ru-RU", label: "Russian" },
+        { value: "fr-FR", label: "Franchese" },
+        { value: "it-IT", label: "Italian" }
       ]
     };
   },

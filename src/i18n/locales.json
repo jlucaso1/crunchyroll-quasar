@@ -1,0 +1,134 @@
+{
+  "pt-BR": {
+    "default": {
+      "home": "Início",
+      "settings": "Ajustes",
+      "catalog": "Catálogo",
+      "list": "Listas",
+      "watch_now": "Assista agora",
+      "share": "Compartilhar",
+      "search": "Busca",
+      "start_watching": "Começar a assistir",
+      "series_details": "Detalhes da série",
+      "episodes": "Episódios",
+      "similar_series": "Séries similares",
+      "series": "Série",
+      "language": "Idioma",
+      "error": "Erro",
+      "back": "Voltar",
+      "total_episodes": "Total de Episódios",
+      "age_rating": "Faxa etária",
+      "distributor": "Distribuidora"
+    }
+  },
+  "en-US": {
+    "default": {
+      "home": "Start",
+      "settings": "Settings",
+      "catalog": "Catalog",
+      "list": "lists",
+      "watch_now": "watch now",
+      "share": "To share",
+      "search": "Search",
+      "start_watching": "Start watching",
+      "series_details": "Series Details",
+      "episodes": "episodes",
+      "similar_series": "Similar series",
+      "series": "Series",
+      "language": "Language",
+      "error": "Mistake",
+      "back": "Come back",
+      "total_episodes": "Total Episodes",
+      "age_rating": "Faxa age",
+      "distributor": "Distributor"
+    }
+  },
+  "es-ES": {
+    "default": {
+      "home": "comienzo",
+      "settings": "ajustes",
+      "catalog": "Catalogar",
+      "list": "liza",
+      "watch_now": "ver ahora",
+      "share": "Para compartir",
+      "search": "Buscar",
+      "start_watching": "observación de inicio",
+      "series_details": "detalles de la serie",
+      "episodes": "episodios",
+      "similar_series": "series similares",
+      "series": "Serie",
+      "language": "Idioma",
+      "error": "Error",
+      "back": "Vuelve",
+      "total_episodes": "total de Episodios",
+      "age_rating": "edad Faxa",
+      "distributor": "Distribuidor"
+    }
+  },
+  "ru-RU": {
+    "default": {
+      "home": "Начните",
+      "settings": "настройки",
+      "catalog": "Каталог",
+      "list": "списки",
+      "watch_now": "Смотри",
+      "share": "Делиться",
+      "search": "Поиск",
+      "start_watching": "Начать наблюдение",
+      "series_details": "Детали серии",
+      "episodes": "эпизоды",
+      "similar_series": "Подобные серии",
+      "series": "Серии",
+      "language": "язык",
+      "error": "ошибка",
+      "back": "Вернись",
+      "total_episodes": "Всего Эпизоды",
+      "age_rating": "Faxa возраст",
+      "distributor": "Распределитель"
+    }
+  },
+  "fr-FR": {
+    "default": {
+      "home": "Début",
+      "settings": "Paramètres",
+      "catalog": "Catalogue",
+      "list": "listes",
+      "watch_now": "regarde maintenant",
+      "share": "Partager",
+      "search": "Chercher",
+      "start_watching": "observation de départ",
+      "series_details": "série Détails",
+      "episodes": "épisodes",
+      "similar_series": "série similaires",
+      "series": "Séries",
+      "language": "Langue",
+      "error": "Erreur",
+      "back": "Reviens",
+      "total_episodes": "total des épisodes",
+      "age_rating": "âge Faxa",
+      "distributor": "Distributeur"
+    }
+  },
+  "it-IT": {
+    "default": {
+      "home": "Inizio",
+      "settings": "impostazioni",
+      "catalog": "Catalogare",
+      "list": "liste",
+      "watch_now": "Guarda ora",
+      "share": "Condividere",
+      "search": "Ricerca",
+      "start_watching": "Comincia a guardare",
+      "series_details": "Dettagli Series",
+      "episodes": "Episodi",
+      "similar_series": "serie simili",
+      "series": "Serie",
+      "language": "linguaggio",
+      "error": "Sbaglio",
+      "back": "Ritorno",
+      "total_episodes": "totale episodi",
+      "age_rating": "età Faxa",
+      "distributor": "Distributore"
+    }
+  }
+}

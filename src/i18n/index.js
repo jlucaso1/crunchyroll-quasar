@@ -1,5 +1,3 @@
-import enUS from "./translates/en-US.json";
-import ptBR from "./translates/pt-BR.json";
 import Locale from "./locales.json";
 
 export default {

@@ -58,7 +58,9 @@ export async function SET_HOME_FEED({ commit, state }) {
   try {
     var { data } = await api(options);
     data.items = data.items.filter((item, index) => {
-      return item.resource_type != "panel";
+      return ["curated_collection", "dynamic_collection"].includes(
+        item.resource_type
+      );
     });
     let promise_arr = [];
     for (let feed_item of data.items) {

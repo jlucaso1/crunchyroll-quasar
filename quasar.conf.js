@@ -104,7 +104,8 @@ module.exports = function(ctx) {
           negative: "#C10015",
           info: "#24252A",
           warning: "#FC791E"
-        }
+        },
+        dark: true
       },
 
       // Possible values for "importStrategy":

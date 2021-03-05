@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import { LocalStorage, Dark, Loading } from "quasar";
+import { Loading } from "quasar";
 export default {
   name: "App",
   async preFetch({ store }) {

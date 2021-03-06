@@ -1,6 +1,6 @@
 # Crunchyroll Quasar
 
-Um site/aplicativo para assistir animes feito em quasar utilizando server side rendering(ssr) e api da crunchyroll.
+Um site/aplicativo para assistir animes feito em quasar e api da Crunchyroll.
 
 Demo: https://crunchyroll-quasar.netlify.app/
 
@@ -49,3 +49,14 @@ quasar build
 ### Para mais informações sobre:
 
 Veja [Quasar Framework](https://quasar.dev/).
+
+Tecnologias / Bibliotecas usadas:
+
+- VueJs
+- Quasar (Biblioteca de UI)
+- VideoJs (Player de vídeo)
+- Axios (Requisição para a API)
+- Vue-Awesome-Swiper (Para o carrousel da página inicial)
+- Vue-i18n (Internacionalização de strings)
+- Localforage (Biblioteca para guardar dados de conteúdo longo na memória local)
+- Vuex-Persist (Guardar o estado do vuex no localforage)

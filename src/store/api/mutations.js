@@ -1,6 +1,3 @@
-export function SET_ERROR(state, err) {
-  state.error.push(err);
-}
 export function SET_AUTH(state, data) {
   state.auth = data;
 }

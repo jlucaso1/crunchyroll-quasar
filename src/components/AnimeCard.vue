@@ -2,7 +2,11 @@
   <div>
     <q-card class="bg-secondary" square>
       <router-link :to="'/series/' + anime.id" class="cursor-pointer">
-        <q-img :src="anime.images.poster_tall[0][2].source" :ratio="2 / 3" />
+        <q-img
+          :src="anime.images.poster_tall[0][2].source"
+          :ratio="2 / 3"
+          basic
+        />
         <div class="q-ma-sm">
           <p class="text-white ellipsis-2-lines" style="height: 40px;">
             {{ anime.title }}
@@ -34,9 +38,6 @@
 <script>
 import { copyToClipboard } from "quasar";
 export default {
-  data() {
-    return {};
-  },
   props: {
     anime: Object
   },

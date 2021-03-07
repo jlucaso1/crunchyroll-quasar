@@ -3,7 +3,12 @@
     <q-header class="bg-dark">
       <q-toolbar class="items-center justify-between q-px-sm">
         <q-btn dense>
-          <q-img basic src="https://i.imgur.com/1nwvfU0.png" width="10rem" />
+          <q-img
+            basic
+            no-default-spinner
+            src="https://i.imgur.com/1nwvfU0.png"
+            width="10rem"
+          />
         </q-btn>
         <q-btn icon="search" @click="show_search = true" />
         <q-dialog
@@ -41,8 +46,8 @@
             </q-toolbar>
             <div class="similars q-ma-sm" v-if="search_result">
               <AnimeCard
-                v-for="anime in search_result"
-                :key="anime.id"
+                v-for="(anime, i) in search_result"
+                :key="i"
                 :anime="anime"
               />
             </div>
@@ -60,7 +65,6 @@
         no-caps
         dense
         :align="$q.platform.is.mobile ? 'justify' : 'center'"
-        
       >
         <q-route-tab
           icon="o_home"
@@ -69,7 +73,6 @@
           exact
           replace
           :class="$q.platform.is.mobile ? 'q-px-xs' : ''"
-          
         />
         <q-route-tab
           icon="o_turned_in_not"

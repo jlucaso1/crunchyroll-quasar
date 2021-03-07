@@ -4,8 +4,8 @@
       {{ feed_item.title }}
     </h6>
     <swiper class="swiper q-my-lg" :options="swiperOption">
-      <swiper-slide v-for="anime in feed_item.animes" :key="anime.id">
-        <AnimeCard :anime="anime"/>
+      <swiper-slide v-for="(anime, i) in feed_item.animes" :key="i">
+        <AnimeCard :anime="anime" />
       </swiper-slide>
     </swiper>
   </div>
@@ -24,16 +24,20 @@ export default {
           : this.$q.screen.lt.md
           ? 4
           : 6,
-        autoHeight: true, //enable auto height
+        keyboard: {
+          enabled: true
+        },
+        // autoHeight: true, //enable auto height
         spaceBetween: 8,
         pagination: {
           el: ".swiper-pagination",
           clickable: true
-        },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
         }
+
+        // navigation: {
+        //   nextEl: ".swiper-button-next",
+        //   prevEl: ".swiper-button-prev"
+        // }
       }
     };
   },

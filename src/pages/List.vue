@@ -6,13 +6,15 @@
       <q-btn icon="refresh" dense @click="refresh" />
     </div>
     <div v-if="Object.keys(LS).length > 0">
-      <q-card v-for="item in LS" :key="item.episode.id">
+      <q-card v-for="(item, i) in LS" :key="i">
         <router-link :to="'/watch/' + item.episode.id" class="cursor-pointer">
           <q-card class="bg-secondary q-my-sm" square>
             <q-card-section horizontal>
               <q-img
                 :src="item.episode.images.thumbnail[0][2].source"
                 class="col-5"
+                basic
+                no-default-spinner
               >
                 <div
                   class="absolute-bottom-right text-subtitle2 q-ma-xs"

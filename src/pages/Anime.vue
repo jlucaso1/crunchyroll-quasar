@@ -31,6 +31,8 @@
       :ratio="10 / 9"
       :src="anime.images.poster_tall[0][8].source"
       class="poster"
+      basic
+      no-default-spinner
     >
       <section class="absolute-bottom q-mx-sm" style="z-index: 1">
         <p class="text-h6 q-ma-none">
@@ -110,15 +112,15 @@
           @click="reverse_season"
         />
         <EpisodeCard
-          v-for="episode in season.value.episodes"
-          :key="episode.id"
+          v-for="(episode, i) in season.value.episodes"
+          :key="i"
           :episode="episode"
         />
       </q-tab-panel>
 
       <q-tab-panel name="similars" class="bg-dark">
         <div class="similars">
-          <AnimeCard v-for="anime in similar" :anime="anime" :key="anime.id" />
+          <AnimeCard v-for="(anime, i) in similar" :anime="anime" :key="i" />
         </div>
       </q-tab-panel>
     </q-tab-panels>

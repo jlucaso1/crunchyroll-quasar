@@ -43,7 +43,6 @@ export async function SET_AUTH({ commit }) {
     return commit("SET_AUTH", auth);
   } catch (error) {
     console.error("FAILED TO AUTHENTICATE");
-    return commit("SET_ERROR", "Falha de rede");
   }
 }
 export async function SET_HOME_FEED({ commit, state }) {
@@ -79,7 +78,6 @@ export async function SET_HOME_FEED({ commit, state }) {
     });
   } catch (err) {
     console.error("FAILED TO SET HOME FEED");
-    return commit("SET_ERROR", String(err));
   }
 }
 export async function SET_ANIME({ commit, dispatch, state }, id) {

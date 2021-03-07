@@ -22,6 +22,8 @@
             <q-img
               :src="$parent.$parent.getEpisodeImage(next_episode)"
               class="col-5"
+              basic
+              no-default-spinner
             >
               <div
                 class="absolute-bottom-right q-ma-xs"

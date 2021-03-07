@@ -17,24 +17,6 @@ export default {
     return;
   },
   watch: {
-    error() {
-      if (this.error.length > 0) {
-        this.$q.notify({
-          message: "Erro ao conectar-se com os servidores.",
-          type: "negative",
-          progress: true,
-          actions: [
-            {
-              label: "Reiniciar",
-              handler: () => {
-                window.location.reload();
-              },
-              color: "white"
-            }
-          ]
-        });
-      }
-    },
     sessionExpired() {
       if (this.sessionExpired) {
         this.$store.dispatch("api/SET_AUTH");
@@ -42,9 +24,6 @@ export default {
     }
   },
   computed: {
-    error() {
-      return this.$store.state.api.error;
-    },
     sessionExpired() {
       return !(this.expires_in > Date.now());
     },
